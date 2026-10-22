@@ -1,0 +1,1428 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1D7A4B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mi Compra">
+<title>Mi Compra Inteligente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: columna móvil de 560px máx · cabecera fija con el estado de la cesta · contenido por pestañas · navegación inferior fija */
+:root{
+  --bg:#F5FAF6; --surface:#FFFFFF; --ink:#13271B; --muted:#58705F; --line:#DAE6DD;
+  --green:#1D7A4B; --green-strong:#135C36; --green-soft:#E2F2E8; --on-green:#FFFFFF; --leaf:#F2B53A; --plate-bg:#EAF3EC;
+  --table:#E6ECE5; --table-line:rgba(19,39,27,.035); --warn:#9A6212; --warn-soft:#FBF0DB; --bad:#B3261E; --bad-soft:#FBE6E3;
+  --shadow:0 1px 2px rgba(19,39,27,.06),0 6px 20px rgba(19,39,27,.06);
+  --f-display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1812; --surface:#15221A; --ink:#E5EFE8; --muted:#9AB1A2; --line:#25372B;
+  --green:#4BC283; --green-strong:#7FD9A8; --green-soft:#183324; --on-green:#08170E; --leaf:#F2C15A; --plate-bg:#1F3428;
+  --table:#1B2A20; --table-line:rgba(255,255,255,.03); --warn:#E6B356; --warn-soft:#352A12; --bad:#F2897F; --bad-soft:#3A1B18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1812; --surface:#15221A; --ink:#E5EFE8; --muted:#9AB1A2; --line:#25372B;
+  --green:#4BC283; --green-strong:#7FD9A8; --green-soft:#183324; --on-green:#08170E; --leaf:#F2C15A; --plate-bg:#1F3428;
+  --table:#1B2A20; --table-line:rgba(255,255,255,.03); --warn:#E6B356; --warn-soft:#352A12; --bad:#F2897F; --bad-soft:#3A1B18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--green)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Cabecera */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--green);color:var(--on-green)}
+header.top .wrap{padding-block:12px 14px;display:grid;gap:10px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo .mark{width:42px;height:42px;flex:none}
+.brand h1{font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:-.01em;margin:0;line-height:1.1}
+.tagline{margin:2px 0 0;font-size:12.5px;opacity:.9}
+.store-link{font-size:12px;font-weight:600;color:var(--green);text-decoration:none;white-space:nowrap}
+.store-link:hover{text-decoration:underline}
+.store-card{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+a.btn{text-decoration:none}
+.demo-tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.9;white-space:nowrap}
+.status{display:grid;gap:6px}
+.status-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px}
+.status-row strong{font-family:var(--f-display);font-size:22px;font-weight:700}
+.meter{height:8px;border-radius:99px;background:color-mix(in srgb,var(--on-green) 25%,transparent);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--on-green);transition:width .35s ease}
+.meter.over i{background:var(--warn-soft)}
+
+main{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+main .wrap{padding-block:18px 24px;display:grid;gap:18px}
+section[data-view]{display:grid;gap:16px}
+.view-head h2{font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.view-head p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:600;background:var(--green);color:var(--on-green);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{background:var(--green-strong)}
+.btn.ghost{background:transparent;color:var(--green);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--green-soft)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5;cursor:default}
+
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--green-soft);color:var(--green-strong);white-space:nowrap}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.plain{background:transparent;border:1px solid var(--line);color:var(--muted)}
+
+.notice{display:flex;gap:10px;align-items:flex-start;background:var(--warn-soft);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:13px}
+.notice b{color:var(--warn)}
+
+/* Menú */
+.day{display:grid;gap:8px}
+.day-name{font-family:var(--f-display);font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:baseline}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slot{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;display:grid;gap:4px;min-width:0}
+.slot:hover{border-color:var(--green)}
+.slot .label{font-size:10px}
+.slot .name{font-weight:600;line-height:1.25}
+.slot .meta{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.slot.flag{border-color:var(--bad)}
+
+/* Lista */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.sec{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;background:var(--green-soft);font-weight:700;font-size:14px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 14px;border-top:1px solid var(--line);align-items:start}
+.sec-head + .item{border-top:0}
+.item input[type=checkbox]{width:20px;height:20px;margin-top:2px;accent-color:var(--green)}
+.item .name{font-weight:600}
+.item .detail{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 10px}
+.item .price{text-align:right;font-weight:700}
+.item .price small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.item.done .name{text-decoration:line-through;color:var(--muted)}
+.covered{font-size:13px}
+.covered summary{cursor:pointer;font-weight:600;color:var(--green-strong)}
+.covered ul{margin:8px 0 0;padding-left:18px;color:var(--muted)}
+.total-bar{display:flex;justify-content:space-between;align-items:baseline;padding:14px;border-radius:14px;background:var(--green);color:var(--on-green)}
+.total-bar strong{font-family:var(--f-display);font-size:26px}
+
+/* Presupuesto */
+.big{font-family:var(--f-display);font-weight:800;font-size:40px;letter-spacing:-.02em;line-height:1}
+.gauge{height:14px;border-radius:99px;background:var(--green-soft);overflow:hidden;position:relative}
+.gauge i{position:absolute;inset:0 auto 0 0;background:var(--green);border-radius:99px;transition:width .35s}
+.gauge.over i{background:var(--bad)}
+.bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:minmax(0,9.5em) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.bar-row .track{height:10px;border-radius:99px;background:var(--green-soft);overflow:hidden}
+.bar-row .track i{display:block;height:100%;background:var(--green);border-radius:99px}
+.bar-row span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sugg{display:grid;gap:8px}
+.sugg-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.sugg-item:first-child{border-top:0}
+.sugg-item .swap{font-size:14px}
+.sugg-item .swap s{color:var(--muted)}
+
+/* Formularios */
+.field{display:grid;gap:6px}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.stepper button{border:0;background:transparent;width:42px;height:40px;font-size:20px;color:var(--green)}
+.stepper button:hover{background:var(--green-soft)}
+.stepper output{min-width:44px;text-align:center;font-weight:700;font-size:17px}
+input[type=range]{width:100%;accent-color:var(--green)}
+input[type=number],select{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface);min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 12px;font-size:14px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.toggle:first-of-type{border-top:0}
+.toggle input{width:20px;height:20px;accent-color:var(--green)}
+
+.pantry-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.pantry-item:first-child{border-top:0}
+.qty-in{display:flex;align-items:center;gap:6px}
+.qty-in input{width:84px;text-align:right}
+.icon-btn{border:0;background:transparent;color:var(--muted);width:34px;height:34px;border-radius:8px;display:grid;place-items:center}
+.icon-btn:hover{background:var(--bad-soft);color:var(--bad)}
+.add-row{display:grid;grid-template-columns:1fr 96px auto;gap:8px}
+
+
+.thumb{width:48px;height:48px;flex:none;border-radius:12px;background:var(--plate-bg);display:grid;place-items:center}
+.thumb svg{width:44px;height:44px}
+.thumb.lg{width:64px;height:64px;border-radius:14px}.thumb.lg svg{width:58px;height:58px}
+.thumb.xl{width:100%;height:190px;border-radius:16px;background:repeating-linear-gradient(90deg,var(--table-line) 0 2px,transparent 2px 6px),repeating-linear-gradient(0deg,var(--table-line) 0 2px,transparent 2px 6px),var(--table)}.thumb.xl svg{width:170px;height:170px}
+.slot{grid-template-columns:auto 1fr;align-items:center;column-gap:10px}
+.slot .txt{display:grid;gap:3px;min-width:0}
+.today{display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.today-dish{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;text-align:left;background:transparent;border:0;padding:0;width:100%}
+.today-dish .name{font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.2}
+.chev{color:var(--green);font-size:22px}
+.guide{display:grid;gap:10px;background:var(--green-soft);border-radius:16px;padding:14px}
+.guide ol{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:g}
+.guide li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;counter-increment:g}
+.guide li::before{content:counter(g);width:28px;height:28px;border-radius:50%;background:var(--green);color:var(--on-green);display:grid;place-items:center;font-weight:700;font-size:14px}
+.guide li b{display:block}
+.alt{grid-template-columns:auto 1fr auto}
+
+/* Navegación inferior */
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.bottom .inner{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
+nav.bottom button{border:0;background:transparent;padding:9px 2px 10px;display:grid;justify-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted)}
+nav.bottom button svg{width:22px;height:22px}
+nav.bottom button[aria-current="page"]{color:var(--green)}
+nav.bottom button[aria-current="page"] svg{stroke-width:2.3}
+
+/* Hoja (modal) */
+.sheet-back{position:fixed;inset:0;z-index:20;background:rgba(8,20,12,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:560px;max-height:88%;overflow:auto;border-radius:18px 18px 0 0;padding:18px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;gap:14px;box-shadow:var(--shadow)}
+.sheet h3{font-family:var(--f-display);font-size:22px;margin:0;letter-spacing:-.01em}
+.ing-list{margin:0;padding:0;list-style:none;display:grid}
+.ing-list li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.ing-list li:first-child{border-top:0}
+.steps{margin:0;padding-left:20px;display:grid;gap:6px}
+.alt-list{display:grid;gap:6px}
+.alt{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.alt:hover{border-color:var(--green)}
+.alt.current{border-color:var(--green);background:var(--green-soft)}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;z-index:30;box-shadow:var(--shadow)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:380px){.slots{grid-template-columns:1fr}.bar-row{grid-template-columns:minmax(0,7em) 1fr auto}}
+
+/* ===== v2 visual ===== */
+.btn.xl{padding:16px 18px;font-size:17px;border-radius:14px}
+.sr{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.bigq{display:grid;gap:14px;justify-items:center;text-align:center;padding:18px}
+.q-title{display:grid;gap:4px;justify-items:center;font-family:var(--f-display);font-weight:700;font-size:18px}
+.q-emo{font-size:34px;line-height:1}
+.people{font-size:26px;letter-spacing:2px;min-height:32px;line-height:1.2}
+.bigstep{display:flex;align-items:center;gap:18px}
+.bigstep button{width:56px;height:56px;border-radius:50%;border:0;background:var(--green-soft);color:var(--green-strong);font-size:28px;font-weight:700}
+.bigstep button:hover{background:var(--green);color:var(--on-green)}
+.bigstep output{font-family:var(--f-display);font-size:40px;font-weight:800;min-width:48px}
+.presu-big{display:flex;align-items:baseline;gap:4px;font-family:var(--f-display);font-weight:800;font-size:40px}
+.presu-big input{width:3.4em;font:inherit;text-align:right;border:0;border-bottom:2px dashed var(--line);border-radius:0;background:transparent;padding:0}
+.bigq input[type=range]{height:28px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:8px;width:100%}
+.tiles.two{grid-template-columns:1fr 1fr}
+.tile{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 6px;display:grid;justify-items:center;gap:6px;font-weight:600;font-size:13px}
+.tile .t-emo{font-size:30px;line-height:1}
+.tile[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--green-strong)}
+
+
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wk{position:relative;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:6px 2px 8px;display:grid;justify-items:center;gap:3px;min-width:0}
+.wk[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft)}
+.wkd{font-weight:700;font-size:12px}
+.wkpic{width:34px;height:34px;border-radius:50%;background:var(--plate-bg);display:grid;place-items:center;overflow:hidden}
+.wkpic svg{width:34px;height:34px}
+.hoy{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--leaf);color:#3A2600;font-size:9px;font-weight:800;text-transform:uppercase;padding:1px 6px;border-radius:99px}
+.dayttl{font-family:var(--f-display);font-size:22px;margin:0}
+.bigcards{display:grid;gap:14px}
+.bigcard{display:grid;border:1px solid var(--line);background:var(--surface);border-radius:20px;overflow:hidden;padding:0;text-align:left;box-shadow:var(--shadow)}
+.bigcard:hover{border-color:var(--green)}
+.bigcard.flag{border:2px solid var(--bad)}
+.bigpic{position:relative;height:200px;background:repeating-linear-gradient(90deg,var(--table-line) 0 2px,transparent 2px 6px),repeating-linear-gradient(0deg,var(--table-line) 0 2px,transparent 2px 6px),var(--table);display:grid;place-items:center}
+.bigpic svg{width:180px;height:180px}
+.bigpic .plus{font-size:56px;color:var(--green)}
+.badge{position:absolute;top:12px;left:12px;background:var(--surface);color:var(--ink);font-weight:700;font-size:13px;padding:4px 10px;border-radius:99px;box-shadow:var(--shadow)}
+.bigtxt{display:grid;gap:6px;padding:14px 16px 16px}
+.bigtxt .name{font-family:var(--f-display);font-weight:700;font-size:20px;line-height:1.2}
+.bigtxt .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:14px;font-weight:500}
+.ingemo{font-size:22px;letter-spacing:3px}
+
+.progress{display:grid;gap:10px}
+.progress a.btn{text-decoration:none}
+.prod{position:relative;width:48px;height:48px;border-radius:14px;background:var(--plate-bg);display:grid;place-items:center;font-size:28px;flex:none}
+.prod.sm{width:40px;height:40px;font-size:22px;border-radius:12px}
+.prod .tick{position:absolute;inset:0;border-radius:14px;background:color-mix(in srgb,var(--green) 85%,transparent);color:var(--on-green);font-size:26px;font-weight:800;display:none;place-items:center}
+.item{grid-template-columns:auto 1fr auto;align-items:center;cursor:pointer}
+.item.done .prod .tick{display:grid}
+.item.done{background:color-mix(in srgb,var(--green-soft) 50%,transparent)}
+.item:has(.sr:focus-visible){outline:2px solid var(--green);outline-offset:-2px}
+.qtybig{font-weight:700;color:var(--green-strong);font-size:14px}
+.qtybig span{font-weight:500;color:var(--muted);font-size:12.5px}
+.sec-head{font-size:15px}
+
+.swapcard{display:grid;grid-template-columns:auto auto auto 1fr;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.swapcard:first-child{border-top:0}
+.swapcard .arrow{color:var(--green);font-weight:800}
+.swapcard .btn{grid-column:1/-1}
+.pantry-item{grid-template-columns:auto 1fr auto auto}
+.ptiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.ptile{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 6px;display:grid;justify-items:center;gap:4px;font-size:12px;font-weight:600;line-height:1.2;text-align:center}
+.ptile .t-emo{font-size:30px;line-height:1}
+.ptile:hover{border-color:var(--green);background:var(--green-soft)}
+.ing-list li .ie{margin-right:6px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--green-soft);padding:4px;border-radius:14px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:12px 6px;font-weight:700;font-size:15px;color:var(--green-strong)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.rec{position:absolute;top:-8px;right:-4px;font-size:13px}
+.efic{display:grid;gap:8px;border-color:color-mix(in srgb,var(--green) 40%,var(--line));background:linear-gradient(180deg,var(--green-soft),var(--surface) 70%)}
+.efic.warn{border-color:var(--warn);background:linear-gradient(180deg,var(--warn-soft),var(--surface) 70%)}
+.efic .big-emo{font-size:30px;line-height:1;margin-right:10px}
+.efic summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--green-strong)}
+.mini{margin:6px 0 0;padding-left:4px;list-style:none;display:grid;gap:3px;font-size:13px}
+.detail .ok{color:var(--green-strong);font-weight:600}
+.detail .bad{color:var(--bad);font-weight:600}
+.ok-notice{background:var(--green-soft)}
+.ok-notice b{color:var(--green-strong)}
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:4px 14px;font-size:18px}
+.search:focus-within{border-color:var(--green)}
+.search input{flex:1;min-width:0;border:0;background:transparent;font-size:17px;padding:10px 0;outline:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px}
+.cat{position:relative;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 4px 8px;display:grid;justify-items:center;gap:4px;font-size:12.5px;font-weight:700;line-height:1.15;text-align:center}
+.cat .t-emo{font-size:28px;line-height:1}
+.cat .cnt{position:absolute;top:5px;right:7px;font-size:10.5px;color:var(--muted);font-weight:600}
+.cat[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--green-strong)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.rcard{display:grid;grid-template-rows:auto 1fr;border:1px solid var(--line);background:var(--surface);border-radius:16px;overflow:hidden;padding:0;text-align:left}
+.rcard:hover{border-color:var(--green)}
+.rcard.off{opacity:.55}
+.rpic{position:relative;height:120px;display:grid;place-items:center;background:var(--table)}
+.rpic svg{width:112px;height:112px}
+.rpic .badge{top:8px;left:8px;font-size:11px;padding:2px 8px}
+.rpic .badge.enm{left:auto;right:8px;background:var(--green);color:var(--on-green)}
+.rtxt{display:grid;gap:4px;padding:10px 12px 12px;align-content:start}
+.rtxt .name{font-weight:700;line-height:1.2}
+.rtxt .meta{display:flex;gap:10px;color:var(--muted);font-size:12.5px}
+.dias{display:flex;flex-wrap:wrap;gap:6px}
+.seg button:disabled{opacity:.35}
+nav.bottom button span{white-space:nowrap}
+.premium-card{border-color:color-mix(in srgb,var(--leaf) 60%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--leaf) 12%,var(--surface)),var(--surface) 60%)}
+.thumb.gold{box-shadow:0 0 0 2px var(--leaf)}
+.btn.gold{background:var(--leaf);color:#3A2600}
+.btn.gold:hover{background:color-mix(in srgb,var(--leaf) 85%,#000)}
+.pill.premium{background:color-mix(in srgb,var(--leaf) 25%,transparent);color:var(--ink)}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">
+        <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="1" y="1" width="46" height="46" rx="14" fill="var(--on-green)"/>
+          <path d="M10 18h28l-3.2 16.2a3 3 0 0 1-3 2.4H16.2a3 3 0 0 1-3-2.4z" fill="var(--green)"/>
+          <path d="M16 18l5-8M32 18l-5-8" stroke="var(--green)" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="m17.5 27 4.5 4.5 8.5-9" stroke="var(--on-green)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M33 6c4 0 7 2.5 7 7-4.2 0-7-2.6-7-7z" fill="var(--leaf)"/>
+        </svg>
+        <div><h1>Mi Compra Inteligente</h1><p class="tagline">Tu semana organizada para comprar en Mercadona</p></div>
+      </div>
+      <span class="demo-tag" title="Precios orientativos sin verificar">Precios demo</span>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+</header>
+
+<main><div class="wrap" id="app"></div></main>
+
+<nav class="bottom" aria-label="Secciones">
+  <div class="inner" id="nav"></div>
+</nav>
+<div id="layer"></div>
+
+<script>
+/* =========================================================
+   DATOS DE DEMOSTRACIÓN
+   Precios orientativos e hipotéticos, NO verificados.
+   No existe integración oficial con ningún supermercado.
+   ========================================================= */
+const PRODUCTOS = [
+  // id, nombre, sección, unidad base (g | ml | ud), tamaño del envase, formato, precio demo, alérgenos, tipo
+  {id:'pechuga',   nombre:'Pechuga de pollo fileteada', seccion:'Carne', unidad:'g',  envase:1000, formato:'Bandeja 1 kg', precio:6.20, tipo:'carne'},
+  {id:'muslos',    nombre:'Muslos de pollo',            seccion:'Carne', unidad:'g',  envase:1000, formato:'Bandeja 1 kg', precio:2.95, tipo:'carne'},
+  {id:'picada',    nombre:'Carne picada mixta',         seccion:'Carne', unidad:'g',  envase:500,  formato:'Bandeja 500 g', precio:3.90, tipo:'carne'},
+  {id:'lomo',      nombre:'Lomo de cerdo en filetes',   seccion:'Carne', unidad:'g',  envase:500,  formato:'Bandeja 500 g', precio:3.70, tipo:'carne'},
+  {id:'huevos',    nombre:'Huevos L',                   seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:12,   formato:'Docena', precio:2.65, alergenos:['huevo'], ud:'huevos'},
+  {id:'patata',    nombre:'Patatas',                    seccion:'Fruta y verdura', unidad:'g', envase:3000, formato:'Malla 3 kg', precio:3.95},
+  {id:'cebolla',   nombre:'Cebollas',                   seccion:'Fruta y verdura', unidad:'g', envase:1000, formato:'Malla 1 kg', precio:1.45},
+  {id:'zanahoria', nombre:'Zanahorias',                 seccion:'Fruta y verdura', unidad:'g', envase:1000, formato:'Bolsa 1 kg', precio:0.99},
+  {id:'tomate',    nombre:'Tomates',                    seccion:'Fruta y verdura', unidad:'g', envase:1000, formato:'Bandeja 1 kg', precio:2.30},
+  {id:'calabacin', nombre:'Calabacín',                  seccion:'Fruta y verdura', unidad:'g', envase:500,  formato:'A granel, por 500 g', precio:0.90},
+  {id:'pimiento',  nombre:'Pimientos tricolor',         seccion:'Fruta y verdura', unidad:'ud', envase:3,   formato:'Bandeja 3 ud', precio:1.95, ud:'pimientos'},
+  {id:'lechuga',   nombre:'Lechuga romana',             seccion:'Fruta y verdura', unidad:'ud', envase:1,   formato:'Unidad', precio:0.85, ud:'lechugas'},
+  {id:'pepino',    nombre:'Pepino',                     seccion:'Fruta y verdura', unidad:'ud', envase:1,   formato:'Unidad', precio:0.55, ud:'pepinos'},
+  {id:'champi',    nombre:'Champiñón laminado',         seccion:'Fruta y verdura', unidad:'g', envase:250,  formato:'Bandeja 250 g', precio:1.25},
+  {id:'merluza',   nombre:'Filetes de merluza',         seccion:'Congelados', unidad:'g', envase:1000, formato:'Bolsa 1 kg', precio:6.90, alergenos:['pescado'], tipo:'pescado'},
+  {id:'brocoli',   nombre:'Brócoli',                    seccion:'Congelados', unidad:'g', envase:1000, formato:'Bolsa 1 kg', precio:1.95},
+  {id:'judias',    nombre:'Judías verdes',              seccion:'Congelados', unidad:'g', envase:1000, formato:'Bolsa 1 kg', precio:1.65},
+  {id:'guisantes', nombre:'Guisantes',                  seccion:'Congelados', unidad:'g', envase:1000, formato:'Bolsa 1 kg', precio:1.55},
+  {id:'lentejas',  nombre:'Lentejas pardinas',          seccion:'Arroz, legumbres y pasta', unidad:'g', envase:1000, formato:'Paquete 1 kg', precio:1.95},
+  {id:'arroz',     nombre:'Arroz redondo',              seccion:'Arroz, legumbres y pasta', unidad:'g', envase:1000, formato:'Paquete 1 kg', precio:1.35},
+  {id:'macarrones',nombre:'Macarrones',                 seccion:'Arroz, legumbres y pasta', unidad:'g', envase:1000, formato:'Paquete 1 kg', precio:1.30, alergenos:['gluten']},
+  {id:'espaguetis',nombre:'Espaguetis',                 seccion:'Arroz, legumbres y pasta', unidad:'g', envase:500,  formato:'Paquete 500 g', precio:0.75, alergenos:['gluten']},
+  {id:'garbanzos', nombre:'Garbanzos cocidos',          seccion:'Conservas, caldos y cremas', unidad:'g', envase:400, formato:'Bote, 400 g escurridos', precio:0.70},
+  {id:'atun',      nombre:'Atún claro en aceite',       seccion:'Conservas, caldos y cremas', unidad:'ud', envase:3, formato:'Pack 3 latas', precio:3.10, alergenos:['pescado'], tipo:'pescado', ud:'latas'},
+  {id:'tomatetri', nombre:'Tomate triturado',           seccion:'Conservas, caldos y cremas', unidad:'g', envase:800, formato:'Lata 800 g', precio:0.95},
+  {id:'pan',       nombre:'Barra de pan',               seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:'Barra 250 g', precio:0.60, alergenos:['gluten'], ud:'barras'},
+  {id:'tortillas', nombre:'Tortillas de trigo',         seccion:'Panadería y pastelería', unidad:'ud', envase:8, formato:'Paquete 8 ud', precio:1.60, alergenos:['gluten'], ud:'tortillas'},
+  {id:'queso',     nombre:'Queso rallado',              seccion:'Queso', unidad:'g', envase:200, formato:'Bolsa 200 g', precio:1.75, alergenos:['lacteos']},
+  {id:'aceite',    nombre:'Aceite de oliva',            seccion:'Aceite, especias y salsas', unidad:'ml', envase:1000, formato:'Botella 1 l', precio:6.95},
+  {id:'fideos',    nombre:'Fideos finos',               seccion:'Arroz, legumbres y pasta', unidad:'g', envase:500, formato:'Paquete 500 g', precio:0.85, alergenos:['gluten']},
+  {id:'pavo',      nombre:'Filetes de pechuga de pavo', seccion:'Carne', unidad:'g', envase:500, formato:'Bandeja 500 g', precio:4.10, tipo:'carne'},
+  {id:'salchichas',nombre:'Salchichas frescas de cerdo', seccion:'Carne', unidad:'g', envase:400, formato:'Bandeja 400 g', precio:2.40, tipo:'carne'},
+  {id:'hamburguesas',nombre:'Hamburguesas de vacuno',   seccion:'Carne', unidad:'ud', envase:4, formato:'Pack 4 ud', precio:3.20, tipo:'carne', ud:'hamburguesas'},
+  {id:'chorizo',   nombre:'Chorizo dulce',              seccion:'Charcutería', unidad:'g', envase:250, formato:'Sarta 250 g', precio:2.30, tipo:'carne'},
+  {id:'alubias',   nombre:'Alubias blancas cocidas',    seccion:'Conservas, caldos y cremas', unidad:'g', envase:400, formato:'Bote, 400 g escurridos', precio:0.80},
+  {id:'bacalao',   nombre:'Lomos de bacalao desalado',  seccion:'Congelados', unidad:'g', envase:400, formato:'Bolsa 400 g', precio:5.95, alergenos:['pescado'], tipo:'pescado'},
+  {id:'espinacas', nombre:'Espinacas',                  seccion:'Congelados', unidad:'g', envase:750, formato:'Bolsa 750 g', precio:1.35},
+  {id:'berenjena', nombre:'Berenjena',                  seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:'Unidad', precio:0.85, ud:'berenjenas'},
+  {id:'nata',      nombre:'Nata para cocinar',          seccion:'Huevos, leche y mantequilla', unidad:'ml', envase:200, formato:'Brick 200 ml', precio:0.70, alergenos:['lacteos']},
+  {id:'mozzarella',nombre:'Mozzarella fresca',          seccion:'Queso', unidad:'g', envase:125, formato:'Bola 125 g', precio:0.95, alergenos:['lacteos']},
+  {id:'panhamb',   nombre:'Panecillos de hamburguesa',  seccion:'Panadería y pastelería', unidad:'ud', envase:4, formato:'Paquete 4 ud', precio:1.10, alergenos:['gluten'], ud:'panecillos'},
+  {id:'masapizza', nombre:'Masa de pizza fresca',       seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:'Unidad', precio:1.30, alergenos:['gluten'], ud:'masas'},
+  {id:'entrecot',  nombre:'Entrecot de vacuno',         seccion:'Carne', unidad:'g', envase:500, formato:'Bandeja 2 piezas, 500 g', precio:9.90, tipo:'carne'},
+  {id:'ajo',       nombre:'Ajos',                       seccion:'Fruta y verdura', unidad:'ud', envase:3, formato:'Malla 3 cabezas', precio:0.99, ud:'cabezas'},
+  {id:'calabaza',  nombre:'Calabaza troceada',          seccion:'Fruta y verdura', unidad:'g', envase:500, formato:'Bandeja 500 g', precio:1.30},
+  {id:'puerro',    nombre:'Puerros',                    seccion:'Fruta y verdura', unidad:'ud', envase:3, formato:'Bandeja 3 ud', precio:1.25, ud:'puerros'},
+  {id:'bacon',     nombre:'Bacon en tiras',             seccion:'Charcutería', unidad:'g', envase:200, formato:'Bandeja 2 × 100 g', precio:1.85, tipo:'carne'},
+  {id:'york',      nombre:'Jamón cocido extra',         seccion:'Charcutería', unidad:'g', envase:250, formato:'Lonchas 250 g', precio:2.10, tipo:'carne'},
+  {id:'lasana',    nombre:'Placas de lasaña',           seccion:'Arroz, legumbres y pasta', unidad:'g', envase:250, formato:'Caja 250 g', precio:1.20, alergenos:['gluten','huevo']},
+  {id:'fideosg',   nombre:'Fideos gruesos',             seccion:'Arroz, legumbres y pasta', unidad:'g', envase:500, formato:'Paquete 500 g', precio:0.85, alergenos:['gluten']},
+  {id:'caldo',     nombre:'Caldo de pollo',             seccion:'Conservas, caldos y cremas', unidad:'ml', envase:1000, formato:'Brick 1 l', precio:0.95},
+  {id:'pesto',     nombre:'Salsa pesto',                seccion:'Aceite, especias y salsas', unidad:'g', envase:190, formato:'Tarro 190 g', precio:1.95, alergenos:['lacteos']},
+  {id:'salmon',    nombre:'Lomos de salmón',            seccion:'Pescado y marisco', unidad:'g', envase:500, formato:'Bandeja 500 g', precio:8.50, alergenos:['pescado'], tipo:'pescado'},
+  {id:'langostinos',nombre:'Langostinos cocidos',       seccion:'Pescado y marisco', unidad:'g', envase:400, formato:'Bandeja 400 g', precio:6.20, alergenos:['marisco'], tipo:'pescado'},
+  {id:'solomillo', nombre:'Solomillo de cerdo',         seccion:'Carne', unidad:'g', envase:500, formato:'Bandeja 500 g', precio:5.60, tipo:'carne'},
+  {id:'jamon',     nombre:'Jamón ibérico de cebo loncheado', seccion:'Charcutería', unidad:'g', envase:100, formato:'Sobre 100 g', precio:4.50, tipo:'carne'},
+  {id:'manchego',  nombre:'Queso manchego curado',      seccion:'Queso', unidad:'g', envase:250, formato:'Cuña 250 g', precio:4.20, alergenos:['lacteos']},
+  {id:'pimenton',  nombre:'Pimentón dulce',             seccion:'Aceite, especias y salsas', unidad:'g', envase:75, formato:'Bote 75 g', precio:1.15},
+];
+// Orden de recorrido sugerido por los pasillos de la tienda
+const SECCIONES = ['Fruta y verdura','Carne','Pescado y marisco','Charcutería','Huevos, leche y mantequilla','Queso','Panadería y pastelería','Arroz, legumbres y pasta','Conservas, caldos y cremas','Aceite, especias y salsas','Congelados'];
+const ALERGENOS = {gluten:'Gluten', huevo:'Huevo', pescado:'Pescado', marisco:'Marisco', lacteos:'Lácteos'};
+
+// Ingredientes: [producto, cantidad POR RACIÓN en la unidad base del producto]
+const RECETAS = [
+  {id:'lentejas', nombre:'Lentejas guisadas', momentos:['comida'], min:45, ing:[['lentejas',80],['patata',100],['zanahoria',50],['cebolla',40],['pimenton',2],['aceite',10]],
+   pasos:['Sofríe la cebolla picada en el aceite durante 5 minutos.','Añade la zanahoria y la patata en dados y el pimentón.','Incorpora las lentejas lavadas y cubre con agua (unas tres veces su volumen).','Cuece a fuego medio 35 minutos y ajusta de sal.']},
+  {id:'garbanzos-guiso', nombre:'Garbanzos guisados', momentos:['comida'], min:30, ing:[['garbanzos',150],['patata',80],['zanahoria',50],['cebolla',30],['pimenton',2],['aceite',10]],
+   pasos:['Sofríe la cebolla y la zanahoria picadas.','Añade la patata cortada, el pimentón y agua hasta cubrir.','Cuece 15 minutos, añade los garbanzos escurridos y cuece 5 minutos más.']},
+  {id:'arroz-pollo', nombre:'Arroz con pollo', momentos:['comida'], min:40, ing:[['arroz',90],['pechuga',150],['pimiento',0.25],['tomatetri',60],['cebolla',40],['aceite',10]],
+   pasos:['Dora el pollo troceado en el aceite y resérvalo.','Sofríe cebolla y pimiento; añade el tomate y cocina 5 minutos.','Incorpora el arroz, el pollo y el doble de agua que de arroz.','Cuece 18 minutos y deja reposar 5.']},
+  {id:'arroz-verduras', nombre:'Arroz con verduras y huevo', momentos:['comida','cena'], min:30, ing:[['arroz',90],['guisantes',50],['zanahoria',50],['pimiento',0.25],['huevos',1],['aceite',10]],
+   pasos:['Cuece el arroz en agua con sal 16 minutos y escúrrelo.','Saltea zanahoria en dados, pimiento y guisantes.','Añade el arroz y los huevos batidos, removiendo hasta que cuajen.']},
+  {id:'pasta-atun', nombre:'Macarrones con atún y tomate', momentos:['comida','cena'], min:20, ing:[['macarrones',90],['atun',0.5],['tomatetri',100],['cebolla',30],['aceite',8]],
+   pasos:['Cuece la pasta según el paquete.','Sofríe la cebolla, añade el tomate y cocina 10 minutos.','Mezcla con el atún escurrido y la pasta.']},
+  {id:'espaguetis', nombre:'Espaguetis con tomate y queso', momentos:['comida','cena'], min:20, ing:[['espaguetis',90],['tomatetri',100],['cebolla',30],['queso',20],['aceite',8]],
+   pasos:['Cuece los espaguetis.','Prepara una salsa con cebolla pochada y tomate triturado (10 minutos).','Sirve con la salsa y el queso rallado por encima.']},
+  {id:'merluza-horno', nombre:'Merluza al horno con patatas', momentos:['comida','cena'], min:40, ing:[['merluza',150],['patata',200],['cebolla',40],['aceite',15]],
+   pasos:['Hornea la patata y la cebolla en rodajas con el aceite a 200 °C durante 25 minutos.','Coloca la merluza encima, sala y hornea 12 minutos más.']},
+  {id:'albondigas', nombre:'Albóndigas en salsa de tomate', momentos:['comida'], min:45, ing:[['picada',125],['huevos',0.25],['pan',0.1],['tomatetri',100],['cebolla',30],['aceite',10]],
+   pasos:['Mezcla la carne con el huevo y el pan remojado; forma bolas.','Dóralas en el aceite y resérvalas.','Sofríe la cebolla, añade el tomate y cuece las albóndigas en la salsa 20 minutos.']},
+  {id:'muslos-horno', nombre:'Muslos de pollo al horno con patatas', momentos:['comida'], min:55, ing:[['muslos',250],['patata',200],['cebolla',40],['pimenton',1],['aceite',10]],
+   pasos:['Coloca patata y cebolla en rodajas en una bandeja.','Pon encima los muslos con aceite, sal y pimentón.','Hornea a 200 °C durante 50 minutos, dándoles la vuelta a mitad.']},
+  {id:'lomo-judias', nombre:'Lomo a la plancha con judías verdes', momentos:['comida','cena'], min:20, ing:[['lomo',125],['judias',150],['aceite',10]],
+   pasos:['Cuece las judías verdes 8 minutos y saltéalas con un poco de aceite.','Haz el lomo a la plancha, 2 minutos por cada lado.']},
+  {id:'tortilla-patata', nombre:'Tortilla de patata', momentos:['cena'], min:35, ing:[['huevos',2],['patata',200],['cebolla',50],['aceite',25]],
+   pasos:['Pocha la patata y la cebolla en el aceite a fuego medio 20 minutos.','Escurre y mezcla con los huevos batidos y sal.','Cuaja la tortilla por ambos lados.']},
+  {id:'tortilla-calabacin', nombre:'Tortilla de calabacín con pan', momentos:['cena'], min:25, ing:[['huevos',2],['calabacin',150],['cebolla',30],['aceite',15],['pan',0.25]],
+   pasos:['Saltea el calabacín y la cebolla en dados 10 minutos.','Mezcla con los huevos batidos y cuaja la tortilla.','Acompaña con pan.']},
+  {id:'ensalada-garbanzos', nombre:'Ensalada de garbanzos y huevo', momentos:['cena','comida'], min:15, ing:[['garbanzos',120],['huevos',1],['tomate',100],['pepino',0.25],['cebolla',20],['aceite',10]],
+   pasos:['Cuece los huevos 10 minutos y pélalos.','Trocea tomate, pepino y cebolla.','Mezcla con los garbanzos escurridos y aliña.']},
+  {id:'ensalada-atun', nombre:'Ensalada mixta con atún', momentos:['cena'], min:15, ing:[['lechuga',0.25],['tomate',120],['atun',0.5],['huevos',1],['pepino',0.25],['aceite',10]],
+   pasos:['Cuece los huevos 10 minutos.','Lava y trocea la lechuga, el tomate y el pepino.','Añade el atún y el huevo y aliña.']},
+  {id:'fajitas', nombre:'Fajitas de pollo', momentos:['cena'], min:25, ing:[['pechuga',150],['tortillas',2],['pimiento',0.5],['cebolla',50],['aceite',8]],
+   pasos:['Corta el pollo, el pimiento y la cebolla en tiras.','Saltéalos a fuego fuerte 8 minutos con sal y especias.','Calienta las tortillas y rellénalas.']},
+  {id:'sopa-verduras', nombre:'Sopa de verduras', momentos:['cena'], min:35, ing:[['zanahoria',80],['calabacin',100],['patata',80],['cebolla',40],['pan',0.25],['aceite',8]],
+   pasos:['Sofríe la cebolla y añade el resto de verduras en dados.','Cubre con un litro de agua por cada 4 raciones y cuece 25 minutos.','Sirve con pan.']},
+  {id:'crema-calabacin', nombre:'Crema de calabacín', momentos:['cena'], min:30, ing:[['calabacin',250],['patata',60],['cebolla',40],['queso',15],['aceite',8]],
+   pasos:['Rehoga la cebolla, añade calabacín y patata troceados.','Cubre justo con agua y cuece 20 minutos.','Tritura con el queso hasta que quede fina.']},
+  {id:'mini-pizzas', nombre:'Mini pizzas de pan', momentos:['cena'], min:20, ing:[['pan',0.5],['tomatetri',50],['queso',40],['champi',50],['aceite',5]],
+   pasos:['Abre el pan en rebanadas y úntalas con tomate.','Añade champiñón y queso.','Hornea a 220 °C durante 8 minutos.']},
+  {id:'brocoli-patata', nombre:'Brócoli con patata y huevo', momentos:['cena'], min:25, ing:[['brocoli',200],['patata',150],['huevos',1],['aceite',10]],
+   pasos:['Cuece la patata 15 minutos y añade el brócoli los últimos 6.','Cuece los huevos aparte 10 minutos.','Sirve con un chorrito de aceite.']},
+  {id:'pisto', nombre:'Pisto con huevo', momentos:['cena','comida'], min:35, ing:[['calabacin',120],['pimiento',0.5],['tomatetri',100],['cebolla',50],['huevos',1],['aceite',15]],
+   pasos:['Pocha la cebolla y el pimiento 10 minutos.','Añade el calabacín y cocina 10 minutos más.','Incorpora el tomate, cocina 10 minutos y cuaja un huevo por ración encima.']},
+  {id:'sopa-fideos', nombre:'Sopa de fideos con pollo', momentos:['cena'], min:30, ing:[['fideos',30],['pechuga',50],['zanahoria',40],['cebolla',30],['aceite',5]],
+   pasos:['Cuece el pollo, la zanahoria y la cebolla en 1,5 l de agua con sal durante 20 minutos.','Desmenuza el pollo y vuelve a echarlo al caldo.','Añade los fideos y cuece 4 minutos más.']},
+  {id:'pavo-ensalada', nombre:'Pavo a la plancha con ensalada', momentos:['comida','cena'], min:15, ing:[['pavo',125],['lechuga',0.25],['tomate',100],['aceite',10]],
+   pasos:['Haz los filetes de pavo a la plancha, 2-3 minutos por cada lado.','Prepara una ensalada con la lechuga y el tomate y alíñala.']},
+  {id:'salchichas-tomate', nombre:'Salchichas con tomate y arroz', momentos:['comida'], min:25, ing:[['salchichas',110],['tomatetri',80],['arroz',70],['cebolla',20],['aceite',8]],
+   pasos:['Cuece el arroz blanco 16 minutos.','Dora las salchichas y resérvalas.','Sofríe la cebolla, añade el tomate y cocina las salchichas en la salsa 10 minutos.']},
+  {id:'lentejas-chorizo', nombre:'Lentejas con chorizo', momentos:['comida'], min:50, ing:[['lentejas',80],['chorizo',30],['patata',80],['zanahoria',40],['cebolla',30],['pimenton',2],['aceite',8]],
+   pasos:['Sofríe la cebolla y el chorizo en rodajas.','Añade zanahoria, patata, pimentón y las lentejas lavadas.','Cubre con agua y cuece 40 minutos a fuego medio.']},
+  {id:'alubias-verduras', nombre:'Alubias blancas con verduras', momentos:['comida'], min:30, ing:[['alubias',150],['zanahoria',50],['pimiento',0.25],['cebolla',30],['tomatetri',40],['aceite',8]],
+   pasos:['Sofríe cebolla, pimiento y zanahoria picados 10 minutos.','Añade el tomate y un vaso de agua y cuece 10 minutos.','Incorpora las alubias escurridas y cuece 5 minutos más.']},
+  {id:'patatas-riojana', nombre:'Patatas a la riojana', momentos:['comida'], min:45, ing:[['patata',300],['chorizo',40],['cebolla',40],['pimiento',0.25],['pimenton',2],['aceite',10]],
+   pasos:['Sofríe la cebolla, el pimiento y el chorizo en rodajas.','Añade las patatas "chascadas" y el pimentón y rehoga 2 minutos.','Cubre con agua y cuece 30 minutos hasta que espese.']},
+  {id:'garbanzos-espinacas', nombre:'Garbanzos con espinacas', momentos:['comida','cena'], min:25, ing:[['garbanzos',150],['espinacas',120],['cebolla',30],['pimenton',2],['aceite',10]],
+   pasos:['Rehoga la cebolla picada en el aceite.','Añade las espinacas y saltea 5 minutos.','Incorpora el pimentón, los garbanzos y un poco de agua y cuece 10 minutos.']},
+  {id:'bacalao-tomate', nombre:'Bacalao con tomate', momentos:['comida','cena'], min:30, ing:[['bacalao',130],['tomatetri',100],['cebolla',40],['pimiento',0.25],['aceite',12]],
+   pasos:['Pocha la cebolla y el pimiento 10 minutos.','Añade el tomate y cocina 10 minutos.','Coloca el bacalao encima, tapa y cocina 8 minutos.']},
+  {id:'berenjenas-rellenas', nombre:'Berenjenas rellenas de carne', momentos:['comida'], min:50, ing:[['berenjena',0.5],['picada',80],['tomatetri',50],['cebolla',30],['queso',20],['aceite',8]],
+   pasos:['Parte las berenjenas por la mitad y hornéalas 20 minutos a 200 °C.','Vacía la pulpa y sofríela con la cebolla, la carne y el tomate.','Rellena, cubre con queso y gratina 10 minutos.']},
+  {id:'macarrones-bolonesa', nombre:'Macarrones a la boloñesa', momentos:['comida'], min:30, ing:[['macarrones',90],['picada',80],['tomatetri',100],['cebolla',30],['zanahoria',30],['queso',15],['aceite',8]],
+   pasos:['Sofríe la cebolla y la zanahoria picadas, añade la carne y dórala.','Incorpora el tomate y cocina 15 minutos.','Mezcla con la pasta cocida y sirve con queso.']},
+  {id:'espaguetis-nata', nombre:'Espaguetis con nata y champiñones', momentos:['comida','cena'], min:20, ing:[['espaguetis',90],['nata',60],['champi',60],['cebolla',20],['queso',15],['aceite',5]],
+   pasos:['Cuece los espaguetis.','Saltea la cebolla y el champiñón, añade la nata y deja reducir 5 minutos.','Mezcla con la pasta y sirve con queso.']},
+  {id:'ensalada-pasta', nombre:'Ensalada de pasta', momentos:['comida','cena'], min:20, ing:[['macarrones',70],['atun',0.33],['tomate',80],['pepino',0.25],['huevos',0.5],['aceite',10]],
+   pasos:['Cuece la pasta y los huevos; enfría ambos.','Trocea tomate, pepino y huevo.','Mezcla todo con el atún y aliña.']},
+  {id:'pollo-champi', nombre:'Muslos de pollo en salsa con champiñones', momentos:['comida'], min:40, ing:[['muslos',250],['champi',60],['cebolla',40],['nata',40],['aceite',10]],
+   pasos:['Dora los muslos salpimentados y resérvalos.','Sofríe cebolla y champiñón, añade la nata y un poco de agua.','Devuelve el pollo y cuece tapado 25 minutos.']},
+  {id:'merluza-verde', nombre:'Merluza en salsa verde con patatas', momentos:['comida','cena'], min:25, ing:[['merluza',150],['guisantes',40],['patata',100],['cebolla',30],['aceite',12]],
+   pasos:['Cuece la patata en rodajas 12 minutos.','Pocha la cebolla, añade un vaso de agua y los guisantes.','Incorpora la merluza y la patata y cocina 6 minutos moviendo la cazuela.']},
+  {id:'arroz-cubana', nombre:'Arroz a la cubana', momentos:['comida','cena'], min:25, ing:[['arroz',90],['tomatetri',80],['huevos',1],['aceite',15]],
+   pasos:['Cuece el arroz blanco 16 minutos.','Calienta el tomate con una pizca de sal y azúcar.','Fríe un huevo por persona y sirve con el arroz y el tomate.']},
+  {id:'wok-verduras', nombre:'Wok de verduras con arroz', momentos:['cena','comida'], min:20, ing:[['arroz',70],['calabacin',80],['zanahoria',50],['pimiento',0.25],['champi',50],['aceite',10]],
+   pasos:['Cuece el arroz.','Saltea a fuego fuerte las verduras en tiras durante 6 minutos.','Añade el arroz, mezcla y sirve.']},
+  {id:'crema-zanahoria', nombre:'Crema de zanahoria', momentos:['cena'], min:30, ing:[['zanahoria',200],['patata',60],['cebolla',40],['nata',30],['aceite',8]],
+   pasos:['Rehoga la cebolla, añade la zanahoria y la patata troceadas.','Cubre con agua y cuece 20 minutos.','Tritura con la nata hasta que quede fina.']},
+  {id:'revuelto-espinacas', nombre:'Revuelto de espinacas y champiñón', momentos:['cena'], min:15, ing:[['huevos',2],['espinacas',80],['champi',50],['pan',0.25],['aceite',8]],
+   pasos:['Saltea el champiñón y las espinacas 5 minutos.','Añade los huevos batidos y remueve a fuego suave hasta que cuajen.','Sirve con pan.']},
+  {id:'huevos-rotos', nombre:'Huevos rotos con patatas y chorizo', momentos:['cena'], min:25, ing:[['huevos',2],['patata',200],['chorizo',30],['aceite',20]],
+   pasos:['Fríe las patatas cortadas finas a fuego medio.','Saltea el chorizo en dados.','Fríe los huevos, ponlos sobre las patatas y rómpelos al servir.']},
+  {id:'hamburguesas', nombre:'Hamburguesas caseras', momentos:['cena'], min:20, ing:[['hamburguesas',1],['panhamb',1],['lechuga',0.15],['tomate',60],['queso',15]],
+   pasos:['Haz las hamburguesas a la plancha, 4 minutos por cada lado.','Tuesta el pan y monta con lechuga, tomate y queso.']},
+  {id:'pizza-casera', nombre:'Pizza margarita casera', momentos:['cena'], min:25, ing:[['masapizza',0.25],['tomatetri',50],['mozzarella',60],['aceite',5]],
+   pasos:['Extiende la masa en una bandeja y úntala con tomate.','Reparte la mozzarella en trozos y un chorrito de aceite.','Hornea a 220 °C durante 12-15 minutos.']},
+  {id:'quesadillas', nombre:'Quesadillas de pollo y queso', momentos:['cena'], min:20, ing:[['tortillas',2],['pechuga',80],['queso',40],['pimiento',0.25],['aceite',5]],
+   pasos:['Saltea el pollo y el pimiento en tiras.','Rellena las tortillas con el pollo y el queso y dóblalas.','Dóralas en la sartén 2 minutos por cada lado.']},
+  {id:'macarrones-chorizo', nombre:'Macarrones con chorizo', momentos:['comida'], min:25, ing:[['macarrones',90],['chorizo',30],['tomatetri',100],['cebolla',30],['queso',15],['aceite',5]],
+   pasos:['Cuece la pasta según el paquete.','Sofríe la cebolla y el chorizo en dados 5 minutos.','Añade el tomate y cocina 10 minutos.','Mezcla con la pasta y sirve con queso.']},
+  {id:'carbonara', nombre:'Espaguetis a la carbonara', momentos:['comida','cena'], min:20, ing:[['espaguetis',90],['bacon',40],['huevos',1],['queso',20],['aceite',3]],
+   pasos:['Cuece los espaguetis y reserva un vaso del agua.','Dora el bacon en una sartén sin apenas aceite.','Bate los huevos con el queso y pimienta.','Fuera del fuego, mezcla la pasta con el bacon y el huevo, añadiendo un poco de agua de cocción hasta que quede cremosa.']},
+  {id:'espaguetis-ajo', nombre:'Espaguetis al ajo y aceite', momentos:['comida','cena'], min:15, ing:[['espaguetis',90],['ajo',0.15],['aceite',15],['queso',10]],
+   pasos:['Cuece los espaguetis.','Dora los ajos laminados en el aceite a fuego suave.','Saltea la pasta en ese aceite y sirve con queso.']},
+  {id:'pasta-pesto', nombre:'Macarrones al pesto', momentos:['comida','cena'], min:15, ing:[['macarrones',90],['pesto',35],['queso',10]],
+   pasos:['Cuece la pasta.','Escúrrela y mézclala con el pesto y una cucharada del agua de cocción.','Sirve con queso.']},
+  {id:'lasana', nombre:'Lasaña de carne', momentos:['comida'], min:60, ing:[['lasana',60],['picada',100],['tomatetri',100],['cebolla',30],['nata',40],['queso',30],['aceite',5]],
+   pasos:['Prepara una boloñesa con la cebolla, la carne y el tomate (15 minutos).','Hidrata las placas en agua caliente.','Monta capas de placa y boloñesa en una fuente.','Cubre con la nata y el queso y hornea a 200 °C 25 minutos.']},
+  {id:'pasta-verduras', nombre:'Espaguetis con verduras', momentos:['comida','cena'], min:20, ing:[['espaguetis',90],['calabacin',80],['pimiento',0.25],['champi',40],['tomatetri',50],['aceite',10]],
+   pasos:['Cuece los espaguetis.','Saltea el calabacín, el pimiento y el champiñón en tiras 8 minutos.','Añade el tomate, cocina 5 minutos y mezcla con la pasta.']},
+  {id:'sopa-ajo', nombre:'Sopa de ajo', momentos:['cena'], min:20, ing:[['pan',0.25],['ajo',0.1],['huevos',1],['pimenton',2],['aceite',10]],
+   pasos:['Dora los ajos laminados en el aceite y añade el pan en rebanadas.','Fuera del fuego, añade el pimentón y un litro de agua por cada 4 raciones.','Cuece 10 minutos y escalfa un huevo por persona al final.']},
+  {id:'sopa-cocido', nombre:'Sopa de cocido', momentos:['comida'], min:45, ing:[['garbanzos',80],['muslos',100],['fideos',25],['zanahoria',40],['patata',60]],
+   pasos:['Cuece los muslos, la zanahoria y la patata en 1,5 l de agua con sal 35 minutos.','Retira la carne, desmenúzala y cuela el caldo.','Cuece los fideos en el caldo 4 minutos y sirve con los garbanzos y la carne.']},
+  {id:'crema-calabaza', nombre:'Crema de calabaza', momentos:['cena'], min:30, ing:[['calabaza',200],['patata',60],['cebolla',40],['nata',30],['aceite',8]],
+   pasos:['Rehoga la cebolla, añade la calabaza y la patata troceadas.','Cubre con agua y cuece 20 minutos.','Tritura con la nata hasta que quede fina.']},
+  {id:'crema-puerros', nombre:'Crema de puerros', momentos:['cena'], min:30, ing:[['puerro',0.5],['patata',120],['nata',40],['aceite',8]],
+   pasos:['Pocha el puerro en rodajas 10 minutos.','Añade la patata troceada, cubre con agua y cuece 20 minutos.','Tritura con la nata. Se puede tomar fría o caliente.']},
+  {id:'crema-champi', nombre:'Crema de champiñones', momentos:['cena'], min:25, ing:[['champi',150],['cebolla',40],['patata',60],['nata',50],['aceite',8]],
+   pasos:['Saltea la cebolla y el champiñón 8 minutos.','Añade la patata, cubre con agua y cuece 15 minutos.','Tritura con la nata.']},
+  {id:'sopa-pescado', nombre:'Sopa de pescado', momentos:['comida','cena'], min:30, ing:[['merluza',70],['tomatetri',40],['cebolla',30],['arroz',20],['ajo',0.1],['aceite',8]],
+   pasos:['Sofríe la cebolla y el ajo, añade el tomate y cocina 5 minutos.','Añade un litro de agua por cada 4 raciones y el arroz; cuece 15 minutos.','Incorpora la merluza troceada los últimos 5 minutos.']},
+  {id:'paella-pollo', nombre:'Paella de pollo y verduras', momentos:['comida'], min:45, ing:[['arroz',90],['muslos',150],['judias',50],['pimiento',0.25],['tomatetri',40],['pimenton',1],['aceite',12]],
+   pasos:['Dora el pollo troceado en la paella con el aceite.','Añade las judías y el pimiento y sofríe; luego el tomate y el pimentón.','Echa el triple de agua que de arroz, lleva a ebullición y añade el arroz.','Cuece 18 minutos sin remover y deja reposar 5.']},
+  {id:'risotto', nombre:'Risotto de champiñones', momentos:['cena','comida'], min:30, ing:[['arroz',80],['champi',100],['cebolla',30],['caldo',250],['nata',30],['queso',20],['aceite',8]],
+   pasos:['Pocha la cebolla y el champiñón.','Añade el arroz, nacara 1 minuto y ve añadiendo el caldo caliente poco a poco, removiendo, durante 18 minutos.','Termina con la nata y el queso.']},
+  {id:'tres-delicias', nombre:'Arroz tres delicias', momentos:['cena','comida'], min:20, ing:[['arroz',80],['huevos',1],['guisantes',40],['zanahoria',40],['york',40],['aceite',10]],
+   pasos:['Cuece el arroz y déjalo enfriar.','Haz una tortilla fina y córtala en tiras.','Saltea la zanahoria, los guisantes y el jamón; añade el arroz y la tortilla.']},
+  {id:'arroz-caldoso', nombre:'Arroz caldoso de pollo', momentos:['comida'], min:40, ing:[['arroz',80],['pechuga',100],['pimiento',0.25],['tomatetri',40],['cebolla',30],['caldo',300],['aceite',10]],
+   pasos:['Dora el pollo troceado y sofríe la cebolla y el pimiento.','Añade el tomate y luego el caldo.','Cuando hierva, añade el arroz y cuece 18 minutos. Debe quedar con caldo.']},
+  {id:'arroz-horno', nombre:'Arroz al horno', momentos:['comida'], min:60, ing:[['arroz',90],['chorizo',30],['garbanzos',50],['patata',80],['tomate',60],['pimenton',1],['aceite',12]],
+   pasos:['Dora la patata y el tomate en rodajas y el chorizo en una cazuela de barro.','Añade el arroz, el pimentón y los garbanzos.','Cubre con el doble de agua caliente que de arroz y hornea a 220 °C 25 minutos.']},
+  {id:'fideua', premium:true, nombre:'Fideuá de langostinos', momentos:['comida'], min:35, ing:[['fideosg',90],['langostinos',80],['tomatetri',40],['ajo',0.1],['caldo',220],['aceite',12]],
+   pasos:['Dora los fideos en el aceite hasta que tomen color.','Añade el ajo y el tomate, y después el caldo caliente.','Cuece 10 minutos, añade los langostinos y deja que se seque el caldo.']},
+  {id:'paella-marisco', premium:true, nombre:'Paella de marisco', momentos:['comida'], min:45, ing:[['arroz',90],['langostinos',100],['merluza',60],['tomatetri',40],['pimiento',0.25],['caldo',250],['aceite',12]],
+   pasos:['Sofríe el pimiento y el tomate en la paella.','Añade el arroz, el caldo y un poco de agua y cuece 10 minutos.','Coloca la merluza y los langostinos encima y cuece 8 minutos más. Reposa 5 minutos.']},
+  {id:'crema-brocoli', nombre:'Crema de brócoli', momentos:['cena'], min:25, ing:[['brocoli',200],['patata',60],['cebolla',30],['queso',15],['aceite',8]],
+   pasos:['Rehoga la cebolla.','Añade el brócoli y la patata, cubre con agua y cuece 15 minutos.','Tritura con el queso hasta que quede fina.']},
+  {id:'pure-verduras', nombre:'Puré de verduras', momentos:['cena'], min:30, ing:[['judias',80],['zanahoria',80],['patata',100],['calabacin',80],['aceite',10]],
+   pasos:['Trocea todas las verduras.','Cúbrelas con agua y cuece 20 minutos.','Tritura con el aceite y ajusta de sal.']},
+  {id:'entrecot-pimientos', premium:true, nombre:'Entrecot con patatas y pimientos', momentos:['comida','cena'], min:25, ing:[['entrecot',200],['patata',150],['pimiento',0.33],['aceite',15]],
+   pasos:['Fríe o asa la patata en gajos.','Asa los pimientos en tiras a la plancha.','Haz el entrecot a fuego fuerte 3 minutos por lado y deja reposar 2 minutos.']},
+  {id:'salmon-horno', premium:true, nombre:'Salmón al horno con verduras', momentos:['comida','cena'], min:30, ing:[['salmon',150],['calabacin',100],['zanahoria',60],['aceite',10]],
+   pasos:['Corta el calabacín y la zanahoria en bastones y hornéalos con aceite a 200 °C durante 12 minutos.','Añade el salmón con sal y hornea 12 minutos más.']},
+  {id:'solomillo-champi', premium:true, nombre:'Solomillo con champiñones y patatas', momentos:['comida'], min:35, ing:[['solomillo',150],['champi',60],['patata',150],['cebolla',30],['aceite',12]],
+   pasos:['Fríe o asa la patata en dados hasta que se dore.','Marca el solomillo en medallones 3 minutos por cada lado.','Saltea la cebolla y el champiñón y sírvelos por encima.']},
+  {id:'arroz-langostinos', premium:true, nombre:'Arroz con langostinos', momentos:['comida'], min:40, ing:[['arroz',90],['langostinos',100],['pimiento',0.25],['tomatetri',50],['cebolla',30],['aceite',12]],
+   pasos:['Sofríe cebolla y pimiento; añade el tomate y cocina 5 minutos.','Incorpora el arroz y el doble de agua y cuece 16 minutos.','Añade los langostinos pelados los últimos 3 minutos y deja reposar.']},
+  {id:'tosta-jamon', premium:true, nombre:'Tomate con jamón ibérico y manchego', momentos:['cena'], min:10, ing:[['tomate',150],['jamon',25],['manchego',30],['pan',0.25],['aceite',10]],
+   pasos:['Corta el tomate en rodajas y aliña con aceite y sal.','Acompaña con el jamón, el queso en lascas y pan tostado.']},
+];
+
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const MOMENTOS = ['comida','cena'];
+const PROD = Object.fromEntries(PRODUCTOS.map(p=>[p.id,p]));
+const sinAcentos = t => String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const tieneTipo = (r,t) => r.ing.some(([pid])=>PROD[pid]?.tipo===t);
+const CATEGORIAS = [
+  {k:'pasta',     n:'Pasta',             e:'🍝', kw:'pasta pastas macarrones espaguetis lasaña fideua tortellini', f:r=>/espagueti|macarr|pasta|lasa|fideu|tortellini/.test(sinAcentos(r.nombre))},
+  {k:'sopas',     n:'Sopas y cremas',    e:'🍲', kw:'sopa sopas crema cremas pure pures caldo', f:r=>/sopa|crema|pure/.test(sinAcentos(r.nombre))},
+  {k:'arroces',   n:'Arroces',           e:'🥘', kw:'arroz arroces paella paellas risotto', f:r=>/arroz|paella|risotto|wok/.test(sinAcentos(r.nombre))},
+  {k:'legumbres', n:'Legumbres',         e:'🫘', kw:'legumbre legumbres lentejas garbanzos alubias', f:r=>/lenteja|garbanzo|alubia|cocido/.test(sinAcentos(r.nombre))},
+  {k:'carne',     n:'Carne',             e:'🍗', kw:'carne carnes pollo cerdo ternera pavo', f:r=>tieneTipo(r,'carne')},
+  {k:'pescado',   n:'Pescado y marisco', e:'🐟', kw:'pescado marisco merluza bacalao salmon gambas langostinos atun', f:r=>tieneTipo(r,'pescado')},
+  {k:'huevos',    n:'Huevos',            e:'🍳', kw:'huevo huevos tortilla tortillas revuelto', f:r=>/tortilla|revuelto|huevo|pisto/.test(sinAcentos(r.nombre))},
+  {k:'verdura',   n:'Verduras',          e:'🥦', kw:'verdura verduras vegetal', f:r=>esVegetariana(r)&&/verdura|pisto|brocoli|calabac|berenjena|puerro|calabaza|zanahoria|champi|espinaca|wok/.test(sinAcentos(r.nombre))},
+  {k:'ensaladas', n:'Ensaladas',         e:'🥗', kw:'ensalada ensaladas', f:r=>/ensalada/.test(sinAcentos(r.nombre))},
+  {k:'faciles',   n:'Cenas fáciles',     e:'🍕', kw:'pizza pizzas hamburguesa cena facil rapida', f:r=>/pizza|hamburguesa|quesadilla|fajita|tomate con jamon/.test(sinAcentos(r.nombre))},
+  {k:'rapidas',   n:'En 20 minutos',     e:'⏱️', kw:'rapido rapida rapidas', f:r=>r.min<=20},
+  {k:'premium',   n:'Caprichos',         e:'✨', kw:'premium capricho caprichos especial', f:r=>!!r.premium},
+];
+const catsDe = r => CATEGORIAS.filter(c=>c.f(r));
+
+// Plato de aprovechamiento: sus ingredientes se calculan cada semana con lo que sobra (ver calcularCesta)
+RECETAS.push({id:'aprovechar', aprov:true, nombre:'Plato de aprovechamiento', momentos:['comida','cena'], min:20, ing:[], pasos:[]});
+const REC = Object.fromEntries(RECETAS.map(r=>[r.id,r]));
+
+const EJEMPLO = () => ({
+  hogar:{personas:4, presupuesto:100, vegetariano:false, rapido:false, alergias:[], reciclaje:true, diaReciclaje:6},
+  menu:[
+    {comida:'lentejas', cena:'tortilla-patata'},
+    {comida:'arroz-pollo', cena:'ensalada-garbanzos'},
+    {comida:'pasta-atun', cena:'tortilla-calabacin'},
+    {comida:'merluza-horno', cena:'sopa-verduras'},
+    {comida:'albondigas', cena:'fajitas'},
+    {comida:'arroz-verduras', cena:'mini-pizzas'},
+    {comida:'garbanzos-guiso', cena:'ensalada-atun'},
+  ],
+  despensa:{aceite:500, arroz:400, pimenton:40},
+  marcados:{},
+});
+
+/* ================= Estado ================= */
+const KEY='mci-v2';
+let state = EJEMPLO();
+try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&s.menu&&s.hogar){ state=Object.assign(EJEMPLO(),s); state.hogar=Object.assign(EJEMPLO().hogar,s.hogar); } else state.nuevo=true; }catch(e){ state.nuevo=true; }
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+let tab = ['hogar','menu','recetas','lista','presupuesto','despensa'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'menu';
+
+/* ================= Formato ================= */
+const eur = n => n.toLocaleString('es-ES',{style:'currency',currency:'EUR'});
+const r2 = n => Math.round(n*100)/100;
+function fmtQty(q,p){
+  q=r2(q);
+  if(p.unidad==='g') return q>=1000 ? `${(q/1000).toLocaleString('es-ES',{maximumFractionDigits:2})} kg` : `${Math.round(q)} g`;
+  if(p.unidad==='ml') return q>=1000 ? `${(q/1000).toLocaleString('es-ES',{maximumFractionDigits:2})} l` : `${Math.round(q)} ml`;
+  return `${q.toLocaleString('es-ES',{maximumFractionDigits:2})} ${p.ud||'ud'}`;
+}
+function precioUnit(p){
+  if(p.unidad==='g') return `${eur(p.precio/p.envase*1000)}/kg`;
+  if(p.unidad==='ml') return `${eur(p.precio/p.envase*1000)}/l`;
+  return `${eur(p.precio/p.envase)}/ud`;
+}
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ================= Motor de cálculo ================= */
+function alergenosReceta(r){ return [...new Set(r.ing.flatMap(([pid])=>PROD[pid].alergenos||[]))]; }
+function esVegetariana(r){ return r.ing.every(([pid])=>!PROD[pid].tipo); }
+function costeRacion(r){ return r.ing.reduce((s,[pid,q])=>s+q/PROD[pid].envase*PROD[pid].precio,0); }
+function compatible(r,h=state.hogar){
+  if(h.vegetariano && !esVegetariana(r)) return false;
+  if(alergenosReceta(r).some(a=>h.alergias.includes(a))) return false;
+  return true;
+}
+
+/* ---------- Formatos de compra y caducidad ----------
+   Cada producto puede comprarse en varios formatos (bandeja grande o pequeña, media docena, a granel...).
+   La app elige la combinación que cubre lo que necesitas con el menor coste + desperdicio. */
+const ALT = {
+  pechuga:   [{formato:'Bandeja 500 g', envase:500, precio:3.20}],
+  muslos:    [{formato:'Bandeja 500 g', envase:500, precio:1.60}],
+  picada:    [{formato:'Bandeja 250 g', envase:250, precio:2.05}],
+  lomo:      [{formato:'Bandeja 250 g', envase:250, precio:1.95}],
+  pavo:      [{formato:'Bandeja 250 g', envase:250, precio:2.15}],
+  salmon:    [{formato:'Bandeja 2 lomos, 250 g', envase:250, precio:4.40}],
+  huevos:    [{formato:'Media docena', envase:6, precio:1.45}],
+  patata:    [{formato:'A granel (pieza ~200 g)', envase:200, precio:0.32, granel:true}],
+  cebolla:   [{formato:'A granel (pieza ~150 g)', envase:150, precio:0.28, granel:true}],
+  zanahoria: [{formato:'A granel (pieza ~100 g)', envase:100, precio:0.15, granel:true}],
+  tomate:    [{formato:'A granel (pieza ~150 g)', envase:150, precio:0.37, granel:true}],
+  calabacin: [{formato:'A granel (pieza ~300 g)', envase:300, precio:0.56, granel:true}],
+  pimiento:  [{formato:'Pimiento suelto', envase:1, precio:0.75, granel:true}],
+  champi:    [{formato:'Bandeja 500 g', envase:500, precio:2.30}],
+  nata:      [{formato:'Pack 3 bricks de 200 ml', envase:600, precio:1.85}],
+};
+// Frescos: lo que sobra se estropea en pocos días. El resto (seco, latas, congelado, aceite,
+// huevos, embutido curado...) se guarda y pasa a la despensa para la semana siguiente.
+const CORTA = new Set(['pechuga','muslos','picada','lomo','pavo','salchichas','hamburguesas','solomillo','entrecot','salmon','langostinos',
+  'tomate','calabacin','pimiento','lechuga','pepino','champi','berenjena','pan','nata','mozzarella','jamon','bacon','york','calabaza','puerro']);
+const perecedero = p => CORTA.has(p.id);
+const opcionesDe = p => [{formato:p.formato, envase:p.envase, precio:p.precio}, ...(ALT[p.id]||[])];
+
+function mejorCompra(p,q){
+  if(q<=1e-9) return {partes:[],cant:0,coste:0,score:0};
+  const ops=opcionesDe(p), fresco=perecedero(p);
+  let best=null;
+  const prueba=partes=>{
+    partes=partes.filter(x=>x.n>0);
+    const cant=partes.reduce((s,x)=>s+x.n*x.o.envase,0), coste=partes.reduce((s,x)=>s+x.n*x.o.precio,0);
+    // El desperdicio de un fresco cuenta como dinero perdido (penalización); lo que se guarda no.
+    const tirado = fresco ? (cant-q)*coste/cant : 0;
+    const score = coste + tirado + (partes.length-1)*0.01;
+    if(!best||score<best.score-1e-9) best={partes,cant,coste:r2(coste),score};
+  };
+  for(const a of ops){
+    prueba([{o:a,n:Math.ceil(q/a.envase-1e-9)}]);
+    const k=Math.floor(q/a.envase+1e-9), resto=q-k*a.envase;
+    if(k>0&&resto>1e-9) for(const b of ops) if(b!==a) prueba([{o:a,n:k},{o:b,n:Math.ceil(resto/b.envase-1e-9)}]);
+  }
+  return best;
+}
+const fmtPartes = partes => partes.map(x=>`${x.n} × ${x.o.formato}`).join(' + ');
+
+// 1) Suma ingredientes repetidos y escala al número de comensales
+// 2) Descuenta la despensa  3) Elige el formato que menos desperdicia  4) Separa lo que sobra:
+//    frescos que se tirarían (desperdicio) y productos que se guardan para la semana siguiente
+// Qué hace cada sobra en el plato de aprovechamiento y cuánto se mete como máximo por ración
+const PAPEL_APROV = {
+  pechuga:['prot',150], muslos:['prot',200], picada:['prot',120], lomo:['prot',120], pavo:['prot',120], salchichas:['prot',120],
+  hamburguesas:['prot',1], solomillo:['prot',120], entrecot:['prot',150], salmon:['prot',120], langostinos:['prot',100], jamon:['prot',40],
+  calabacin:['veg',150], pimiento:['veg',0.5], champi:['veg',100], berenjena:['veg',0.5], tomate:['veg',120], nata:['veg',50], mozzarella:['veg',40],
+  lechuga:['ens',0.3], pepino:['ens',0.3],
+  pan:['pan',0.5], bacon:['prot',40], york:['prot',60], calabaza:['veg',150], puerro:['veg',0.5],
+};
+const CORTO = {pechuga:'pollo', muslos:'pollo', picada:'carne picada', lomo:'lomo', pavo:'pavo', salchichas:'salchichas', hamburguesas:'hamburguesa',
+  solomillo:'solomillo', entrecot:'entrecot', salmon:'salmón', langostinos:'langostinos', jamon:'jamón', calabacin:'calabacín', pimiento:'pimiento',
+  champi:'champiñón', berenjena:'berenjena', tomate:'tomate', nata:'nata', mozzarella:'mozzarella', lechuga:'lechuga', pepino:'pepino', pan:'pan', bacon:'bacon', york:'jamón york', calabaza:'calabaza', puerro:'puerro'};
+function calcularCesta(menu=state.menu, h=state.hogar, despensa=state.despensa){
+  const necesario={}, usos={};
+  const add=(pid,q,nombre)=>{ necesario[pid]=(necesario[pid]||0)+q; (usos[pid]||(usos[pid]=new Set())).add(nombre); };
+  let huecosAprov=0;
+  menu.forEach(d=>MOMENTOS.forEach(m=>{
+    const r=REC[d[m]]; if(!r) return;
+    if(r.aprov){ huecosAprov++; return; }
+    r.ing.forEach(([pid,q])=>add(pid,q*h.personas,r.nombre));
+  }));
+  const lineaDe=(pid)=>{
+    const p=PROD[pid], nec=r2(necesario[pid]);
+    const enCasa=Math.min(despensa[pid]||0,nec), comprar=r2(nec-enCasa);
+    const mc=mejorCompra(p,comprar), sin=mejorCompra(p,nec);
+    return {pid,p,nec,enCasa,comprar,envases:mc.partes.reduce((s,x)=>s+x.n,0),partes:mc.partes,coste:mc.coste,costeSin:sin.coste,
+            sobra:r2(mc.cant-comprar),fresco:perecedero(p),cant:mc.cant,usos:[...usos[pid]]};
+  };
+  let lineas=Object.keys(necesario).map(lineaDe);
+  // Fase 2: el plato de aprovechamiento se come los frescos que sobran
+  let aprov=null;
+  if(huecosAprov){
+    const raciones=h.personas*huecosAprov, comido=[];
+    for(const l of lineas){
+      const papel=PAPEL_APROV[l.pid];
+      if(!l.fresco||l.sobra<=0||!papel) continue;
+      if(h.vegetariano&&l.p.tipo) continue;
+      const q=r2(Math.min(l.sobra, papel[1]*raciones));
+      if(q<=0) continue;
+      l.sobra=r2(l.sobra-q); l.aprovechado=q; l.usos.push('Plato de aprovechamiento'); comido.push([l.pid,q,papel[0]]);
+    }
+    const hayProteina=comido.some(([,,papel])=>papel==='prot');
+    const sinHuevo=h.alergias.includes('huevo');
+    const forma = hayProteina||sinHuevo ? 'salteado' : 'tortilla';
+    const base = forma==='salteado' ? [['arroz',70],['aceite',10]] : [['huevos',2],['aceite',10]];
+    for(const [pid,q] of base){ necesario[pid]=(necesario[pid]||0)+q*raciones; (usos[pid]||(usos[pid]=new Set())).add('Plato de aprovechamiento'); }
+    // recalcula solo las líneas de la base (no son frescos: no cambian las sobras de lo demás)
+    for(const [pid] of base){
+      const nueva=lineaDe(pid), i=lineas.findIndex(l=>l.pid===pid);
+      if(i>=0) lineas[i]=nueva; else lineas.push(nueva);
+    }
+    aprov={forma,comido,base,raciones};
+  }
+  let total=0, totalSinDespensa=0, desperdicio=0;
+  for(const l of lineas){
+    l.tira = l.fresco&&l.sobra>0 ? r2(l.sobra*l.coste/l.cant) : 0;
+    if(l.tira<0.10) l.tira=0;   // restos de céntimos (5 g, media rodaja): no cuentan como desperdicio
+    total+=l.coste; totalSinDespensa+=l.costeSin; desperdicio+=l.tira;
+  }
+  if(menu===state.menu) describirAprov(aprov);
+  return {lineas,total:r2(total),ahorroDespensa:r2(totalSinDespensa-total),desperdicio:r2(desperdicio),aprov};
+}
+// Pone nombre, ingredientes y pasos al plato de aprovechamiento de esta semana
+function describirAprov(a){
+  const R=REC.aprovechar;
+  if(!a){ R.nombre='Plato de aprovechamiento'; R.ing=[]; R.pasos=[]; R.usa=[]; return; }
+  const n=a.raciones, visible=([pid,q])=>q/n >= (PROD[pid].unidad==='ud'?0.1:15);
+  const lista=arr=>{ const x=[...new Set(arr)]; return x.length>1? x.slice(0,-1).join(', ')+' y '+x.at(-1) : (x[0]||''); };
+  const principal=a.comido.filter(([,,p])=>p==='prot'||p==='veg');
+  const orden=[...principal.filter(([,,p])=>p==='prot'),...principal.filter(([,,p])=>p==='veg')];
+  const nombres=lista(orden.filter(visible).filter(([pid])=>pid!=='nata'&&pid!=='mozzarella').map(([pid])=>CORTO[pid]).filter((x,i,a)=>a.indexOf(x)===i).slice(0,3));
+  const ensalada=a.comido.some(([,,p])=>p==='ens'), pan=a.comido.some(([,,p])=>p==='pan');
+  const extra=[ensalada?'ensalada':'',pan?'pan':''].filter(Boolean);
+  const cola=extra.length?' con '+lista(extra):'';
+  R.ing=[...a.comido.map(([pid,q])=>[pid,q/n]),...a.base];
+  R.usa=a.comido.map(([pid])=>pid);
+  if(a.forma==='salteado'){
+    R.nombre=(nombres?`Salteado de ${nombres}`:'Arroz salteado')+cola;
+    R.pasos=['Cuece el arroz 16 minutos y escúrrelo.','Trocea lo que ha sobrado de la semana.','Saltéalo a fuego fuerte con el aceite: primero la carne o el pescado y luego las verduras.','Añade el arroz, mezcla y ajusta de sal.'];
+  } else {
+    R.nombre=(nombres?`Tortilla de ${nombres}`:'Tortilla francesa')+cola;
+    R.pasos=['Trocea las verduras que han sobrado y pócalas en el aceite 8-10 minutos.','Bate los huevos con sal y mézclalos con las verduras.','Cuaja la tortilla por los dos lados.'];
+  }
+  if(ensalada) R.pasos.push('Acompaña con una ensalada de lo que quede de lechuga o pepino.');
+  if(pan) R.pasos.push('Tuesta el pan que sobra y sírvelo aparte.');
+  DISH.aprovechar = a.forma==='salteado'
+    ? {k:'rice', base:'#E9D9A6', grain:'#F7E6A6', tops:['#7CB342','#E07B2E','#D64533','#C98A50']}
+    : {k:'tortilla', base:'#F0C04B', tops:['#7CB342','#D64533','#E9D9A6']};
+}
+const puntuacion = c => c.total + 2*c.desperdicio;
+
+function menuCon(dia,momento,rid){ return state.menu.map((d,i)=>i===dia?{...d,[momento]:rid}:d); }
+function vecesEnMenu(rid,menu=state.menu){ return menu.reduce((n,d)=>n+(d.comida===rid)+(d.cena===rid),0); }
+
+// Alternativas para un hueco, con la diferencia REAL en la cesta (incluye efecto de envases y despensa)
+function alternativas(dia,momento){
+  const base=calcularCesta().total, actual=state.menu[dia][momento];
+  return RECETAS.filter(r=>r.momentos.includes(momento) && compatible(r) && (!r.aprov||esDiaReciclaje(dia)))
+    .map(r=>({r,delta: r.id===actual?0:r2(calcularCesta(menuCon(dia,momento,r.id)).total-base), actual:r.id===actual}))
+    .sort((a,b)=>a.delta-b.delta);
+}
+
+// Mejores sustituciones para abaratar la cesta (máx. 2 veces la misma receta por semana)
+function sugerencias(){
+  const base=calcularCesta().total, out=[];
+  state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
+    if(esDiaReciclaje(i)) return;
+    let best=null;
+    for(const r of RECETAS){
+      if(r.aprov||r.id===d[m]||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
+      const delta=r2(calcularCesta(menuCon(i,m,r.id)).total-base);
+      if(delta<-0.01 && (!best||delta<best.delta)) best={dia:i,momento:m,de:d[m],a:r.id,delta};
+    }
+    if(best) out.push(best);
+  }));
+  return out.sort((a,b)=>a.delta-b.delta);
+}
+
+// Mejoras premium: platos especiales que se pueden meter, con lo que suben la cesta
+function mejoras(){
+  const base=calcularCesta().total, out=[];
+  // para cada plato premium que aún no está en el menú, el hueco donde menos sube la cesta
+  for(const r of RECETAS){
+    if(!r.premium||!compatible(r)||vecesEnMenu(r.id)>=1) continue;
+    let best=null;
+    state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
+      if(esDiaReciclaje(i)||!r.momentos.includes(m)||REC[d[m]]?.premium) return;
+      const delta=r2(calcularCesta(menuCon(i,m,r.id)).total-base);
+      if(!best||delta<best.delta) best={dia:i,momento:m,de:d[m],a:r.id,delta};
+    }));
+    if(best) out.push(best);
+  }
+  return out.sort((a,b)=>a.delta-b.delta);
+}
+
+/* ---------- Día de aprovechamiento ----------
+   Un día a la semana se rellena solo con los platos que mejor gastan lo que sobra del resto de la semana:
+   se prueba cada receta compatible y se queda la que deja la cesta más barata contando el desperdicio. */
+const esDiaReciclaje = i => !!state.hogar.reciclaje && i===state.hogar.diaReciclaje;
+function aprovechar(){
+  const h=state.hogar;
+  // quita platos de aprovechamiento fuera de su día
+  state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{ if(d[m]==='aprovechar'&&!esDiaReciclaje(i)) d[m]=null; }));
+  if(!h.reciclaje){ rellenarHuecos(); return; }
+  const d=h.diaReciclaje;
+  state.menu[d].cena='aprovechar';
+  const m='comida', fuera=rid=>vecesEnMenu(rid)-(state.menu[d][m]===rid?1:0);
+  let best=null;
+  for(const tope of [0,1]){
+    for(const r of RECETAS){
+      if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||fuera(r.id)>tope) continue;
+      const sc=puntuacion(calcularCesta(menuCon(d,m,r.id)));
+      if(!best||sc<best.sc-1e-6) best={r,sc};
+    }
+    if(best) break;
+  }
+  if(best&&!(state.fijados||{})[d+'-'+m]) state.menu[d][m]=best.r.id;
+  rellenarHuecos();
+}
+// Si se desactiva el aprovechamiento, el hueco que deja se rellena con la receta que menos sube la cesta
+function rellenarHuecos(){
+  state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
+    if(d[m]) return;
+    let best=null;
+    for(const r of RECETAS){
+      if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
+      const sc=puntuacion(calcularCesta(menuCon(i,m,r.id)));
+      if(!best||sc<best.sc) best={r,sc};
+    }
+    if(best) d[m]=best.r.id;
+  }));
+}
+
+// Ingredientes de una receta que ya se compran para otros platos de la semana
+function ingredientesAprovechados(dia,momento){
+  const r=REC[state.menu[dia][momento]]; if(!r) return [];
+  const otros=new Set();
+  state.menu.forEach((dd,i)=>MOMENTOS.forEach(m=>{ if(i===dia&&m===momento) return; const x=REC[dd[m]]; if(x) x.ing.forEach(([pid])=>otros.add(pid)); }));
+  return r.ing.map(([pid])=>pid).filter(pid=>otros.has(pid));
+}
+
+function ajustarAlPresupuesto(){
+  let pasos=0;
+  while(calcularCesta().total>state.hogar.presupuesto && pasos<14){
+    const s=sugerencias()[0]; if(!s) break;
+    state.menu[s.dia][s.momento]=s.a; aprovechar(); pasos++;
+  }
+  return pasos;
+}
+
+function proponerMenu(){
+  const h=state.hogar;
+  const pool=m=>{
+    let c=RECETAS.filter(r=>!r.premium&&!r.aprov&&r.momentos.includes(m)&&compatible(r));
+    if(h.rapido){ const q=c.filter(r=>r.min<=30); if(q.length>=4) c=q; }
+    return c;
+  };
+  const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const usados={};
+  const elegir=m=>{
+    const c=shuffle(pool(m)); if(!c.length) return null;
+    const r=c.find(r=>!usados[r.id])||c.find(r=>(usados[r.id]||0)<2)||c[0];
+    usados[r.id]=(usados[r.id]||0)+1; return r.id;
+  };
+  state.fijados={};
+  state.menu=DIAS.map(()=>({comida:elegir('comida'),cena:elegir('cena')}));
+  aprovechar();
+  // Repaso: en cada hueco prueba unas cuantas recetas al azar y se queda la que menos desperdicia
+  for(let i=0;i<7;i++) for(const m of MOMENTOS){
+    if(esDiaReciclaje(i)) continue;
+    const base=puntuacion(calcularCesta()), otro=MOMENTOS.find(x=>x!==m);
+    let best=null;
+    for(const r of shuffle(pool(m)).slice(0,8)){
+      if(r.id===state.menu[i][m]||state.menu[i][otro]===r.id||vecesEnMenu(r.id)>=1) continue;
+      const sc=puntuacion(calcularCesta(menuCon(i,m,r.id)));
+      if(sc<base-0.3&&(!best||sc<best.sc)) best={r,sc};
+    }
+    if(best){ state.menu[i][m]=best.r.id; aprovechar(); }
+  }
+  ajustarAlPresupuesto(); aprovechar();
+}
+
+
+/* ================= Ilustraciones de platos (originales, dibujadas en SVG) ================= */
+const DISH = {
+  'lentejas':          {k:'bowl',   base:'#7A4A2A', tops:['#E07B2E','#EAD7AA','#A0522D']},
+  'garbanzos-guiso':   {k:'bowl',   base:'#C27A2C', tops:['#E9C77A','#E07B2E','#F0DDB0']},
+  'sopa-verduras':     {k:'bowl',   base:'#E8C982', tops:['#E07B2E','#7CB342','#F3E6C2']},
+  'crema-calabacin':   {k:'crema',  base:'#9BC25B'},
+  'pisto':             {k:'pisto',  base:'#B83A26', tops:['#7CB342','#E3A33B']},
+  'arroz-pollo':       {k:'rice',   base:'#EDC662', grain:'#F7E6A6', tops:['#F3E3C5','#D64533','#7CB342']},
+  'arroz-verduras':    {k:'rice',   base:'#F2ECDA', grain:'#FFFFFF', tops:['#7CB342','#E07B2E','#F4D03F']},
+  'pasta-atun':        {k:'pasta',  base:'#D2492A', pasta:'#F2C94C', tops:['#D9B38C']},
+  'espaguetis':        {k:'spag',   base:'#C8402A', pasta:'#F2CF63', tops:['#FFF3B8']},
+  'albondigas':        {k:'balls',  base:'#C8402A', ball:'#7B4423'},
+  'merluza-horno':     {k:'plate',  prot:'#F6EFE2', protEdge:'#E2C9A0', sides:['#E8C15A','#E8C15A','#B98ACD']},
+  'muslos-horno':      {k:'plate',  prot:'#B8652A', protEdge:'#8A4518', sides:['#E8C15A','#E8C15A','#D9A86C']},
+  'lomo-judias':       {k:'plate',  prot:'#C98A63', protEdge:'#9C603D', sides:['#4E9A3A','#4E9A3A','#5BA845'], beans:true},
+  'brocoli-patata':    {k:'plate',  sides:['#3F8F3A','#E8C15A','#3F8F3A'], egg:true},
+  'tortilla-patata':   {k:'tortilla', base:'#F0C04B', tops:['#E9D9A6']},
+  'tortilla-calabacin':{k:'tortilla', base:'#E8C350', tops:['#5E9E3A','#7CB342']},
+  'ensalada-garbanzos':{k:'salad',  tops:['#D6402C','#E3B566','#E3B566','#BFD88A'], egg:true},
+  'ensalada-atun':     {k:'salad',  tops:['#D6402C','#D9B38C','#BFD88A'], egg:true},
+  'fajitas':           {k:'wrap',   tops:['#D64533','#F4D03F','#7CB342','#E8D3B0']},
+  'mini-pizzas':       {k:'pizza'},
+  'sopa-fideos':        {k:'bowl',   base:'#E9CF8A', tops:['#F7E6A6','#F7E6A6','#E07B2E','#F3E3C5']},
+  'pavo-ensalada':      {k:'plate',  prot:'#E8C9A0', protEdge:'#C9A27E', sides:['#8CC152','#D6402C','#8CC152']},
+  'salchichas-tomate':  {k:'sausage',base:'#C8402A', sausage:'#C98157'},
+  'lentejas-chorizo':   {k:'bowl',   base:'#6E3F22', tops:['#B8322A','#B8322A','#E07B2E','#EAD7AA']},
+  'alubias-verduras':   {k:'bowl',   base:'#D9B97C', tops:['#F3EBD8','#F3EBD8','#E07B2E','#7CB342']},
+  'patatas-riojana':    {k:'bowl',   base:'#C8502A', tops:['#E8C15A','#E8C15A','#9E2A22']},
+  'garbanzos-espinacas':{k:'bowl',   base:'#B5862E', tops:['#3F7F2E','#E9C77A','#2F6A25','#E9C77A']},
+  'bacalao-tomate':     {k:'plate',  prot:'#F6EFE2', protEdge:'#E2C9A0', sides:['#C8402A','#C8402A','#7CB342']},
+  'berenjenas-rellenas':{k:'plate',  prot:'#5B3A6B', protEdge:'#3E2549', sides:['#E8C15A','#C8402A','#E8C15A']},
+  'macarrones-bolonesa':{k:'pasta',  base:'#A8361F', pasta:'#F2C94C', tops:['#7B4423','#FFF3B8']},
+  'espaguetis-nata':    {k:'spag',   base:'#F2E6C8', pasta:'#F2CF63', tops:['#BFA58A','#8C6A4F']},
+  'ensalada-pasta':     {k:'pasta',  base:'#E3EFCF', pasta:'#F2C94C', tops:['#D6402C','#7CB342','#D9B38C']},
+  'pollo-champi':       {k:'plate',  prot:'#C98A50', protEdge:'#9A6230', sides:['#EFE3C8','#BFA58A','#EFE3C8']},
+  'merluza-verde':      {k:'plate',  prot:'#F6EFE2', protEdge:'#B9D39A', sides:['#7CB342','#E8C15A','#7CB342']},
+  'arroz-cubana':       {k:'rice',   base:'#F7F3E8', grain:'#FFFFFF', tops:['#C8402A'], egg2:true},
+  'wok-verduras':       {k:'rice',   base:'#E9D9A6', grain:'#F7E6A6', tops:['#7CB342','#E07B2E','#D64533','#BFA58A']},
+  'crema-zanahoria':    {k:'crema',  base:'#EE8A3C'},
+  'revuelto-espinacas': {k:'scramble', tops:['#3F7F2E','#BFA58A','#2F6A25']},
+  'huevos-rotos':       {k:'plate',  sides:['#E8C15A','#E8C15A','#B8322A'], egg:true},
+  'hamburguesas':       {k:'burger'},
+  'pizza-casera':       {k:'bigpizza'},
+  'quesadillas':        {k:'wrap',   tops:['#F4D03F','#D64533','#F7E08A','#E8D3B0']},
+  'entrecot-pimientos': {k:'plate',  prot:'#8E3B2A', protEdge:'#5E2117', sides:['#E8C15A','#D64533','#4E9A3A']},
+  'macarrones-chorizo':{k:'pasta',  base:'#B7412A', pasta:'#F2C94C', tops:['#9E2A22','#FFF3B8']},
+  'carbonara':         {k:'spag',   base:'#F3E2B0', pasta:'#F2CF63', tops:['#C9805A','#FFF3B8','#8C5A3C']},
+  'espaguetis-ajo':    {k:'spag',   base:'#EFD98F', pasta:'#F2CF63', tops:['#F7EBD0','#6DAE3C']},
+  'pasta-pesto':       {k:'pasta',  base:'#6E9B3A', pasta:'#E9C25A', tops:['#FFF3B8','#4E7A28']},
+  'lasana':            {k:'lasagna'},
+  'pasta-verduras':    {k:'spag',   base:'#C8402A', pasta:'#F2CF63', tops:['#7CB342','#E07B2E','#BFA58A']},
+  'sopa-ajo':          {k:'bowl',   base:'#C9733A', tops:['#E8C98A','#F7F0D8','#F2A81D']},
+  'sopa-cocido':       {k:'bowl',   base:'#E2BE6A', tops:['#F7E6A6','#E9C77A','#E07B2E','#C98A50']},
+  'crema-calabaza':    {k:'crema',  base:'#F09A35'},
+  'crema-brocoli':     {k:'crema',  base:'#6FA34A'},
+  'pure-verduras':     {k:'crema',  base:'#C2A24E'},
+  'crema-puerros':     {k:'crema',  base:'#EDE7C6'},
+  'crema-champi':      {k:'crema',  base:'#C7AE8E'},
+  'sopa-pescado':      {k:'bowl',   base:'#D27A45', tops:['#F6EFE2','#F6EFE2','#F7E6A6']},
+  'paella-pollo':      {k:'paella', base:'#E2A93B', tops:['#C98A50','#4E9A3A','#D64533']},
+  'risotto':           {k:'rice',   base:'#EADFC4', grain:'#FFF8E6', tops:['#BFA58A','#8C6A4F']},
+  'tres-delicias':     {k:'rice',   base:'#F3E6BE', grain:'#FFF8E6', tops:['#7CB342','#E07B2E','#F4C6C0','#F4D03F']},
+  'arroz-caldoso':     {k:'bowl',   base:'#D9973E', tops:['#F7E6A6','#F7E6A6','#C98A50','#D64533']},
+  'arroz-horno':       {k:'paella', base:'#C9692E', tops:['#E8C15A','#9E2A22','#E9C77A','#D64533']},
+  'fideua':            {k:'paella', base:'#D9893A', tops:['#F28C6B','#F28C6B','#F7E08A'], noodles:true},
+  'paella-marisco':    {k:'paella', base:'#E9A73A', tops:['#F28C6B','#F28C6B','#F6EFE2','#D64533']},
+  'salmon-horno':      {k:'plate',  prot:'#F08A5D', protEdge:'#D96B3E', sides:['#9BC25B','#E07B2E','#9BC25B']},
+  'solomillo-champi':  {k:'plate',  prot:'#A86A44', protEdge:'#7A4527', sides:['#E8C15A','#D9C3A5','#E8C15A']},
+  'arroz-langostinos': {k:'rice',   base:'#E9B34A', grain:'#F7E6A6', tops:['#F28C6B','#F28C6B','#D64533','#7CB342']},
+  'tosta-jamon':       {k:'salad',  tops:['#D6402C','#B8484F','#F2D27A','#D6402C','#B8484F']},
+};
+function rng(seed){ let h=2166136261; for(const ch of seed){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619);} return ()=>{ h^=h<<13; h^=h>>>17; h^=h<<5; return ((h>>>0)%10000)/10000; }; }
+// Luces, sombras y textura compartidas por todas las ilustraciones (se insertan una vez en la página)
+const DEFS_PLATOS=`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<radialGradient id="gPlate" cx="44%" cy="38%" r="68%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".72" stop-color="#F5F2EC"/><stop offset="1" stop-color="#D8D1C3"/></radialGradient>
+<radialGradient id="gWell" cx="50%" cy="44%" r="56%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".82" stop-color="#F7F4EE"/><stop offset="1" stop-color="#E2DACB"/></radialGradient>
+<radialGradient id="gBowlIn" cx="50%" cy="50%" r="50%"><stop offset=".74" stop-color="#1A0E05" stop-opacity="0"/><stop offset="1" stop-color="#1A0E05" stop-opacity=".38"/></radialGradient>
+<radialGradient id="gShade" cx="36%" cy="30%" r="78%"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".42"/><stop offset=".32" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".78" stop-color="#1A0E05" stop-opacity=".06"/><stop offset="1" stop-color="#1A0E05" stop-opacity=".3"/></radialGradient>
+<radialGradient id="gShadow" cx="50%" cy="50%" r="50%"><stop offset=".55" stop-color="#1A0E05" stop-opacity=".28"/><stop offset="1" stop-color="#1A0E05" stop-opacity="0"/></radialGradient>
+<filter id="fDrop" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.1" stdDeviation=".9" flood-color="#2B1A0E" flood-opacity=".38"/></filter>
+<filter id="fGrain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 -.55" result="a"/><feComposite in="a" in2="SourceGraphic" operator="in"/></filter>
+</defs></svg>`;
+const RADIO_COMIDA={bowl:35,crema:35,pisto:35,salad:35,rice:28,pasta:27,balls:28,tortilla:29.5,sausage:26,bigpizza:31};
+function dishSVG(id,rico=false){
+  const d=DISH[id]||{k:'bowl',base:'#C9A27E',tops:['#7CB342']}, R=rng(id), out=[];
+  let baseFin=0;
+  const inCircle=(r)=>{ const a=R()*Math.PI*2, rr=Math.sqrt(R())*r; return [50+Math.cos(a)*rr, 52+Math.sin(a)*rr]; };
+  const pick=a=>a[Math.floor(R()*a.length)];
+  const sombra='<ellipse cx="52" cy="57" rx="48" ry="45" fill="url(#gShadow)"/>';
+  const plate=()=>{ out.push(sombra+'<circle cx="50" cy="52" r="45" fill="url(#gPlate)"/><circle cx="50" cy="52" r="43.6" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width=".8"/><circle cx="50" cy="52" r="33.5" fill="url(#gWell)"/><circle cx="50" cy="52" r="33.5" fill="none" stroke="#DED6C6" stroke-width=".7"/>'); baseFin=out.length; };
+  const bowl=(fill)=>{ out.push(sombra+`<circle cx="50" cy="52" r="45" fill="url(#gPlate)"/><circle cx="50" cy="52" r="41.5" fill="#ECE6DA"/><circle cx="50" cy="53" r="37" fill="#CFC6B5"/><circle cx="50" cy="52" r="35" fill="${fill}"/>`); baseFin=out.length; };
+  const dots=(n,r,cols,sz=[2.5,4.5])=>{ for(let i=0;i<n;i++){ const [x,y]=inCircle(r); out.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(sz[0]+R()*(sz[1]-sz[0])).toFixed(1)}" fill="${pick(cols)}"/>`);} };
+  const egg=(x,y,s=1)=>out.push(`<path d="M${x-9*s} ${y}c0-7 5-10 10-9 6 1 9 5 8 10-1 6-7 8-12 7-4-1-6-3-6-8z" fill="#FFFFFF" stroke="#EEE6D4" stroke-width=".8"/><circle cx="${x+1*s}" cy="${y+1*s}" r="${4.2*s}" fill="#F2A81D"/>`);
+  switch(d.k){
+    case 'bowl': bowl(d.base); dots(16,28,d.tops); break;
+    case 'crema': bowl(d.base); out.push('<path d="M38 50c4-8 18-8 20 0s-10 10-14 4" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>'); dots(4,20,['#2F5E1E'],[1.2,1.8]); break;
+    case 'pisto': bowl(d.base); dots(14,28,d.tops,[2.5,4]); egg(50,50,1.2); break;
+    case 'rice': plate(); out.push(`<circle cx="50" cy="52" r="28" fill="${d.base}"/>`); for(let i=0;i<46;i++){const [x,y]=inCircle(26); out.push(`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="1.9" ry=".9" transform="rotate(${Math.round(R()*180)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${d.grain}"/>`);} for(let i=0;i<10;i++){const [x,y]=inCircle(22); out.push(`<rect x="${(x-3).toFixed(1)}" y="${(y-2.5).toFixed(1)}" width="6" height="5" rx="1.5" fill="${pick(d.tops)}"/>`);} break;
+    case 'pasta': plate(); out.push(`<circle cx="50" cy="52" r="27" fill="${d.base}"/>`); for(let i=0;i<20;i++){const [x,y]=inCircle(22); out.push(`<rect x="${(x-5).toFixed(1)}" y="${(y-2.2).toFixed(1)}" width="10" height="4.4" rx="2.2" transform="rotate(${Math.round(R()*180)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${d.pasta}" stroke="#D9A93A" stroke-width=".6"/>`);} dots(6,18,d.tops,[2,3]); break;
+    case 'spag': plate(); for(let i=0;i<9;i++){ out.push(`<ellipse cx="${(50+(R()-.5)*6).toFixed(1)}" cy="${(52+(R()-.5)*6).toFixed(1)}" rx="${(16+R()*10).toFixed(1)}" ry="${(12+R()*10).toFixed(1)}" transform="rotate(${Math.round(R()*180)} 50 52)" fill="none" stroke="${d.pasta}" stroke-width="2.4"/>`);} out.push(`<circle cx="50" cy="52" r="12" fill="${d.base}"/>`); dots(10,10,d.tops,[1,1.8]); break;
+    case 'balls': plate(); out.push(`<circle cx="50" cy="52" r="28" fill="${d.base}"/>`); [[40,44],[58,44],[50,58],[36,58],[63,60],[49,40]].forEach(([x,y])=>out.push(`<circle cx="${x}" cy="${y}" r="7.5" fill="${d.ball}"/><circle cx="${x-2.5}" cy="${y-2.5}" r="2.2" fill="#FFFFFF" opacity=".25"/>`)); break;
+    case 'plate': plate();
+      if(d.prot) out.push(`<path d="M30 46c4-10 26-12 34-4 5 6 0 14-10 16-12 2-26-2-24-12z" fill="${d.prot}" stroke="${d.protEdge}" stroke-width="1.5"/>`);
+      if(d.beans) for(let i=0;i<9;i++) out.push(`<rect x="${34+i*3.4}" y="${60+(i%3)}" width="2.6" height="14" rx="1.3" transform="rotate(${-20+i*5} ${35+i*3.4} 67)" fill="${pick(d.sides)}"/>`);
+      else for(let i=0;i<(d.prot?6:12);i++){ const x=d.prot?32+i*6.5:30+(i%4)*12+R()*3, y=d.prot?66+(i%2)*4:36+Math.floor(i/4)*12+R()*3, c=d.prot?pick(d.sides):d.sides[i%3]; out.push(c==='#3F8F3A'?`<circle cx="${x}" cy="${y}" r="5.2" fill="${c}"/><circle cx="${x-2}" cy="${y-2}" r="2.4" fill="#5CAF4F"/>`:`<rect x="${x-4}" y="${y-4}" width="8" height="8" rx="2.5" fill="${c}"/>`); }
+      if(d.egg) egg(54,54,1); break;
+    case 'tortilla': plate(); out.push(`<circle cx="50" cy="52" r="28" fill="${d.base}" stroke="#C98E2A" stroke-width="3"/>`); dots(10,22,d.tops,[1.4,2.4]); out.push('<path d="M64 52 L76 52 M50 52 L50 52" stroke="#C98E2A" stroke-width="1.5"/><path d="M50 52 L78.5 52 M50 52 L64 76.5" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>'); break;
+    case 'salad': bowl('#D7EBB8'); for(let i=0;i<12;i++){const [x,y]=inCircle(26); out.push(`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="8" ry="4.5" transform="rotate(${Math.round(R()*180)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${i%2?'#6DAE3C':'#8CC152'}"/>`);} dots(9,24,d.tops,[3,4.5]); if(d.egg) egg(44,46,.9); break;
+    case 'wrap': plate(); [[38,0],[60,12]].forEach(([x,rot])=>out.push(`<g transform="rotate(${-30+rot} ${x} 52)"><rect x="${x-9}" y="30" width="18" height="44" rx="9" fill="#EBD6A7" stroke="#CFAE6E" stroke-width="1.2"/><circle cx="${x-3}" cy="34" r="3" fill="#D64533"/><circle cx="${x+3}" cy="35" r="2.6" fill="#7CB342"/><circle cx="${x}" cy="31.5" r="2.4" fill="#F4D03F"/></g>`)); break;
+    case 'sausage': plate(); out.push(`<circle cx="50" cy="52" r="26" fill="${d.base}"/>`); [[38,44,-20],[56,42,15],[42,60,10],[60,60,-15]].forEach(([x,y,a])=>out.push(`<rect x="${x-10}" y="${y-4.5}" width="20" height="9" rx="4.5" transform="rotate(${a} ${x} ${y})" fill="${d.sausage}" stroke="#8A4A2A" stroke-width="1"/>`)); break;
+    case 'burger': plate(); out.push('<ellipse cx="50" cy="66" rx="24" ry="7" fill="#D9A15A"/><path d="M26 58c8 4 40 4 48 0l-2 5H28z" fill="#6DAE3C"/><ellipse cx="50" cy="57" rx="25" ry="7" fill="#6B3A1F"/><path d="M28 52h44l-6 6-6-4-6 4-6-4-6 4-6-4z" fill="#F4C542"/><path d="M26 50c0-14 48-14 48 0z" fill="#E0A456"/><circle cx="42" cy="42" r="1.2" fill="#FFF3D6"/><circle cx="52" cy="40" r="1.2" fill="#FFF3D6"/><circle cx="60" cy="44" r="1.2" fill="#FFF3D6"/>'); break;
+    case 'bigpizza': plate(); out.push('<circle cx="50" cy="52" r="31" fill="#D9A15A"/><circle cx="50" cy="52" r="26" fill="#D2492A"/>'); for(let i=0;i<9;i++){const [x,y]=inCircle(20); out.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(4+R()*2).toFixed(1)}" fill="#FBF3D5"/>`);} dots(5,18,['#3F8F3A'],[1.6,2.2]); out.push('<path d="M50 52L81 52M50 52L34 79M50 52L34 25" stroke="#C98E2A" stroke-width="1" opacity=".6"/>'); break;
+    case 'scramble': plate(); for(let i=0;i<16;i++){const [x,y]=inCircle(20); out.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(5+R()*3).toFixed(1)}" fill="${i%3?'#F4D35E':'#F7E08A'}"/>`);} dots(12,20,d.tops,[1.8,3]); break;
+    case 'pizza': plate(); [[30,34],[52,34],[30,54],[52,54]].forEach(([x,y],i)=>{ out.push(`<rect x="${x}" y="${y}" width="18" height="16" rx="4" fill="#D9A15A"/><rect x="${x+2.5}" y="${y+2.5}" width="13" height="11" rx="2.5" fill="#D2492A"/>`); for(let j=0;j<4;j++) out.push(`<circle cx="${x+5+R()*8}" cy="${y+5+R()*6}" r="2" fill="#F7E08A"/>`); out.push(`<ellipse cx="${x+9}" cy="${y+8}" rx="2.6" ry="1.8" fill="#BFA58A"/>`); }); break;
+  }
+  if(d.egg2) egg(56,50,1.1);
+  // Volumen: los ingredientes proyectan sombra, la comida recibe luz desde arriba a la izquierda,
+  // los cuencos oscurecen sus paredes y, en las vistas grandes, se añade textura.
+  const comida=out.splice(baseFin), rc=RADIO_COMIDA[d.k];
+  out.push(`<g filter="url(#fDrop)">${comida.join('')}</g>`);
+  if(rc){
+    if(['bowl','crema','pisto','salad'].includes(d.k)) out.push(`<circle cx="50" cy="52" r="${rc}" fill="url(#gBowlIn)"/>`);
+    out.push(`<circle cx="50" cy="52" r="${rc}" fill="url(#gShade)"/>`);
+    if(rico) out.push(`<circle cx="50" cy="52" r="${rc}" fill="#000" filter="url(#fGrain)" opacity=".28"/>`);
+  } else out.push('<circle cx="50" cy="52" r="33" fill="url(#gShade)" opacity=".55"/>');
+  out.push('<path d="M22 30a40 40 0 0 1 22-14" stroke="#FFFFFF" stroke-opacity=".8" stroke-width="2" fill="none" stroke-linecap="round"/>');
+  return `<svg viewBox="0 0 100 104" role="img" aria-label="Ilustración de ${esc(REC[id]?.nombre||'plato')}">${out.join('')}</svg>`;
+}
+
+/* ================= Iconos ================= */
+const I = {
+  hogar:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+  menu:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  lista:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/>',
+  presupuesto:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M16 15h2"/>',
+  despensa:'<path d="M7 3h10v3H7z"/><path d="M6 6h12l-1 15H7z"/><path d="M9 12h6"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  recetas:'<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h5M9 11h5"/>',
+};
+const icon=(k,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+const TABS=[['hogar','Hogar'],['menu','Menú'],['recetas','Recetas'],['lista','Lista'],['presupuesto','Gasto'],['despensa','Despensa']];
+
+/* ================= Iconos visuales de productos y secciones ================= */
+const EMO={pechuga:'🍗',muslos:'🍗',picada:'🥩',lomo:'🥩',huevos:'🥚',patata:'🥔',cebolla:'🧅',zanahoria:'🥕',tomate:'🍅',calabacin:'🥒',pimiento:'🫑',lechuga:'🥬',pepino:'🥒',champi:'🍄',merluza:'🐟',brocoli:'🥦',judias:'🫛',guisantes:'🟢',lentejas:'🫘',arroz:'🍚',macarrones:'🍝',espaguetis:'🍝',garbanzos:'🫘',atun:'🐟',tomatetri:'🥫',pan:'🥖',tortillas:'🫓',queso:'🧀',aceite:'🫒',pimenton:'🌶️',salmon:'🍣',langostinos:'🦐',solomillo:'🥩',jamon:'🍖',manchego:'🧀',fideos:'🍜',pavo:'🦃',salchichas:'🌭',hamburguesas:'🍔',chorizo:'🥓',alubias:'🫘',bacalao:'🐟',espinacas:'🥬',berenjena:'🍆',nata:'🥛',mozzarella:'🧀',panhamb:'🍞',masapizza:'🍕',entrecot:'🥩',ajo:'🧄',calabaza:'🎃',puerro:'🌱',bacon:'🥓',york:'🍖',lasana:'🟨',fideosg:'🍜',caldo:'🥣',pesto:'🌿'};
+const SEC_EMO={'Fruta y verdura':'🥦','Carne':'🥩','Huevos, leche y mantequilla':'🥚','Queso':'🧀','Panadería y pastelería':'🥖','Arroz, legumbres y pasta':'🍚','Conservas, caldos y cremas':'🥫','Aceite, especias y salsas':'🫒','Congelados':'🧊','Pescado y marisco':'🐟','Charcutería':'🍖'};
+const ALERG_EMO={gluten:'🌾',huevo:'🥚',pescado:'🐟',marisco:'🦐',lacteos:'🥛'};
+const emo=pid=>EMO[pid]||'🛒';
+
+function numPlatos(){ return state.menu.reduce((n,d)=>n+MOMENTOS.filter(m=>REC[d[m]]).length,0); }
+
+/* ================= Render ================= */
+function pintarEstado(){
+  const c=calcularCesta(), h=state.hogar, pct=Math.min(100,c.total/h.presupuesto*100), over=c.total>h.presupuesto;
+  document.getElementById('status').innerHTML=`
+    <div class="status-row"><span>🛒 ${h.personas} ${h.personas===1?'persona':'personas'} · ${numPlatos()} platos</span><span class="num">${over?'⚠️ Te pasas '+eur(c.total-h.presupuesto):'✅ Te sobran '+eur(h.presupuesto-c.total)}</span></div>
+    <div class="status-row"><strong class="num">${eur(c.total)}</strong><span class="num">de ${eur(h.presupuesto)}</span></div>
+    <div class="meter ${over?'over':''}" role="progressbar" aria-label="Cesta frente a presupuesto" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>`;
+  return c;
+}
+function render(){
+  const c=pintarEstado();
+  document.getElementById('nav').innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${tab===k?'aria-current="page"':''}>${icon(k)}<span>${l}</span></button>`).join('');
+  document.getElementById('app').innerHTML=({hogar:vHogar,menu:vMenu,recetas:vRecetas,lista:vLista,presupuesto:vPresupuesto,despensa:vDespensa})[tab](c);
+}
+
+const aviso=`<div class="notice"><span>ⓘ</span><span><b>Datos de demostración.</b> Los precios y formatos son orientativos y no están verificados. Mi Compra Inteligente es una app independiente, no afiliada a Mercadona ni respaldada por ella, y no tiene integración oficial con su tienda: comprueba los precios en tu supermercado o en su web antes de comprar.</span></div>`;
+
+const PRESU_MIN=20, PRESU_MAX=400;
+function vHogar(){
+  const h=state.hogar;
+  return `<section data-view="hogar">
+    <div class="view-head"><h2>Mi hogar</h2><p>Tres toques y listo: cuántos sois, cuánto queréis gastar y qué no podéis comer.</p></div>
+    <div class="card bigq">
+      <div class="q-title"><span class="q-emo">👨‍👩‍👧</span><span>¿Cuántos coméis en casa?</span></div>
+      <div class="people" aria-hidden="true">${'<span>🧑</span>'.repeat(h.personas)}</div>
+      <div class="bigstep"><button data-act="pers" data-v="-1" aria-label="Quitar persona">−</button><output class="num" id="personas">${h.personas}</output><button data-act="pers" data-v="1" aria-label="Añadir persona">+</button></div>
+    </div>
+    <div class="card bigq">
+      <div class="q-title"><span class="q-emo">💶</span><span>¿Cuánto quieres gastar a la semana?</span></div>
+      <div class="presu-big num"><input type="number" id="presu-n" min="${PRESU_MIN}" max="${PRESU_MAX}" step="5" value="${h.presupuesto}" aria-label="Presupuesto en euros"><span>€</span></div>
+      <input type="range" id="presu" min="${PRESU_MIN}" max="${PRESU_MAX}" step="5" value="${h.presupuesto}" aria-label="Presupuesto semanal">
+      <div class="quick">${[60,80,100,150].map(v=>`<button class="chip" data-act="presu" data-v="${v}" aria-pressed="${h.presupuesto===v}">${v} €</button>`).join('')}</div>
+    </div>
+    <div class="card bigq">
+      <div class="q-title"><span class="q-emo">🚫</span><span>¿Alguna alergia?</span></div>
+      <div class="tiles">${Object.entries(ALERGENOS).map(([k,l])=>`<button class="tile" data-act="alerg" data-v="${k}" aria-pressed="${h.alergias.includes(k)}"><span class="t-emo">${ALERG_EMO[k]}</span><span>${l}</span></button>`).join('')}</div>
+    </div>
+    <div class="card bigq">
+      <div class="q-title"><span class="q-emo">⚙️</span><span>¿Cómo coméis?</span></div>
+      <div class="tiles two">
+        <button class="tile" data-act="veg" aria-pressed="${h.vegetariano}"><span class="t-emo">🥗</span><span>Vegetariano</span></button>
+        <button class="tile" data-act="rap" aria-pressed="${h.rapido}"><span class="t-emo">⚡</span><span>Recetas rápidas</span></button>
+      </div>
+    </div>
+    <div class="card bigq">
+      <div class="q-title"><span class="q-emo">♻️</span><span>Día de aprovechamiento</span></div>
+      <p class="small muted" style="margin:0;max-width:34ch">Un día a la semana cenáis con lo que sobra, y la comida de ese día se elige para gastar lo que ya está comprado. Así no se tira nada.</p>
+      <div class="tiles two" style="max-width:320px"><button class="tile" data-act="recic" aria-pressed="${h.reciclaje}"><span class="t-emo">${h.reciclaje?'✅':'⭕'}</span><span>${h.reciclaje?'Activado':'Desactivado'}</span></button></div>
+      ${h.reciclaje?`<div class="quick">${DIAS.map((dn,i)=>`<button class="chip" data-act="diarec" data-v="${i}" aria-pressed="${h.diaReciclaje===i}">${dn.slice(0,3)}</button>`).join('')}</div>`:''}
+    </div>
+    <button class="btn block xl" data-act="proponer">✨ Hazme el menú de la semana</button>
+    <button class="btn ghost block" data-act="reset">Restablecer los datos de ejemplo</button>
+    ${aviso}
+  </section>`;
+}
+
+/* ================= Recetas: buscador y categorías ================= */
+let busq='', catSel=null;
+const BASICOS=new Set(['caldo','aceite','pimenton','ajo','cebolla']);  // no cuentan al buscar: están en casi todo
+function recetasFiltradas(){
+  const palabras=sinAcentos(busq).split(/\s+/).filter(Boolean);
+  return RECETAS.filter(r=>!r.aprov).filter(r=>!catSel||CATEGORIAS.find(c=>c.k===catSel).f(r)).filter(r=>{
+    if(!palabras.length) return true;
+    const pajar=sinAcentos([r.nombre,...catsDe(r).map(c=>c.n+' '+c.kw),...r.ing.filter(([pid])=>!BASICOS.has(pid)).map(([pid])=>PROD[pid].nombre)].join(' '));
+    return palabras.every(w=>pajar.includes(w)||(w.length>4&&pajar.includes(w.replace(/(es|s)$/,''))));
+  });
+}
+function tarjetaReceta(r){
+  const h=state.hogar, en=vecesEnMenu(r.id), ok=compatible(r);
+  return `<button class="rcard ${ok?'':'off'}" data-act="ficha" data-v="${r.id}">
+    <span class="rpic">${dishSVG(r.id,true)}${r.premium?'<span class="badge">✨</span>':''}${en?`<span class="badge enm">✓ En tu menú</span>`:''}</span>
+    <span class="rtxt"><span class="name">${esc(r.nombre)}</span>
+      <span class="meta"><span>⏱ ${r.min}′</span><span class="num">${eur(costeRacion(r)*h.personas)}</span></span>
+      ${ok?'':`<span class="small" style="color:var(--bad)">No encaja con tus alergias o preferencias</span>`}</span></button>`;
+}
+function resultadosHTML(){
+  const rs=recetasFiltradas();
+  if(!rs.length) return `<p class="muted" style="margin:0">No hay recetas para «${esc(busq)}». Prueba con pasta, sopa, arroz, pollo…</p>`;
+  return `<div class="label">${rs.length} ${rs.length===1?'receta':'recetas'}${catSel?' · '+CATEGORIAS.find(c=>c.k===catSel).n:''}</div><div class="rgrid">${rs.map(tarjetaReceta).join('')}</div>`;
+}
+function vRecetas(){
+  return `<section data-view="recetas">
+    <div class="view-head"><h2>Recetas</h2><p>Busca lo que te apetece, toca un plato y elige qué día lo comes.</p></div>
+    <div class="search"><span aria-hidden="true">🔍</span><input id="buscar" type="search" placeholder="Pasta, sopa, arroz, pollo…" value="${esc(busq)}" autocomplete="off" aria-label="Buscar recetas"></div>
+    <div class="cats" role="group" aria-label="Categorías">${CATEGORIAS.map(c=>`<button class="cat" data-act="cat" data-v="${c.k}" aria-pressed="${catSel===c.k}"><span class="t-emo">${c.e}</span><span>${c.n}</span><span class="cnt num">${RECETAS.filter(r=>!r.aprov&&c.f(r)).length}</span></button>`).join('')}</div>
+    <div id="res" style="display:grid;gap:10px">${resultadosHTML()}</div>
+  </section>`;
+}
+
+/* Ficha para poner una receta en el menú */
+let ficha=null;
+function abrirFicha(rid){
+  const r=REC[rid], m=r.momentos.includes('comida')?'comida':'cena';
+  ficha={rid,dia:diaSel,momento:r.momentos.includes(m)?m:r.momentos[0]};
+  if(bloqueado(ficha.dia,ficha.momento)) ficha.dia=(ficha.dia+1)%7;
+  pintarFicha();
+}
+const bloqueado=(d,m)=>esDiaReciclaje(d)&&m==='cena';
+function pintarFicha(){
+  if(!ficha) return;
+  const r=REC[ficha.rid], h=state.hogar, {dia,momento}=ficha;
+  const actual=REC[state.menu[dia][momento]], bloq=bloqueado(dia,momento);
+  const delta=bloq?0:r2(calcularCesta(menuCon(dia,momento,r.id)).total-calcularCesta().total);
+  document.getElementById('layer').innerHTML=`<div class="sheet-back" data-act="cerrar"><div class="sheet" role="dialog" aria-modal="true" aria-label="Poner en el menú">
+    <div class="row between"><span class="label">${catsDe(r).map(c=>c.e+' '+c.n).slice(0,2).join(' · ')}</span><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">${icon('x',20)}</button></div>
+    <div class="thumb xl">${dishSVG(r.id,true)}</div>
+    <div><h3>${esc(r.nombre)}</h3><div class="row" style="flex-wrap:wrap;gap:6px;margin-top:8px"><span class="pill plain">${r.min} min</span><span class="pill plain num">${eur(costeRacion(r)*h.personas)} para ${h.personas}</span>${r.premium?'<span class="pill premium">✨ Premium</span>':''}${esVegetariana(r)?'<span class="pill">Vegetariana</span>':''}${alergenosReceta(r).map(a=>`<span class="pill ${h.alergias.includes(a)?'bad':'warn'}">${ALERGENOS[a]}</span>`).join('')}</div></div>
+    <div class="ingemo" aria-label="Ingredientes">${[...new Set(r.ing.map(([pid])=>emo(pid)))].join(' ')}</div>
+    <div style="display:grid;gap:8px"><div class="label">¿Qué día?</div>
+      <div class="dias">${DIAS.map((dn,i)=>`<button class="chip" data-act="fdia" data-v="${i}" aria-pressed="${i===dia}">${dn.slice(0,3)}${esDiaReciclaje(i)?' ♻️':''}</button>`).join('')}</div></div>
+    <div style="display:grid;gap:8px"><div class="label">¿Comida o cena?</div>
+      <div class="seg">${MOMENTOS.map(m=>`<button data-act="fmom" data-v="${m}" aria-pressed="${m===momento}" ${r.momentos.includes(m)?'':'disabled'}>${m==='comida'?'☀️ Comida':'🌙 Cena'}</button>`).join('')}</div></div>
+    ${bloq?`<div class="notice ok-notice"><span>♻️</span><span>La cena del ${DIAS[dia].toLowerCase()} es el plato de aprovechamiento. Elige la comida u otro día.</span></div>`
+      :`<div class="small muted">${actual?`Sustituye a <b>${esc(actual.nombre)}</b>. `:''}${Math.abs(delta)<0.01?'La cesta no cambia.':(delta>0?`La cesta sube ${eur(delta)}.`:`La cesta baja ${eur(-delta)}.`)}</div>`}
+    <button class="btn block xl" data-act="fponer" ${bloq||!compatible(r)?'disabled':''}>${compatible(r)?'📅 Poner en el menú':'No encaja con tus alergias'}</button>
+    <details class="covered"><summary>Ver ingredientes y preparación</summary>
+      <ul class="ing-list">${r.ing.map(([pid,q])=>`<li><span><span class="ie">${emo(pid)}</span>${esc(PROD[pid].nombre)}</span><span class="num muted">${fmtQty(q*h.personas,PROD[pid])}</span></li>`).join('')}</ul>
+      <ol class="steps" style="margin-top:8px">${r.pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></details>
+  </div></div>`;
+}
+
+function diaHoy(){ return (new Date().getDay()+6)%7; }
+let diaSel=diaHoy();
+
+function vMenu(){
+  const h=state.hogar, d=state.menu[diaSel], hoy=diaHoy();
+  const conflictos=state.menu.some(d=>MOMENTOS.some(m=>REC[d[m]]&&!compatible(REC[d[m]])));
+  calcularCesta();
+  const costeDia=MOMENTOS.reduce((s,m)=>s+(REC[d[m]]&&!REC[d[m]].aprov?costeRacion(REC[d[m]])*h.personas:0),0);
+  return `<section data-view="menu">
+    <div class="view-head"><h2>¿Qué comemos?</h2><p>Elige un día. Toca un plato para ver la receta o cambiarlo.</p></div>
+    ${state.guiaVista?'':`<div class="guide"><div class="row between"><span class="label">Así de fácil</span><button class="btn ghost sm" data-act="guia">Entendido</button></div>
+      <ol><li><span><b>🏠 Dinos cuántos sois</b><span class="small">Y cuánto quieres gastar, en Mi hogar.</span></span></li>
+      <li><span><b>🍽️ Mira el menú</b><span class="small">Si un plato no te gusta, tócalo y cámbialo.</span></span></li>
+      <li><span><b>🛒 Ve a comprar</b><span class="small">La lista ya está hecha y ordenada por pasillos.</span></span></li></ol></div>`}
+    <div class="week" role="group" aria-label="Días de la semana">${state.menu.map((dd,i)=>`<button class="wk" data-act="dia" data-v="${i}" aria-pressed="${i===diaSel}">
+      <span class="wkd">${DIAS[i].slice(0,3)}</span>${i===hoy?'<span class="hoy">hoy</span>':''}${esDiaReciclaje(i)?'<span class="rec" aria-label="Día de aprovechamiento">♻️</span>':''}
+      ${MOMENTOS.map(m=>`<span class="wkpic">${REC[dd[m]]?dishSVG(dd[m]):''}</span>`).join('')}</button>`).join('')}</div>
+    ${conflictos?`<div class="notice"><span>!</span><span><b>Hay platos que no encajan con tus alergias o preferencias.</b> Están marcados en rojo; tócalos para cambiarlos.</span></div>`:''}
+    <div class="row between"><h3 class="dayttl">${DIAS[diaSel]}${diaSel===hoy?' · hoy':''}</h3><span class="pill num">${esDiaReciclaje(diaSel)?'♻️ Con sobras':'≈ '+eur(costeDia)}</span></div>
+    ${esDiaReciclaje(diaSel)?`<div class="notice ok-notice"><span>♻️</span><span><b>Día de aprovechamiento.</b> La cena se hace con lo que ha sobrado de la semana y la comida está elegida para gastar lo que ya has comprado. Se recalcula sola cuando cambias otros días.</span></div>`:''}
+    <div class="bigcards">${MOMENTOS.map(m=>{
+      const r=REC[d[m]], tag=(m==='comida'?'☀️ Comida':'🌙 Cena')+(r?.aprov?' · ♻️ Aprovechamiento':'');
+      if(!r) return `<button class="bigcard empty" data-act="abrir" data-d="${diaSel}" data-m="${m}"><span class="bigpic"><span class="plus">+</span><span class="badge">${tag}</span></span><span class="bigtxt"><span class="name">Elegir plato</span></span></button>`;
+      return `<button class="bigcard ${compatible(r)?'':'flag'}" data-act="abrir" data-d="${diaSel}" data-m="${m}">
+        <span class="bigpic">${dishSVG(r.id,true)}<span class="badge">${tag}${r.premium?' · ✨':''}</span></span>
+        <span class="bigtxt"><span class="name">${esc(r.nombre)}</span>
+          <span class="meta"><span>⏱ ${r.min} min</span><span class="num">${r.aprov?'💚 Hecho con sobras':'💶 '+eur(costeRacion(r)*h.personas)}</span><span>👥 ${h.personas}</span></span>
+          <span class="ingemo" aria-label="Ingredientes">${[...new Set(r.ing.map(([pid])=>emo(pid)))].join(' ')}</span></span></button>`;
+    }).join('')}</div>
+    <div class="row" style="gap:8px"><button class="btn ghost grow" data-act="dia" data-v="${(diaSel+6)%7}">‹ Anterior</button><button class="btn ghost grow" data-act="dia" data-v="${(diaSel+1)%7}">Siguiente ›</button></div>
+    <button class="btn block xl" data-tab="lista">🛒 Ver la lista de la compra</button>
+  </section>`;
+}
+
+function vLista(c){
+  const comprar=c.lineas.filter(l=>l.envases>0), cubiertos=c.lineas.filter(l=>l.envases===0);
+  const marcados=comprar.filter(l=>state.marcados[l.pid]).length;
+  const pct=comprar.length?Math.round(marcados/comprar.length*100):0;
+  const grupos=SECCIONES.map(s=>[s,comprar.filter(l=>l.p.seccion===s).sort((a,b)=>a.p.nombre.localeCompare(b.p.nombre))]).filter(([,ls])=>ls.length);
+  return `<section data-view="lista">
+    <div class="view-head"><h2>Lista de la compra</h2><p>Solo lo justo, en el formato que menos sobra y ordenado por pasillos. Toca cada producto al meterlo en el carro.</p></div>
+    ${eficiencia(c)}
+    <div class="card progress">
+      <div class="row between"><b>${marcados===comprar.length&&comprar.length?'🎉 ¡Compra completa!':`🛒 ${marcados} de ${comprar.length} en el carro`}</b><span class="num muted">${pct}%</span></div>
+      <div class="gauge"><i style="width:${pct}%"></i></div>
+      <div class="row" style="gap:8px"><button class="btn ghost sm grow" data-act="desmarcar">Empezar de nuevo</button><button class="btn sm grow" data-act="copiar">📋 Copiar lista</button><a class="btn sm grow" href="https://tienda.mercadona.es/" target="_blank" rel="noopener">🌐 Tienda online</a></div>
+    </div>
+    ${grupos.map(([s,ls])=>`<div class="sec"><div class="sec-head"><span>${SEC_EMO[s]||'🛒'} ${s}</span><span class="num">${eur(ls.reduce((a,l)=>a+l.coste,0))}</span></div>
+      ${ls.map(l=>`<label class="item ${state.marcados[l.pid]?'done':''}" for="chk-${l.pid}">
+        <input type="checkbox" class="sr" id="chk-${l.pid}" data-act="marcar" data-v="${l.pid}" ${state.marcados[l.pid]?'checked':''}>
+        <span class="prod">${emo(l.pid)}<span class="tick" aria-hidden="true">✓</span></span>
+        <div style="min-width:0"><div class="name">${esc(l.p.nombre)}</div>
+          <div class="qtybig">${l.partes.map(x=>`${x.n} × <span>${esc(x.o.formato)}</span>`).join(' + ')}</div>
+          <div class="detail">${l.enCasa>0?`<span>🏠 Tienes ${fmtQty(l.enCasa,l.p)}</span>`:''}${l.aprovechado?`<span class="ok">♻️ ${fmtQty(l.aprovechado,l.p)} para el plato de aprovechamiento</span>`:''}${l.tira>0?`<span class="bad">⚠️ Sobran ${fmtQty(l.sobra,l.p)} que se pueden estropear</span>`:''}${!l.fresco&&l.sobra>0?`<span>📦 Sobran ${fmtQty(l.sobra,l.p)} para la próxima semana</span>`:''}<a class="store-link" href="https://tienda.mercadona.es/search-results?query=${encodeURIComponent(l.p.busqueda||l.p.nombre)}" target="_blank" rel="noopener">Ver en Mercadona ↗</a></div></div>
+        <div class="price num">${eur(l.coste)}<small>${precioUnit(l.p)}</small></div>
+      </label>`).join('')}</div>`).join('')}
+    ${cubiertos.length?`<details class="covered card"><summary>🏠 Ya lo tienes en casa (${cubiertos.length})</summary><ul>${cubiertos.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}</li>`).join('')}</ul></details>`:''}
+    <div class="total-bar"><span>Total estimado<br><span class="small">${comprar.reduce((a,l)=>a+l.envases,0)} productos</span></span><strong class="num">${eur(c.total)}</strong></div>
+    <button class="btn ghost block" data-act="semana">✅ He terminado la semana: guardar sobras y hacer menú nuevo</button>
+    ${aviso}
+  </section>`;
+}
+
+// Tarjeta de eficiencia: lo que se tiraría (frescos) y lo que se guarda para la semana siguiente
+function eficiencia(c){
+  const tirar=c.lineas.filter(l=>l.tira>0), guarda=c.lineas.filter(l=>!l.fresco&&l.sobra>0);
+  const rec=state.hogar.reciclaje;
+  return `<div class="card efic ${c.desperdicio>0.5?'warn':''}">
+    <div class="row between"><span class="big-emo">${c.desperdicio<=0.5?'🌱':'⚠️'}</span>
+      <div class="grow"><b>${c.desperdicio<=0.5?'No se tira comida esta semana':'Se tirarían '+eur(c.desperdicio)+' en frescos'}</b>
+      <div class="small muted">${rec?`♻️ El ${DIAS[state.hogar.diaReciclaje].toLowerCase()} toca plato de aprovechamiento con lo que sobra.`:'Activa el día de aprovechamiento en Mi hogar para no tirar nada.'}</div></div></div>
+    ${tirar.length?`<ul class="mini">${tirar.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul>
+      <button class="btn sm" data-act="proponer">✨ Rehacer el menú para no tirar nada</button>`:''}
+    ${guarda.length?`<details><summary>📦 Te sobra para la semana que viene (${guarda.length}) — no caduca</summary><ul class="mini">${guarda.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul><p class="small muted" style="margin:6px 0 0">Al terminar la semana pulsa «He terminado la semana» y pasa solo a tu despensa: el próximo menú lo usará primero.</p></details>`:''}
+  </div>`;
+}
+
+let presuModo='ahorro';
+function vPresupuesto(c){
+  const h=state.hogar, over=c.total>h.presupuesto, pct=Math.min(100,c.total/h.presupuesto*100);
+  const porSeccion=SECCIONES.map(s=>[s,c.lineas.filter(l=>l.p.seccion===s).reduce((a,l)=>a+l.coste,0)]).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const maxS=Math.max(...porSeccion.map(x=>x[1]),1);
+  const platos=[];
+  state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{const r=REC[d[m]]; if(r) platos.push({r,dia:i,m,coste:costeRacion(r)*h.personas});}));
+  platos.sort((a,b)=>b.coste-a.coste);
+  const sug=sugerencias().slice(0,5), prem=mejoras().slice(0,4);
+  return `<section data-view="presupuesto">
+    <div class="view-head"><h2>Tu gasto</h2><p>Cuánto vas a gastar, cómo ahorrar y qué caprichos te puedes dar.</p></div>
+    <div class="card" style="display:grid;gap:12px;text-align:center">
+      <div style="font-size:44px;line-height:1">${over?'😬':'😊'}</div>
+      <div class="big num">${eur(c.total)}</div>
+      <span class="pill ${over?'bad':''}" style="justify-self:center">${over?'Te pasas '+eur(c.total-h.presupuesto):'Te sobran '+eur(h.presupuesto-c.total)} · límite ${eur(h.presupuesto)}</span>
+      <div class="gauge ${over?'over':''}"><i style="width:${pct}%"></i></div>
+      <div class="row between small num muted"><span>👤 Por persona y día</span><span>${eur(c.total/h.personas/7)}</span></div>
+      <div class="row between small num ${c.desperdicio>0.5?'':'muted'}"><span>${c.desperdicio>0.5?'⚠️':'🌱'} Comida que se tiraría</span><span>${eur(c.desperdicio)}</span></div>
+      ${c.ahorroDespensa>0?`<div class="row between small num muted"><span>🏠 Ahorro por lo que tienes en casa</span><span>${eur(c.ahorroDespensa)}</span></div>`:''}
+    </div>
+    <div class="seg" role="group" aria-label="Tipo de cambios"><button data-act="pmodo" data-v="ahorro" aria-pressed="${presuModo==='ahorro'}">💡 Ahorrar</button><button data-act="pmodo" data-v="premium" aria-pressed="${presuModo==='premium'}">✨ Darme un capricho</button></div>
+    ${presuModo==='ahorro'&&over&&sug.length?`<button class="btn block xl" data-act="ajustar">🪄 Ajustar al presupuesto automáticamente</button>`:''}
+    ${presuModo==='ahorro'?`<div class="card" style="display:grid;gap:10px">
+      <div class="label">💡 Cambios para ahorrar</div>
+      ${sug.length?`<div class="sugg">${sug.map(s=>`<div class="swapcard">
+        <span class="thumb">${dishSVG(s.de)}</span><span class="arrow">→</span><span class="thumb">${dishSVG(s.a)}</span>
+        <div style="min-width:0"><div class="small muted">${DIAS[s.dia]} · ${s.momento}</div><b>${esc(REC[s.a].nombre)}</b><div class="small muted">en vez de ${esc(REC[s.de].nombre)}</div></div>
+        <button class="btn sm" data-act="aplicar" data-d="${s.dia}" data-m="${s.momento}" data-v="${s.a}">Ahorra ${eur(-s.delta)}</button></div>`).join('')}</div>`
+      :`<p class="small muted" style="margin:0">👌 Tu menú ya es de los más económicos con tus preferencias.</p>`}
+    </div>`:''}
+    ${presuModo==='premium'?`<div class="card premium-card" style="display:grid;gap:10px">
+      <div><div class="label">✨ Date un capricho</div><div class="small muted">${over?'Ahora te pasas del límite: estos platos suben la cesta.':'Te sobran '+eur(h.presupuesto-c.total)+'. Puedes meter algo especial.'}</div></div>
+      ${prem.length?`<div class="sugg">${prem.map(s=>{const cabe=c.total+s.delta<=h.presupuesto; return `<div class="swapcard">
+        <span class="thumb">${dishSVG(s.de)}</span><span class="arrow">→</span><span class="thumb gold">${dishSVG(s.a)}</span>
+        <div style="min-width:0"><div class="small muted">${DIAS[s.dia]} · ${s.momento}</div><b>${esc(REC[s.a].nombre)}</b><div class="small muted">en vez de ${esc(REC[s.de].nombre)}</div>
+          <span class="pill ${cabe?'':'warn'}" style="margin-top:4px">${cabe?'✅ Cabe en tu presupuesto':'⚠️ Te pasarías '+eur(c.total+s.delta-h.presupuesto)}</span></div>
+        <button class="btn sm gold" data-act="aplicar" data-d="${s.dia}" data-m="${s.momento}" data-v="${s.a}">${s.delta>0?'✨ Darme el capricho · +'+eur(s.delta):'✨ Capricho y encima ahorras '+eur(-s.delta)}</button></div>`;}).join('')}</div>`
+      :`<p class="small muted" style="margin:0">Ya tienes todos los platos especiales en tu menú.</p>`}
+    </div>`:''}
+    <div class="card" style="display:grid;gap:10px"><div class="label">¿En qué se va el dinero?</div>
+      <div class="bars">${porSeccion.map(([s,v])=>`<div class="bar-row"><span>${SEC_EMO[s]||''} ${s}</span><span class="track"><i style="width:${v/maxS*100}%"></i></span><span class="num">${eur(v)}</span></div>`).join('')}</div></div>
+    <div class="card" style="display:grid;gap:8px"><div class="label">Los platos más caros</div>
+      ${platos.slice(0,4).map(p=>`<button class="alt" data-act="abrir" data-d="${p.dia}" data-m="${p.m}"><span class="thumb">${dishSVG(p.r.id)}</span><span style="min-width:0"><b>${esc(p.r.nombre)}</b><br><span class="small muted">${DIAS[p.dia]} · ${p.m}</span></span><span class="num">${eur(p.coste)}</span></button>`).join('')}
+    </div>
+    ${aviso}
+  </section>`;
+}
+
+function vDespensa(c){
+  const ids=Object.keys(state.despensa);
+  const usado=Object.fromEntries(c.lineas.map(l=>[l.pid,l.enCasa]));
+  const libres=PRODUCTOS.filter(p=>!(p.id in state.despensa));
+  return `<section data-view="despensa">
+    <div class="view-head"><h2>Lo que tienes en casa</h2><p>Lo que ya tienes no te lo ponemos en la lista. Toca un producto para añadirlo.</p></div>
+    ${c.ahorroDespensa>0?`<div class="card row between"><span>🏠 Esta semana te ahorras</span><b class="num">${eur(c.ahorroDespensa)}</b></div>`:''}
+    <div class="card">
+      ${ids.length?ids.map(pid=>{const p=PROD[pid];return `<div class="pantry-item"><span class="prod sm">${emo(pid)}</span><div style="min-width:0"><b>${esc(p.nombre)}</b><div class="small muted">${usado[pid]>0?'Se usarán '+fmtQty(usado[pid],p):'No se usa esta semana'}</div></div>
+        <div class="qty-in"><input type="number" class="num" min="0" step="${p.unidad==='ud'?1:50}" value="${state.despensa[pid]}" data-act="desp" data-v="${pid}" id="desp-${pid}" aria-label="Cantidad de ${esc(p.nombre)}"><span class="small muted">${p.unidad==='ud'?(p.ud||'ud'):p.unidad}</span></div>
+        <button class="icon-btn" data-act="quitar" data-v="${pid}" aria-label="Quitar ${esc(p.nombre)}">${icon('x',18)}</button></div>`;}).join('')
+      :`<p class="muted" style="margin:0">Tu despensa está vacía. Toca abajo lo que tengas en casa.</p>`}
+    </div>
+    <div class="card" style="display:grid;gap:10px"><div class="label">Toca para añadir</div>
+      <div class="ptiles">${libres.map(p=>`<button class="ptile" data-act="add1" data-v="${p.id}"><span class="t-emo">${emo(p.id)}</span><span>${esc(p.nombre)}</span></button>`).join('')}</div></div>
+  </section>`;
+}
+
+/* ================= Hoja de receta ================= */
+let hoja=null;
+function abrirHoja(dia,momento){ hoja={dia,momento,cambiar:false}; pintarHoja(); }
+function cerrarHoja(){ hoja=null; ficha=null; document.getElementById('layer').innerHTML=''; }
+function pintarHoja(){
+  if(!hoja) return;
+  const {dia,momento}=hoja, h=state.hogar, r=REC[state.menu[dia][momento]];
+  const alts=hoja.cambiar||!r ? alternativas(dia,momento) : null;
+  document.getElementById('layer').innerHTML=`<div class="sheet-back" data-act="cerrar"><div class="sheet" role="dialog" aria-modal="true" aria-label="Receta">
+    <div class="row between"><span class="label">${DIAS[dia]} · ${momento}</span><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">${icon('x',20)}</button></div>
+    ${r&&!alts?`<div class="thumb xl">${dishSVG(r.id,true)}</div>`:''}
+    ${r?`<div><h3>${esc(r.nombre)}</h3><div class="row" style="flex-wrap:wrap;gap:6px;margin-top:8px">
+      <span class="pill plain">${r.min} min</span>${r.aprov?'<span class="pill">♻️ Hecho con lo que sobra</span>':`<span class="pill plain num">${eur(costeRacion(r))}/ración</span><span class="pill plain num">${eur(costeRacion(r)*h.personas)} total</span>`}
+      ${r.premium?'<span class="pill premium">✨ Premium</span>':''}${esVegetariana(r)?'<span class="pill">Vegetariana</span>':''}${alergenosReceta(r).map(a=>`<span class="pill ${h.alergias.includes(a)?'bad':'warn'}">${ALERGENOS[a]}</span>`).join('')}</div></div>`:''}
+    ${r&&!alts&&r.aprov?`<div class="notice ok-notice"><span>♻️</span><span><b>Este plato cambia cada semana.</b> Se hace con lo que sobra de los demás platos para no tirar nada${r.usa?.length?': '+esc(r.usa.map(p=>CORTO[p]).filter((x,i,a)=>a.indexOf(x)===i).join(', ')):''}.</span></div>`:''}
+    ${r&&!alts&&!r.aprov&&esDiaReciclaje(dia)?(()=>{const ap=ingredientesAprovechados(dia,momento); return ap.length?`<div class="notice ok-notice"><span>♻️</span><span><b>Elegido para aprovechar.</b> Usa cosas que ya compras para otros platos: ${esc(ap.map(p=>PROD[p].nombre.toLowerCase()).join(', '))}.</span></div>`:'';})():''}
+    ${alts?`<div style="display:grid;gap:8px"><div class="label">Elige otra receta · diferencia en la cesta</div><div class="alt-list">${alts.map(a=>`<button class="alt ${a.actual?'current':''}" data-act="elegir" data-v="${a.r.id}">
+      <span class="thumb">${dishSVG(a.r.id)}</span><span style="min-width:0"><b>${esc(a.r.nombre)}</b><br><span class="small muted">${a.r.min} min · ${eur(costeRacion(a.r))}/ración${vecesEnMenu(a.r.id)?` · ya ${vecesEnMenu(a.r.id)}× en el menú`:''}</span></span>
+      <span class="pill num ${a.actual?'plain':a.delta>0?'warn':''}">${a.actual?'Actual':(a.delta>0?'+':'')+eur(a.delta)}</span></button>`).join('')}</div></div>`
+    :`<div style="display:grid;gap:6px"><div class="label">Ingredientes para ${h.personas}</div><ul class="ing-list">${r.ing.map(([pid,q])=>`<li><span><span class="ie">${emo(pid)}</span>${esc(PROD[pid].nombre)}</span><span class="num muted">${fmtQty(q*h.personas,PROD[pid])} <span class="small">(${fmtQty(q,PROD[pid])}/ración)</span></span></li>`).join('')}<li><span>Sal</span><span class="muted">al gusto</span></li></ul></div>
+      <div style="display:grid;gap:6px"><div class="label">Preparación</div><ol class="steps">${r.pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></div>
+      <button class="btn block" data-act="cambiar">Cambiar por otra receta</button>`}
+  </div></div>`;
+}
+
+/* ================= Eventos ================= */
+let toastT;
+function toast(msg){ clearTimeout(toastT); let t=document.querySelector('.toast'); if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t);} t.textContent=msg; toastT=setTimeout(()=>t.remove(),2200); }
+function irA(t){ tab=t; try{history.replaceState(null,'','#'+t);}catch(e){} render(); scrollTo(0,0); }
+function commit(){ save(); render(); if(hoja) pintarHoja(); if(ficha) pintarFicha(); }
+
+// Fin de semana: lo que sobra y se conserva pasa a la despensa; los frescos se dan por gastados
+function nuevaSemana(){
+  const c=calcularCesta(), nueva={};
+  for(const [pid,q] of Object.entries(state.despensa)) if(!c.lineas.some(l=>l.pid===pid)) nueva[pid]=q;
+  for(const l of c.lineas){
+    let resto=r2((state.despensa[l.pid]||0)-l.enCasa+l.sobra);
+    if(l.p.unidad==='ud') resto=Math.floor(resto+1e-9);
+    if(!l.fresco&&resto>=Math.max(1,l.p.envase*0.02)) nueva[l.pid]=resto;
+  }
+  state.despensa=nueva; state.marcados={};
+  proponerMenu(); save(); toast('🏠 Sobras guardadas en tu despensa. ¡Menú nuevo listo!'); irA('menu');
+}
+
+function copiar(){
+  const c=calcularCesta(); let txt=`Mi compra en Mercadona · ${state.hogar.personas} personas · ${eur(c.total)} (precios demo, sin verificar)\n`;
+  SECCIONES.forEach(s=>{const ls=c.lineas.filter(l=>l.envases>0&&l.p.seccion===s); if(!ls.length) return;
+    txt+=`\n${s.toUpperCase()}\n`+ls.map(l=>`☐ ${l.p.nombre}: ${fmtPartes(l.partes)} · ${eur(l.coste)}`).join('\n')+'\n';});
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){} ta.remove(); toast(ok?'Lista copiada':'No se pudo copiar');};
+  try{ navigator.clipboard.writeText(txt).then(()=>toast('Lista copiada'),fallback); }catch(e){ fallback(); }
+}
+
+document.addEventListener('click',e=>{
+  if(e.target.closest('a.store-link')){ e.stopPropagation(); return; }
+  const t=e.target.closest('[data-tab],[data-act]'); if(!t) return;
+  if(t.dataset.tab){ irA(t.dataset.tab); return; }
+  const a=t.dataset.act, v=t.dataset.v, h=state.hogar;
+  if(a==='cerrar'){ if(e.target===t||t.tagName==='BUTTON') cerrarHoja(); return; }
+  if(a==='marcar'||a==='desp') return;
+  switch(a){
+    case 'pers': h.personas=Math.min(10,Math.max(1,h.personas+Number(v))); aprovechar(); break;
+    case 'alerg': h.alergias=h.alergias.includes(v)?h.alergias.filter(x=>x!==v):[...h.alergias,v]; aprovechar(); break;
+    case 'proponer': proponerMenu(); toast('Menú nuevo creado'); save(); irA('menu'); return;
+    case 'reset': state=EJEMPLO(); aprovechar(); toast('Datos de ejemplo restablecidos'); break;
+    case 'abrir': abrirHoja(Number(t.dataset.d),t.dataset.m); return;
+    case 'cambiar': hoja.cambiar=true; pintarHoja(); return;
+    case 'elegir': if(esDiaReciclaje(hoja.dia)) (state.fijados||(state.fijados={}))[hoja.dia+'-'+hoja.momento]=true; state.menu[hoja.dia][hoja.momento]=v; hoja.cambiar=false; if(!esDiaReciclaje(hoja.dia)) aprovechar(); toast('Receta cambiada'); break;
+    case 'aplicar': state.menu[Number(t.dataset.d)][t.dataset.m]=v; aprovechar(); toast('Cambio aplicado'); break;
+    case 'ajustar': { const n=ajustarAlPresupuesto(); toast(calcularCesta().total<=h.presupuesto?`${n} ${n===1?'cambio aplicado':'cambios aplicados'}: dentro del límite`:`${n} cambios aplicados; aún se supera el límite`); break; }
+    case 'dia': diaSel=Number(v); break;
+    case 'cat': catSel=catSel===v?null:v; break;
+    case 'ficha': abrirFicha(v); return;
+    case 'fdia': ficha.dia=Number(v); pintarFicha(); return;
+    case 'fmom': ficha.momento=v; pintarFicha(); return;
+    case 'fponer': { const {rid,dia,momento}=ficha, r=REC[rid];
+      if(esDiaReciclaje(dia)) (state.fijados||(state.fijados={}))[dia+'-'+momento]=true;
+      state.menu[dia][momento]=rid; aprovechar(); diaSel=dia; ficha=null; document.getElementById('layer').innerHTML='';
+      toast(`📅 ${r.nombre} · ${DIAS[dia].toLowerCase()} ${momento}`); break; }
+    case 'pmodo': presuModo=v; break;
+    case 'presu': h.presupuesto=Number(v); break;
+    case 'veg': h.vegetariano=!h.vegetariano; aprovechar(); break;
+    case 'recic': h.reciclaje=!h.reciclaje; aprovechar(); toast(h.reciclaje?'♻️ Día de aprovechamiento activado':'Día de aprovechamiento desactivado'); break;
+    case 'diarec': state.fijados={}; h.diaReciclaje=Number(v); aprovechar(); toast('♻️ Aprovechamiento el '+DIAS[h.diaReciclaje].toLowerCase()); break;
+    case 'semana': nuevaSemana(); return;
+    case 'rap': h.rapido=!h.rapido; break;
+    case 'add1': { const p=PROD[v]; state.despensa[v]=p.envase; aprovechar(); toast(emo(v)+' '+p.nombre+' añadido'); break; }
+    case 'desmarcar': state.marcados={}; break;
+    case 'guia': state.guiaVista=true; break;
+    case 'copiar': copiar(); return;
+    case 'quitar': delete state.despensa[v]; aprovechar(); break;
+    case 'anadir': { const pid=document.getElementById('add-p').value, q=Number(document.getElementById('add-q').value);
+      if(!(q>0)){ toast('Indica una cantidad mayor que cero'); return; } state.despensa[pid]=q; toast('Añadido a la despensa'); break; }
+    default: return;
+  }
+  commit();
+});
+document.addEventListener('change',e=>{
+  const t=e.target, h=state.hogar;
+  if(t.dataset.act==='marcar'){ state.marcados[t.dataset.v]=t.checked; commit(); return; }
+  if(t.dataset.act==='desp'){ const q=Math.max(0,Number(t.value)||0); if(q>0) state.despensa[t.dataset.v]=q; else delete state.despensa[t.dataset.v]; aprovechar(); commit(); return; }
+  if(t.id==='veg'){ h.vegetariano=t.checked; commit(); }
+  if(t.id==='rap'){ h.rapido=t.checked; commit(); }
+  if(t.id==='presu-n'){ h.presupuesto=Math.min(PRESU_MAX,Math.max(PRESU_MIN,Number(t.value)||100)); commit(); }
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='buscar'){ busq=e.target.value; const r=document.getElementById('res'); if(r) r.innerHTML=resultadosHTML(); return; }
+  if(e.target.id==='presu'){ state.hogar.presupuesto=Number(e.target.value); save(); pintarEstado(); const n=document.getElementById('presu-n'); if(n) n.value=state.hogar.presupuesto; document.querySelectorAll('[data-act="presu"]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.v)===state.hogar.presupuesto))); }
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(hoja||ficha)) cerrarHoja(); });
+
+document.body.insertAdjacentHTML('afterbegin',DEFS_PLATOS);
+aprovechar();
+render();
+</script>
+
+</body>
+</html>
