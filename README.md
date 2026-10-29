@@ -14,6 +14,8 @@ App para organizar el menú de la semana y la lista de la compra en Mercadona, d
 - **Gasto:** cambios para ahorrar (sin repetir plato) y caprichos premium.
 - **Día de aprovechamiento:** un plato hecho con lo que sobra para no tirar comida.
 - **Despensa:** lo que ya tienes en casa no se vuelve a comprar, con buscador y por secciones.
+- **Compra por días:** una vez a la semana (de lunes a domingo) o cada 2, 3 o 4 días; menú, lista y presupuesto solo para esos días.
+- **Añadir otras cosas:** más de 230 productos (fruta, lácteos, desayuno, bebidas, congelados, limpieza, higiene…) para sumarlos a la lista aunque no salgan en ninguna receta.
 
 ## Instalarla en el móvil
 
@@ -27,7 +29,7 @@ Una vez instalada funciona **sin internet** (por ejemplo, dentro del súper). Ca
 - `index.html` — la app completa.
 - `manifest.webmanifest` e `icons/` — nombre, colores e iconos de la app instalada.
 - `sw.js` — funcionamiento sin conexión.
-- `platos/` — ilustraciones de los 70 platos (WebP). Si alguna no carga, la app pinta un dibujo sencillo.
+- `platos/` — ilustraciones de los 75 platos (WebP). Si alguna no carga, la app pinta un dibujo sencillo.
 
 ## Aviso
 

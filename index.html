@@ -339,6 +339,26 @@ nav.bottom button span{white-space:nowrap}
 .srow.done .sbox{background:var(--green);border-color:var(--green);color:var(--on-green)}
 .srow:has(.sr:focus-visible){outline:2px solid var(--green);outline-offset:-2px}
 .bigq .steps{text-align:left;justify-self:stretch;padding-left:22px}
+.add-extras{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:2px dashed color-mix(in srgb,var(--green) 45%,var(--line));background:var(--surface);cursor:pointer}
+.add-extras:hover{border-color:var(--green);background:var(--green-soft)}
+.ax-emo{font-size:30px;line-height:1}
+.ax-plus{width:36px;height:36px;border-radius:50%;background:var(--green);color:var(--on-green);display:grid;place-items:center;font-size:24px;font-weight:700;flex:none}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.xtile{position:relative;display:grid;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.xtile.on{border:2px solid var(--green);background:var(--green-soft)}
+.xmain{display:grid;justify-items:center;gap:3px;padding:10px 6px;background:none;border:0;text-align:center;font:inherit;color:inherit;cursor:pointer}
+.xmain .t-emo{font-size:30px;line-height:1}
+.xn{font-weight:700;font-size:12.5px;line-height:1.2}
+.mini-step{display:inline-flex;align-items:center;gap:6px;justify-content:center;padding:4px}
+.xtile .mini-step{padding:0 6px 8px}
+.mini-step button{width:32px;height:32px;border-radius:50%;border:0;background:var(--green);color:var(--on-green);font-size:18px;font-weight:700;cursor:pointer}
+.mini-step b{min-width:18px;text-align:center}
+.ext-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0}
+.wk.fuera{opacity:.45}
+.wk.fuera[aria-pressed="true"]{opacity:.8}
+.compra-act{display:flex;align-items:center;gap:10px;border-color:color-mix(in srgb,var(--green) 40%,var(--line));background:var(--green-soft)}
+.tile.freq{gap:3px;padding:12px 6px}
+.tile.freq .t-emo{font-family:var(--f-display);font-weight:800;font-size:28px}
 .install-mini{display:flex;align-items:center;gap:10px;padding:10px 12px}
 .offline{font-size:12.5px;font-weight:700;background:color-mix(in srgb,var(--on-green) 18%,transparent);border-radius:8px;padding:4px 8px;justify-self:start}
 .sel{user-select:all;-webkit-user-select:all}
@@ -446,10 +466,191 @@ const PRODUCTOS = [
   {id:'solomillo', nombre:'Solomillo de cerdo',         seccion:'Carne', unidad:'g', envase:500, formato:'Bandeja 500 g', precio:5.60, tipo:'carne'},
   {id:'jamon',     nombre:'Jamón ibérico de cebo loncheado', seccion:'Charcutería', unidad:'g', envase:100, formato:'Sobre 100 g', precio:4.50, tipo:'carne'},
   {id:'manchego',  nombre:'Queso manchego curado',      seccion:'Queso', unidad:'g', envase:250, formato:'Cuña 250 g', precio:4.20, alergenos:['lacteos']},
+  // ---- Catálogo ampliado: para añadir a la lista o a la despensa ----
+  {id:'aguacate', nombre:"Aguacate", seccion:'Fruta y verdura', unidad:'ud', envase:2, formato:"Malla 2 ud", precio:2.40, ud:'aguacates'},
+  {id:'platano', nombre:"Plátano de Canarias", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Granel · 1 kg", precio:2.15},
+  {id:'manzana', nombre:"Manzana golden", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bolsa 1,5 kg", precio:2.49},
+  {id:'naranja', nombre:"Naranja de mesa", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Malla 2 kg", precio:2.79},
+  {id:'naranjazumo', nombre:"Naranja para zumo", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Malla 4 kg", precio:3.99},
+  {id:'mandarina', nombre:"Mandarina", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Malla 1 kg", precio:1.99},
+  {id:'limon', nombre:"Limón", seccion:'Fruta y verdura', unidad:'ud', envase:4, formato:"Malla 4 ud", precio:1.29, ud:'limones'},
+  {id:'pera', nombre:"Pera conferencia", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Granel · 1 kg", precio:2.29},
+  {id:'kiwi', nombre:"Kiwi", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bandeja 6 ud", precio:2.40},
+  {id:'fresas', nombre:"Fresas", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Tarrina 500 g", precio:2.50},
+  {id:'uvas', nombre:"Uva blanca sin pepitas", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bandeja 500 g", precio:2.20},
+  {id:'arandanos', nombre:"Arándanos", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Tarrina 125 g", precio:1.99},
+  {id:'frambuesas', nombre:"Frambuesas", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Tarrina 125 g", precio:2.15},
+  {id:'melon', nombre:"Melón", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza", precio:3.20},
+  {id:'sandia', nombre:"Sandía", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Media pieza", precio:3.50},
+  {id:'pina', nombre:"Piña", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza", precio:1.99},
+  {id:'mango', nombre:"Mango", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza", precio:1.50},
+  {id:'melocoton', nombre:"Melocotón", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Granel · 1 kg", precio:2.49},
+  {id:'cherry', nombre:"Tomate cherry", seccion:'Fruta y verdura', unidad:'g', envase:250, formato:"Tarrina 250 g", precio:1.25},
+  {id:'rucula', nombre:"Rúcula", seccion:'Fruta y verdura', unidad:'g', envase:100, formato:"Bolsa 100 g", precio:1.15},
+  {id:'canonigos', nombre:"Canónigos", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bolsa 125 g", precio:1.25},
+  {id:'espinacafresca', nombre:"Espinaca fresca", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bolsa 300 g", precio:1.30},
+  {id:'esparragos', nombre:"Espárragos verdes", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Manojo 250 g", precio:1.79},
+  {id:'coliflor', nombre:"Coliflor", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza", precio:1.70},
+  {id:'lombarda', nombre:"Lombarda", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza", precio:1.35},
+  {id:'boniato', nombre:"Boniato", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Granel · 1 kg", precio:1.79},
+  {id:'cebollaroja', nombre:"Cebolla morada", seccion:'Fruta y verdura', unidad:'g', envase:1000, formato:"Malla 1 kg", precio:1.49},
+  {id:'cebolleta', nombre:"Cebolleta", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Manojo", precio:0.99},
+  {id:'perejil', nombre:"Perejil fresco", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Manojo", precio:0.79},
+  {id:'cilantro', nombre:"Cilantro fresco", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Manojo", precio:0.89},
+  {id:'jengibre', nombre:"Jengibre", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Pieza ~100 g", precio:0.60},
+  {id:'setas', nombre:"Setas variadas", seccion:'Fruta y verdura', unidad:'ud', envase:1, formato:"Bandeja 300 g", precio:2.30},
+  {id:'maiz', nombre:"Maíz dulce", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Pack 3 latas", precio:1.85},
+  {id:'panmolde', nombre:"Pan de molde", seccion:'Panadería y pastelería', unidad:'ud', envase:20, formato:"Paquete 20 rebanadas", precio:1.25, alergenos:['gluten'], ud:'rebanadas'},
+  {id:'panintegral', nombre:"Pan de molde integral", seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:"Paquete 20 rebanadas", precio:1.45, alergenos:['gluten']},
+  {id:'picos', nombre:"Picos de pan", seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:"Bolsa 250 g", precio:1.10, alergenos:['gluten']},
+  {id:'croissants', nombre:"Croissants", seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:"Paquete 6 ud", precio:1.80, alergenos:['gluten', 'huevo', 'lacteos']},
+  {id:'magdalenas', nombre:"Magdalenas", seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:"Paquete 12 ud", precio:1.65, alergenos:['gluten', 'huevo']},
+  {id:'bizcocho', nombre:"Bizcocho de yogur", seccion:'Panadería y pastelería', unidad:'ud', envase:1, formato:"Pieza 450 g", precio:2.10, alergenos:['gluten', 'huevo', 'lacteos']},
+  {id:'alitas', nombre:"Alitas de pollo", seccion:'Carne', unidad:'g', envase:1000, formato:"Bandeja 1 kg", precio:3.50, tipo:'carne'},
+  {id:'pollo', nombre:"Pollo entero", seccion:'Carne', unidad:'ud', envase:1, formato:"Pieza ~1,8 kg", precio:5.40, tipo:'carne'},
+  {id:'ternera', nombre:"Filetes de ternera", seccion:'Carne', unidad:'ud', envase:1, formato:"Bandeja 400 g", precio:5.40, tipo:'carne'},
+  {id:'costillas', nombre:"Costillas de cerdo", seccion:'Carne', unidad:'ud', envase:1, formato:"Bandeja 1 kg", precio:4.90, tipo:'carne'},
+  {id:'cordero', nombre:"Chuletas de cordero", seccion:'Carne', unidad:'ud', envase:1, formato:"Bandeja 500 g", precio:8.50, tipo:'carne'},
+  {id:'picadavacuno', nombre:"Carne picada de vacuno", seccion:'Carne', unidad:'ud', envase:1, formato:"Bandeja 400 g", precio:4.20, tipo:'carne'},
+  {id:'pavofiambre', nombre:"Pechuga de pavo en lonchas", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Sobre 250 g", precio:2.10, tipo:'carne'},
+  {id:'salchichon', nombre:"Salchichón", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Pieza 200 g", precio:1.90, tipo:'carne'},
+  {id:'fuet', nombre:"Fuet", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Pack 2 ud", precio:2.50, tipo:'carne'},
+  {id:'lomoembuchado', nombre:"Lomo embuchado", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Sobre 100 g", precio:2.40, tipo:'carne'},
+  {id:'sobrasada', nombre:"Sobrasada", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Tarrina 200 g", precio:2.20, tipo:'carne'},
+  {id:'salchichasfrankfurt', nombre:"Salchichas Frankfurt", seccion:'Charcutería', unidad:'ud', envase:1, formato:"Pack 10 ud", precio:1.60, tipo:'carne'},
+  {id:'dorada', nombre:"Dorada", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Pieza ~400 g", precio:4.20, alergenos:['pescado'], tipo:'pescado', ud:'doradas'},
+  {id:'lubina', nombre:"Lubina", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Pieza ~400 g", precio:4.50, alergenos:['pescado'], tipo:'pescado'},
+  {id:'sardinas', nombre:"Sardinas", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Bandeja 500 g", precio:3.20, alergenos:['pescado'], tipo:'pescado'},
+  {id:'boquerones', nombre:"Boquerones", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Bandeja 500 g", precio:3.60, alergenos:['pescado'], tipo:'pescado'},
+  {id:'mejillones', nombre:"Mejillones", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Malla 1 kg", precio:2.95, alergenos:['marisco'], tipo:'pescado'},
+  {id:'salmonahumado', nombre:"Salmón ahumado", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Sobre 100 g", precio:2.80, alergenos:['pescado'], tipo:'pescado'},
+  {id:'surimi', nombre:"Palitos de surimi", seccion:'Pescado y marisco', unidad:'ud', envase:1, formato:"Paquete 250 g", precio:1.60, alergenos:['pescado', 'huevo'], tipo:'pescado'},
+  {id:'lecheentera', nombre:"Leche entera", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Brick 1 l", precio:0.97, alergenos:['lacteos']},
+  {id:'lechesemi', nombre:"Leche semidesnatada", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Pack 6 bricks de 1 l", precio:5.40, alergenos:['lacteos']},
+  {id:'lechesinlactosa', nombre:"Leche sin lactosa", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Brick 1 l", precio:1.10},
+  {id:'avena', nombre:"Bebida de avena", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Brick 1 l", precio:1.30, alergenos:['gluten']},
+  {id:'mantequilla', nombre:"Mantequilla", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Pastilla 250 g", precio:2.35, alergenos:['lacteos']},
+  {id:'natamontar', nombre:"Nata para montar", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Brick 200 ml", precio:1.05, alergenos:['lacteos']},
+  {id:'kefir', nombre:"Kéfir", seccion:'Huevos, leche y mantequilla', unidad:'ud', envase:1, formato:"Botella 500 g", precio:1.40, alergenos:['lacteos']},
+  {id:'quesofresco', nombre:"Queso fresco de Burgos", seccion:'Queso', unidad:'g', envase:250, formato:"Tarrina 250 g", precio:1.60, alergenos:['lacteos']},
+  {id:'quesolonchas', nombre:"Queso en lonchas", seccion:'Queso', unidad:'ud', envase:1, formato:"Sobre 250 g", precio:2.20, alergenos:['lacteos']},
+  {id:'quesocabra', nombre:"Rulo de queso de cabra", seccion:'Queso', unidad:'ud', envase:1, formato:"Pieza 200 g", precio:1.85, alergenos:['lacteos']},
+  {id:'parmesano', nombre:"Queso parmesano", seccion:'Queso', unidad:'ud', envase:1, formato:"Cuña 200 g", precio:3.75, alergenos:['lacteos']},
+  {id:'quesountar', nombre:"Queso para untar", seccion:'Queso', unidad:'ud', envase:1, formato:"Tarrina 300 g", precio:1.85, alergenos:['lacteos']},
+  {id:'feta', nombre:"Queso feta", seccion:'Queso', unidad:'ud', envase:1, formato:"Tarrina 200 g", precio:2.05, alergenos:['lacteos']},
+  {id:'yogurnatural', nombre:"Yogur natural", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 8 ud", precio:1.60, alergenos:['lacteos']},
+  {id:'yogurgriego', nombre:"Yogur griego", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 6 ud", precio:2.10, alergenos:['lacteos']},
+  {id:'yogurfrutas', nombre:"Yogur de frutas", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 8 ud", precio:1.75, alergenos:['lacteos']},
+  {id:'quesobatido', nombre:"Queso fresco batido", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Tarrina 500 g", precio:1.40, alergenos:['lacteos']},
+  {id:'natillas', nombre:"Natillas", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 4 ud", precio:1.30, alergenos:['lacteos', 'huevo']},
+  {id:'flan', nombre:"Flan de huevo", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 4 ud", precio:1.20, alergenos:['lacteos', 'huevo']},
+  {id:'arrozconleche', nombre:"Arroz con leche", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 4 ud", precio:1.65, alergenos:['lacteos']},
+  {id:'gelatina', nombre:"Gelatina de fresa", seccion:'Yogures y postres', unidad:'ud', envase:1, formato:"Pack 6 ud", precio:1.10},
+  {id:'cafe', nombre:"Café molido natural", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 250 g", precio:2.35},
+  {id:'capsulas', nombre:"Café en cápsulas", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Caja 10 cápsulas", precio:2.30},
+  {id:'cacao', nombre:"Cacao soluble", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Bote 900 g", precio:3.50},
+  {id:'cereales', nombre:"Cereales copos de maíz", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 500 g", precio:1.80, alergenos:['gluten']},
+  {id:'muesli', nombre:"Muesli con frutas", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 750 g", precio:2.40, alergenos:['gluten']},
+  {id:'copos', nombre:"Copos de avena", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 500 g", precio:0.99, alergenos:['gluten']},
+  {id:'galletas', nombre:"Galletas María", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Pack 800 g", precio:1.70, alergenos:['gluten']},
+  {id:'galletaschoco', nombre:"Galletas con chocolate", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 300 g", precio:1.55, alergenos:['gluten', 'lacteos']},
+  {id:'tortitas', nombre:"Tortitas de arroz", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 130 g", precio:0.95},
+  {id:'mermelada', nombre:"Mermelada de fresa", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Tarro 350 g", precio:1.75},
+  {id:'miel', nombre:"Miel de flores", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Tarro 500 g", precio:3.95},
+  {id:'cremacacao', nombre:"Crema de cacao y avellanas", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Tarro 500 g", precio:2.60, alergenos:['lacteos']},
+  {id:'crecacahuete', nombre:"Crema de cacahuete", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Tarro 350 g", precio:2.30},
+  {id:'azucar', nombre:"Azúcar blanco", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Paquete 1 kg", precio:1.15},
+  {id:'chocolate', nombre:"Chocolate negro 70 %", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Tableta 100 g", precio:1.20},
+  {id:'te', nombre:"Té verde", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Caja 25 bolsitas", precio:1.20},
+  {id:'infusion', nombre:"Manzanilla", seccion:'Desayuno y dulces', unidad:'ud', envase:1, formato:"Caja 25 bolsitas", precio:0.95},
+  {id:'quinoa', nombre:"Quinoa", seccion:'Arroz, legumbres y pasta', unidad:'g', envase:500, formato:"Paquete 500 g", precio:2.40},
+  {id:'basmati', nombre:"Arroz basmati", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 1 kg", precio:1.85},
+  {id:'cuscus', nombre:"Cuscús", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 500 g", precio:1.35, alergenos:['gluten']},
+  {id:'harina', nombre:"Harina de trigo", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 1 kg", precio:0.75, alergenos:['gluten']},
+  {id:'panrallado', nombre:"Pan rallado", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 500 g", precio:0.85, alergenos:['gluten']},
+  {id:'tallarines', nombre:"Tallarines al huevo", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 500 g", precio:1.30, alergenos:['gluten', 'huevo']},
+  {id:'garbanzossecos', nombre:"Garbanzos secos", seccion:'Arroz, legumbres y pasta', unidad:'ud', envase:1, formato:"Paquete 1 kg", precio:1.80},
+  {id:'tomatefrito', nombre:"Tomate frito", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Brick 400 g", precio:0.75},
+  {id:'aceitunas', nombre:"Aceitunas rellenas de anchoa", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Lata pack 3", precio:2.10, alergenos:['pescado']},
+  {id:'piquillo', nombre:"Pimientos del piquillo", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Lata 250 g", precio:1.65},
+  {id:'esparragosblancos', nombre:"Espárragos blancos", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Bote 9 piezas", precio:2.40},
+  {id:'sardinaslata', nombre:"Sardinas en aceite", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Pack 3 latas", precio:2.40, alergenos:['pescado']},
+  {id:'mejillonesesc', nombre:"Mejillones en escabeche", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Pack 3 latas", precio:3.20, alergenos:['marisco']},
+  {id:'alcachofas', nombre:"Corazones de alcachofa", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Bote 400 g", precio:1.95},
+  {id:'gazpacho', nombre:"Gazpacho", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Brick 1 l", precio:2.20},
+  {id:'caldoverduras', nombre:"Caldo de verduras", seccion:'Conservas, caldos y cremas', unidad:'ud', envase:1, formato:"Brick 1 l", precio:1.10},
+  {id:'girasol', nombre:"Aceite de girasol", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Botella 1 l", precio:1.95},
+  {id:'vinagre', nombre:"Vinagre de vino", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Botella 1 l", precio:0.70},
+  {id:'sal', nombre:"Sal fina", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Paquete 1 kg", precio:0.30},
+  {id:'pimientanegra', nombre:"Pimienta negra molida", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 45 g", precio:1.10},
+  {id:'oregano', nombre:"Orégano", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 12 g", precio:0.85},
+  {id:'comino', nombre:"Comino molido", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 40 g", precio:0.95},
+  {id:'curry', nombre:"Curry", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 40 g", precio:1.05},
+  {id:'mayonesa', nombre:"Mayonesa", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 450 ml", precio:1.60, alergenos:['huevo']},
+  {id:'ketchup', nombre:"Ketchup", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 560 g", precio:1.35},
+  {id:'mostaza', nombre:"Mostaza", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Bote 260 g", precio:0.95},
+  {id:'soja', nombre:"Salsa de soja", seccion:'Aceite, especias y salsas', unidad:'ud', envase:1, formato:"Botella 150 ml", precio:1.30, alergenos:['gluten']},
+  {id:'patatasbolsa', nombre:"Patatas fritas", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Bolsa 160 g", precio:1.20},
+  {id:'frutossecos', nombre:"Cóctel de frutos secos", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Bolsa 200 g", precio:2.30},
+  {id:'almendras', nombre:"Almendras tostadas", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Bolsa 200 g", precio:2.60},
+  {id:'nachos', nombre:"Nachos", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Bolsa 200 g", precio:1.25},
+  {id:'hummus', nombre:"Hummus", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Tarrina 240 g", precio:1.70},
+  {id:'guacamole', nombre:"Guacamole", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Tarrina 200 g", precio:1.95},
+  {id:'palomitas', nombre:"Palomitas para microondas", seccion:'Aperitivos', unidad:'ud', envase:1, formato:"Pack 3 bolsas", precio:1.45},
+  {id:'agua', nombre:"Agua mineral", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Pack 6 × 1,5 l", precio:1.62},
+  {id:'aguagas', nombre:"Agua con gas", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Pack 6 × 1 l", precio:2.40},
+  {id:'cola', nombre:"Refresco de cola", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Botella 2 l", precio:1.25},
+  {id:'colazero', nombre:"Refresco de cola zero", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Pack 9 latas", precio:3.15},
+  {id:'naranjada', nombre:"Refresco de naranja", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Botella 2 l", precio:1.15},
+  {id:'zumo', nombre:"Zumo de naranja", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Brick 1 l", precio:1.35},
+  {id:'cerveza', nombre:"Cerveza", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Pack 6 latas", precio:3.30, alergenos:['gluten']},
+  {id:'cervezasin', nombre:"Cerveza sin alcohol", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Pack 6 latas", precio:3.40, alergenos:['gluten']},
+  {id:'vinotinto', nombre:"Vino tinto", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Botella 75 cl", precio:2.95},
+  {id:'vinoblanco', nombre:"Vino blanco", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Botella 75 cl", precio:2.75},
+  {id:'isotonica', nombre:"Bebida isotónica", seccion:'Bebidas', unidad:'ud', envase:1, formato:"Botella 1,5 l", precio:1.30},
+  {id:'wok', nombre:"Verduras para wok", seccion:'Congelados', unidad:'ud', envase:1, formato:"Bolsa 600 g", precio:1.80},
+  {id:'pizzacong', nombre:"Pizza congelada", seccion:'Congelados', unidad:'ud', envase:1, formato:"Pieza 400 g", precio:2.50, alergenos:['gluten', 'lacteos']},
+  {id:'croquetas', nombre:"Croquetas de jamón", seccion:'Congelados', unidad:'ud', envase:1, formato:"Bolsa 500 g", precio:2.20, alergenos:['gluten', 'lacteos'], tipo:'carne'},
+  {id:'patatascong', nombre:"Patatas fritas congeladas", seccion:'Congelados', unidad:'ud', envase:1, formato:"Bolsa 1 kg", precio:1.50},
+  {id:'varitas', nombre:"Varitas de merluza", seccion:'Congelados', unidad:'ud', envase:1, formato:"Caja 400 g", precio:1.95, alergenos:['pescado', 'gluten'], tipo:'pescado'},
+  {id:'empanadillas', nombre:"Empanadillas de atún", seccion:'Congelados', unidad:'ud', envase:1, formato:"Caja 8 ud", precio:2.10, alergenos:['pescado', 'gluten'], tipo:'pescado'},
+  {id:'helado', nombre:"Helado de vainilla", seccion:'Congelados', unidad:'ud', envase:1, formato:"Tarrina 1 l", precio:2.50, alergenos:['lacteos']},
+  {id:'hielo', nombre:"Cubitos de hielo", seccion:'Congelados', unidad:'ud', envase:1, formato:"Bolsa 2 kg", precio:0.95},
+  {id:'pastillaslav', nombre:"Pastillas lavavajillas", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Caja 40 ud", precio:5.50},
+  {id:'lavavajillas', nombre:"Lavavajillas a mano", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Botella 750 ml", precio:0.98},
+  {id:'detergente', nombre:"Detergente para ropa", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Botella 40 lavados", precio:5.90},
+  {id:'suavizante', nombre:"Suavizante", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Botella 2 l", precio:2.20},
+  {id:'lejia', nombre:"Lejía", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Botella 2 l", precio:0.95},
+  {id:'friegasuelos', nombre:"Friegasuelos", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Botella 1,5 l", precio:1.40},
+  {id:'multiusos', nombre:"Limpiador multiusos", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Spray 750 ml", precio:1.60},
+  {id:'papelhig', nombre:"Papel higiénico", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Pack 12 rollos", precio:4.40},
+  {id:'papelcocina', nombre:"Papel de cocina", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Pack 3 rollos", precio:1.85},
+  {id:'servilletas', nombre:"Servilletas", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Paquete 100 ud", precio:0.90},
+  {id:'bolsasbasura', nombre:"Bolsas de basura", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Rollo 15 ud", precio:1.50},
+  {id:'estropajos', nombre:"Estropajos", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Pack 3 ud", precio:1.10},
+  {id:'aluminio', nombre:"Papel de aluminio", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Rollo 30 m", precio:1.65},
+  {id:'film', nombre:"Film transparente", seccion:'Limpieza y hogar', unidad:'ud', envase:1, formato:"Rollo 30 m", precio:1.20},
+  {id:'gel', nombre:"Gel de ducha", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Botella 750 ml", precio:1.40},
+  {id:'champu', nombre:"Champú", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Botella 400 ml", precio:1.75},
+  {id:'pastadientes', nombre:"Pasta de dientes", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Tubo 75 ml", precio:1.30},
+  {id:'cepillo', nombre:"Cepillo de dientes", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Pack 2 ud", precio:1.50},
+  {id:'desodorante', nombre:"Desodorante", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Spray 200 ml", precio:1.50},
+  {id:'jabonmanos', nombre:"Jabón de manos", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Dosificador 500 ml", precio:1.10},
+  {id:'cremacorporal', nombre:"Crema corporal", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Bote 400 ml", precio:2.50},
+  {id:'compresas', nombre:"Compresas", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Paquete 16 ud", precio:1.60},
+  {id:'maquinillas', nombre:"Maquinillas de afeitar", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Pack 4 ud", precio:2.95},
+  {id:'bastoncillos', nombre:"Bastoncillos", seccion:'Higiene y cuidado personal', unidad:'ud', envase:1, formato:"Caja 200 ud", precio:0.90},
+  {id:'panales', nombre:"Pañales talla 4", seccion:'Bebé', unidad:'ud', envase:1, formato:"Paquete 44 ud", precio:8.50},
+  {id:'toallitas', nombre:"Toallitas de bebé", seccion:'Bebé', unidad:'ud', envase:1, formato:"Paquete 80 ud", precio:1.70},
+  {id:'potitos', nombre:"Potito de frutas", seccion:'Bebé', unidad:'ud', envase:1, formato:"Pack 2 tarritos", precio:1.90},
+  {id:'piensoperro', nombre:"Pienso para perro", seccion:'Mascotas', unidad:'ud', envase:1, formato:"Saco 4 kg", precio:7.50},
+  {id:'piensogato', nombre:"Pienso para gato", seccion:'Mascotas', unidad:'ud', envase:1, formato:"Saco 1,5 kg", precio:4.95},
+  {id:'arenagato', nombre:"Arena para gatos", seccion:'Mascotas', unidad:'ud', envase:1, formato:"Saco 5 kg", precio:2.90},
   {id:'pimenton',  nombre:'Pimentón dulce',             seccion:'Aceite, especias y salsas', unidad:'g', envase:75, formato:'Bote 75 g', precio:1.15},
 ];
 // Orden de recorrido sugerido por los pasillos de la tienda
-const SECCIONES = ['Fruta y verdura','Carne','Pescado y marisco','Charcutería','Huevos, leche y mantequilla','Queso','Panadería y pastelería','Arroz, legumbres y pasta','Conservas, caldos y cremas','Aceite, especias y salsas','Congelados'];
+const SECCIONES = ['Fruta y verdura', 'Panadería y pastelería', 'Carne', 'Charcutería', 'Pescado y marisco', 'Huevos, leche y mantequilla', 'Queso', 'Yogures y postres', 'Desayuno y dulces', 'Arroz, legumbres y pasta', 'Conservas, caldos y cremas', 'Aceite, especias y salsas', 'Aperitivos', 'Bebidas', 'Congelados', 'Limpieza y hogar', 'Higiene y cuidado personal', 'Bebé', 'Mascotas'];
+const SECCIONES_CASA = ['Limpieza y hogar','Higiene y cuidado personal','Bebé','Mascotas'];  // no son comida: no salen en la despensa
 const ALERGENOS = {gluten:'Gluten', huevo:'Huevo', pescado:'Pescado', marisco:'Marisco', lacteos:'Lácteos'};
 
 // Ingredientes: [producto, cantidad POR RACIÓN en la unidad base del producto]
@@ -580,6 +781,16 @@ const RECETAS = [
    pasos:['Rehoga la cebolla.','Añade el brócoli y la patata, cubre con agua y cuece 15 minutos.','Tritura con el queso hasta que quede fina.']},
   {id:'pure-verduras', nombre:'Puré de verduras', momentos:['cena'], min:30, ing:[['judias',80],['zanahoria',80],['patata',100],['calabacin',80],['aceite',10]],
    pasos:['Trocea todas las verduras.','Cúbrelas con agua y cuece 20 minutos.','Tritura con el aceite y ajusta de sal.']},
+  {id:'tostas-aguacate', nombre:'Tostas de aguacate y huevo', momentos:['cena'], min:15, ing:[['panmolde',2],['aguacate',0.5],['huevos',1],['cherry',40],['aceite',5]],
+   pasos:['Tuesta el pan.','Machaca el aguacate con sal, unas gotas de limón si tienes y un hilo de aceite.','Haz los huevos a la plancha o poché.','Monta las tostas con el aguacate, el huevo y los tomates cherry en mitades.']},
+  {id:'ensalada-aguacate', nombre:'Ensalada de aguacate, cherry y queso fresco', momentos:['comida','cena'], min:10, ing:[['rucula',30],['aguacate',0.5],['cherry',70],['quesofresco',50],['cebollaroja',20],['aceite',10]],
+   pasos:['Lava la rúcula y pártela en el plato.','Añade el aguacate en gajos, los cherry en mitades y la cebolla en juliana fina.','Desmenuza el queso fresco por encima y aliña con aceite y sal.']},
+  {id:'bowl-quinoa', nombre:'Bowl de quinoa con aguacate y garbanzos', momentos:['comida','cena'], min:25, ing:[['quinoa',70],['aguacate',0.5],['garbanzos',70],['cherry',50],['pepino',0.25],['limon',0.25],['aceite',10]],
+   pasos:['Lava la quinoa y cuécela 15 minutos; escúrrela y deja templar.','Corta el aguacate, el pepino y los cherry.','Reparte la quinoa en el bol y coloca encima los garbanzos y las verduras por zonas.','Aliña con aceite, zumo de limón y sal.']},
+  {id:'alitas-horno', nombre:'Alitas de pollo al horno con patatas', momentos:['comida','cena'], min:45, ing:[['alitas',300],['patata',180],['limon',0.25],['pimenton',2],['aceite',10]],
+   pasos:['Adoba las alitas con aceite, pimentón, sal y el zumo del limón.','Ponlas en una bandeja con la patata en gajos.','Hornea a 210 °C unos 35 minutos, dándoles la vuelta a mitad.']},
+  {id:'dorada-horno', premium:true, nombre:'Dorada al horno con patatas panadera', momentos:['comida','cena'], min:40, ing:[['dorada',0.5],['patata',180],['cebolla',40],['limon',0.25],['aceite',15]],
+   pasos:['Hornea la patata en rodajas finas con la cebolla y el aceite 20 minutos a 200 °C.','Pon la dorada limpia encima, con rodajas de limón y sal.','Hornea 18-20 minutos más.']},
   {id:'entrecot-pimientos', premium:true, nombre:'Entrecot con patatas y pimientos', momentos:['comida','cena'], min:25, ing:[['entrecot',200],['patata',150],['pimiento',0.33],['aceite',15]],
    pasos:['Fríe o asa la patata en gajos.','Asa los pimientos en tiras a la plancha.','Haz el entrecot a fuego fuerte 3 minutos por lado y deja reposar 2 minutos.']},
   {id:'salmon-horno', premium:true, nombre:'Salmón al horno con verduras', momentos:['comida','cena'], min:30, ing:[['salmon',150],['calabacin',100],['zanahoria',60],['aceite',10]],
@@ -606,8 +817,8 @@ const CATEGORIAS = [
   {k:'pescado',   n:'Pescado y marisco', e:'🐟', kw:'pescado marisco merluza bacalao salmon gambas langostinos atun', f:r=>tieneTipo(r,'pescado')},
   {k:'huevos',    n:'Huevos',            e:'🍳', kw:'huevo huevos tortilla tortillas revuelto', f:r=>/tortilla|revuelto|huevo|pisto/.test(sinAcentos(r.nombre))},
   {k:'verdura',   n:'Verduras',          e:'🥦', kw:'verdura verduras vegetal', f:r=>esVegetariana(r)&&/verdura|pisto|brocoli|calabac|berenjena|puerro|calabaza|zanahoria|champi|espinaca|wok/.test(sinAcentos(r.nombre))},
-  {k:'ensaladas', n:'Ensaladas',         e:'🥗', kw:'ensalada ensaladas', f:r=>/ensalada/.test(sinAcentos(r.nombre))},
-  {k:'faciles',   n:'Cenas fáciles',     e:'🍕', kw:'pizza pizzas hamburguesa cena facil rapida', f:r=>/pizza|hamburguesa|quesadilla|fajita|tomate con jamon/.test(sinAcentos(r.nombre))},
+  {k:'ensaladas', n:'Ensaladas y bowls',  e:'🥗', kw:'ensalada ensaladas bowl', f:r=>/ensalada|bowl/.test(sinAcentos(r.nombre))},
+  {k:'faciles',   n:'Cenas fáciles',     e:'🍕', kw:'pizza pizzas hamburguesa cena facil rapida', f:r=>/pizza|hamburguesa|quesadilla|fajita|tomate con jamon|tosta/.test(sinAcentos(r.nombre))},
   {k:'rapidas',   n:'En 20 minutos',     e:'⏱️', kw:'rapido rapida rapidas', f:r=>r.min<=20},
   {k:'premium',   n:'Caprichos',         e:'✨', kw:'premium capricho caprichos especial', f:r=>!!r.premium},
 ];
@@ -618,7 +829,8 @@ RECETAS.push({id:'aprovechar', aprov:true, nombre:'Plato de aprovechamiento', mo
 const REC = Object.fromEntries(RECETAS.map(r=>[r.id,r]));
 
 const EJEMPLO = () => ({
-  hogar:{personas:4, presupuesto:100, vegetariano:false, rapido:false, alergias:[], reciclaje:true, diaReciclaje:6},
+  hogar:{personas:4, presupuesto:100, vegetariano:false, rapido:false, alergias:[], reciclaje:true, diaReciclaje:6, cadaDias:7, inicio:0},
+  extras:{},
   menu:[
     {comida:'lentejas', cena:'tortilla-patata'},
     {comida:'arroz-pollo', cena:'ensalada-garbanzos'},
@@ -688,7 +900,7 @@ const ALT = {
 // Frescos: lo que sobra se estropea en pocos días. El resto (seco, latas, congelado, aceite,
 // huevos, embutido curado...) se guarda y pasa a la despensa para la semana siguiente.
 const CORTA = new Set(['pechuga','muslos','picada','lomo','pavo','salchichas','hamburguesas','solomillo','entrecot','salmon','langostinos',
-  'tomate','calabacin','pimiento','lechuga','pepino','champi','berenjena','pan','nata','mozzarella','jamon','bacon','york','calabaza','puerro']);
+  'tomate','calabacin','pimiento','lechuga','pepino','champi','berenjena','pan','nata','mozzarella','jamon','bacon','york','calabaza','puerro','aguacate','cherry','rucula','alitas','dorada','quesofresco']);
 const perecedero = p => CORTA.has(p.id);
 const opcionesDe = p => [{formato:p.formato, envase:p.envase, precio:p.precio}, ...(ALT[p.id]||[])];
 
@@ -739,25 +951,28 @@ const PAPEL_APROV = {
   hamburguesas:['prot',1], solomillo:['prot',120], entrecot:['prot',150], salmon:['prot',120], langostinos:['prot',100], jamon:['prot',40],
   calabacin:['veg',150], pimiento:['veg',0.5], champi:['veg',100], berenjena:['veg',0.5], tomate:['veg',120], nata:['veg',50], mozzarella:['veg',40],
   lechuga:['ens',0.3], pepino:['ens',0.3],
-  pan:['pan',0.5], bacon:['prot',40], york:['prot',60], calabaza:['veg',150], puerro:['veg',0.5],
+  pan:['pan',0.5], bacon:['prot',40], york:['prot',60], calabaza:['veg',150], puerro:['veg',0.5], cherry:['veg',80], rucula:['ens',30], alitas:['prot',150],
 };
 const CORTO = {pechuga:'pollo', muslos:'pollo', picada:'carne picada', lomo:'lomo', pavo:'pavo', salchichas:'salchichas', hamburguesas:'hamburguesa',
   solomillo:'solomillo', entrecot:'entrecot', salmon:'salmón', langostinos:'langostinos', jamon:'jamón', calabacin:'calabacín', pimiento:'pimiento',
-  champi:'champiñón', berenjena:'berenjena', tomate:'tomate', nata:'nata', mozzarella:'mozzarella', lechuga:'lechuga', pepino:'pepino', pan:'pan', bacon:'bacon', york:'jamón york', calabaza:'calabaza', puerro:'puerro'};
+  champi:'champiñón', berenjena:'berenjena', tomate:'tomate', nata:'nata', mozzarella:'mozzarella', lechuga:'lechuga', pepino:'pepino', pan:'pan', bacon:'bacon', york:'jamón york', calabaza:'calabaza', puerro:'puerro', cherry:'tomate cherry', rucula:'rúcula', alitas:'alitas'};
 function calcularCesta(menu=state.menu, h=state.hogar, despensa=state.despensa){
   const necesario={}, usos={};
   const add=(pid,q,nombre)=>{ necesario[pid]=(necesario[pid]||0)+q; (usos[pid]||(usos[pid]=new Set())).add(nombre); };
   let huecosAprov=0;
-  menu.forEach(d=>MOMENTOS.forEach(m=>{
+  menu.forEach((d,i)=>{ if(enCompra(i)) MOMENTOS.forEach(m=>{
     const r=REC[d[m]]; if(!r) return;
     if(r.aprov){ huecosAprov++; return; }
     r.ing.forEach(([pid,q])=>add(pid,q*h.personas,r.nombre));
-  }));
+  }); });
+  // Cosas sueltas que añades tú (aguacates, fruta, limpieza…): se compran siempre, aunque tengas en casa
+  const extra={};
+  for(const [pid,n] of Object.entries(state.extras||{})) if(n>0&&PROD[pid]){ extra[pid]=n*PROD[pid].envase; if(!(pid in necesario)) necesario[pid]=0; (usos[pid]||(usos[pid]=new Set())).add('Añadido por ti'); }
   const lineaDe=(pid)=>{
-    const p=PROD[pid], nec=r2(necesario[pid]);
-    const enCasa=Math.min(despensa[pid]||0,nec), comprar=r2(nec-enCasa);
-    const mc=mejorCompra(p,comprar), sin=mejorCompra(p,nec);
-    return {pid,p,nec,enCasa,comprar,envases:mc.partes.reduce((s,x)=>s+x.n,0),partes:mc.partes,coste:mc.coste,costeSin:sin.coste,
+    const p=PROD[pid], nec=r2(necesario[pid]||0), ext=extra[pid]||0;
+    const enCasa=Math.min(despensa[pid]||0,nec), comprar=r2(nec-enCasa+ext);
+    const mc=mejorCompra(p,comprar), sin=mejorCompra(p,nec+ext);
+    return {pid,p,nec,enCasa,comprar,extra:ext?state.extras[pid]:0,envases:mc.partes.reduce((s,x)=>s+x.n,0),partes:mc.partes,coste:mc.coste,costeSin:sin.coste,
             sobra:r2(mc.cant-comprar),fresco:perecedero(p),cant:mc.cant,usos:[...usos[pid]]};
   };
   let lineas=Object.keys(necesario).map(lineaDe);
@@ -844,7 +1059,7 @@ function sugerencias(){ return recordar('sugerencias',sugerenciasCalc); }
 function sugerenciasCalc(){
   const base=calcularCesta().total, huecos=[];
   state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
-    if(esDiaReciclaje(i)) return;
+    if(esDiaReciclaje(i)||!enCompra(i)) return;
     const ops=[];
     for(const r of RECETAS){
       if(r.aprov||r.premium||r.id===d[m]||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
@@ -869,7 +1084,7 @@ function mejorasCalc(){
     if(!r.premium||!compatible(r)||vecesEnMenu(r.id)>=1) continue;
     let best=null;
     state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
-      if(esDiaReciclaje(i)||!r.momentos.includes(m)||REC[d[m]]?.premium) return;
+      if(esDiaReciclaje(i)||!enCompra(i)||!r.momentos.includes(m)||REC[d[m]]?.premium) return;
       const delta=r2(calcularCesta(menuCon(i,m,r.id)).total-base);
       if(!best||delta<best.delta) best={dia:i,momento:m,de:d[m],a:r.id,delta};
     }));
@@ -881,13 +1096,23 @@ function mejorasCalc(){
 /* ---------- Día de aprovechamiento ----------
    Un día a la semana se rellena solo con los platos que mejor gastan lo que sobra del resto de la semana:
    se prueba cada receta compatible y se queda la que deja la cesta más barata contando el desperdicio. */
-const esDiaReciclaje = i => !!state.hogar.reciclaje && i===state.hogar.diaReciclaje;
+/* ---------- Compra por días ----------
+   cadaDias = 7: una compra semanal de lunes a domingo. 2, 3 o 4: compras más cortas que empiezan en «inicio».
+   Solo los días de la compra actual cuentan para la lista, el presupuesto y el aprovechamiento. */
+const cadaDias = () => [2,3,4,7].includes(state.hogar.cadaDias) ? state.hogar.cadaDias : 7;
+function diasCompra(){ const n=cadaDias(), ini=n===7?0:(state.hogar.inicio||0); return Array.from({length:n},(_,k)=>(ini+k)%7); }
+const enCompra = i => cadaDias()===7 || diasCompra().includes(i);
+const limite = () => cadaDias()===7 ? state.hogar.presupuesto : r2(state.hogar.presupuesto*cadaDias()/7);
+function nombresDias(dias){ const n=dias.map(i=>DIAS[i].slice(0,3).toLowerCase()); return n.length>1? n.slice(0,-1).join(', ')+' y '+n.at(-1) : n[0]; }
+const textoCompra = () => cadaDias()===7 ? 'de lunes a domingo' : nombresDias(diasCompra());
+function diaAprov(){ const h=state.hogar; if(!h.reciclaje) return -1; const n=cadaDias(); if(n===7) return h.diaReciclaje; if(n>=3) return diasCompra().at(-1); return -1; }
+const esDiaReciclaje = i => i===diaAprov();
 function aprovechar(){
   const h=state.hogar;
   // quita platos de aprovechamiento fuera de su día
   state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{ if(d[m]==='aprovechar'&&!esDiaReciclaje(i)) d[m]=null; }));
-  if(!h.reciclaje){ rellenarHuecos(); return; }
-  const d=h.diaReciclaje;
+  const d=diaAprov();
+  if(d<0){ rellenarHuecos(); return; }
   state.menu[d].cena='aprovechar';
   const m='comida', fuera=rid=>vecesEnMenu(rid)-(state.menu[d][m]===rid?1:0);
   let best=null;
@@ -905,7 +1130,7 @@ function aprovechar(){
 // Si se desactiva el aprovechamiento, el hueco que deja se rellena con la receta que menos sube la cesta
 function rellenarHuecos(){
   state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
-    if(d[m]) return;
+    if(d[m]||!enCompra(i)) return;
     let best=null;
     for(const r of RECETAS){
       if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
@@ -926,7 +1151,7 @@ function ingredientesAprovechados(dia,momento){
 
 function ajustarAlPresupuesto(){
   let pasos=0;
-  while(calcularCesta().total>state.hogar.presupuesto && pasos<14){
+  while(calcularCesta().total>limite() && pasos<14){
     const s=sugerencias()[0]; if(!s) break;
     state.menu[s.dia][s.momento]=s.a; aprovechar(); pasos++;
   }
@@ -948,11 +1173,11 @@ function proponerMenu(){
     usados[r.id]=(usados[r.id]||0)+1; return r.id;
   };
   state.fijados={};
-  state.menu=DIAS.map(()=>({comida:elegir('comida'),cena:elegir('cena')}));
+  state.menu=DIAS.map((_,i)=>enCompra(i)?{comida:elegir('comida'),cena:elegir('cena')}:(state.menu[i]||{comida:null,cena:null}));
   aprovechar();
   // Repaso: en cada hueco prueba unas cuantas recetas al azar y se queda la que menos desperdicia
   for(let i=0;i<7;i++) for(const m of MOMENTOS){
-    if(esDiaReciclaje(i)) continue;
+    if(esDiaReciclaje(i)||!enCompra(i)) continue;
     const base=puntuacion(calcularCesta()), otro=MOMENTOS.find(x=>x!==m);
     let best=null;
     for(const r of shuffle(pool(m)).slice(0,8)){
@@ -1020,6 +1245,11 @@ const DISH = {
   'sopa-ajo':          {k:'bowl',   base:'#C9733A', tops:['#E8C98A','#F7F0D8','#F2A81D']},
   'sopa-cocido':       {k:'bowl',   base:'#E2BE6A', tops:['#F7E6A6','#E9C77A','#E07B2E','#C98A50']},
   'crema-calabaza':    {k:'crema',  base:'#F09A35'},
+  'tostas-aguacate':   {k:'salad',  tops:['#7FA33A','#F2C64A','#D6402C','#E9D3A0']},
+  'ensalada-aguacate': {k:'salad',  tops:['#7FA33A','#D6402C','#FBF7EE','#9A5C8E']},
+  'bowl-quinoa':       {k:'bowl',   base:'#E9D9A6', tops:['#7FA33A','#D9B57A','#D6402C','#A9C46B']},
+  'alitas-horno':      {k:'plate',  prot:'#C98A45', protEdge:'#9A6230', sides:['#E8C15A','#E8C15A','#F2D649']},
+  'dorada-horno':      {k:'plate',  prot:'#C9C2B4', protEdge:'#8C8577', sides:['#E8C15A','#F2D649','#EFE3C8']},
   'crema-brocoli':     {k:'crema',  base:'#6FA34A'},
   'pure-verduras':     {k:'crema',  base:'#C2A24E'},
   'crema-puerros':     {k:'crema',  base:'#EDE7C6'},
@@ -1140,20 +1370,20 @@ const icon=(k,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="
 const TABS=[['hogar','Hogar'],['menu','Menú'],['recetas','Recetas'],['lista','Lista'],['presupuesto','Gasto'],['despensa','Despensa']];
 
 /* ================= Iconos visuales de productos y secciones ================= */
-const EMO={pechuga:'🍗',muslos:'🍗',picada:'🥩',lomo:'🥩',huevos:'🥚',patata:'🥔',cebolla:'🧅',zanahoria:'🥕',tomate:'🍅',calabacin:'🥒',pimiento:'🫑',lechuga:'🥬',pepino:'🥒',champi:'🍄',merluza:'🐟',brocoli:'🥦',judias:'🫛',guisantes:'🟢',lentejas:'🫘',arroz:'🍚',macarrones:'🍝',espaguetis:'🍝',garbanzos:'🫘',atun:'🐟',tomatetri:'🥫',pan:'🥖',tortillas:'🫓',queso:'🧀',aceite:'🫒',pimenton:'🌶️',salmon:'🍣',langostinos:'🦐',solomillo:'🥩',jamon:'🍖',manchego:'🧀',fideos:'🍜',pavo:'🦃',salchichas:'🌭',hamburguesas:'🍔',chorizo:'🥓',alubias:'🫘',bacalao:'🐟',espinacas:'🥬',berenjena:'🍆',nata:'🥛',mozzarella:'🧀',panhamb:'🍞',masapizza:'🍕',entrecot:'🥩',ajo:'🧄',calabaza:'🎃',puerro:'🌱',bacon:'🥓',york:'🍖',lasana:'🟨',fideosg:'🍜',caldo:'🥣',pesto:'🌿'};
-const SEC_EMO={'Fruta y verdura':'🥦','Carne':'🥩','Huevos, leche y mantequilla':'🥚','Queso':'🧀','Panadería y pastelería':'🥖','Arroz, legumbres y pasta':'🍚','Conservas, caldos y cremas':'🥫','Aceite, especias y salsas':'🫒','Congelados':'🧊','Pescado y marisco':'🐟','Charcutería':'🍖'};
+const EMO={pechuga:'🍗',muslos:'🍗',picada:'🥩',lomo:'🥩',huevos:'🥚',patata:'🥔',cebolla:'🧅',zanahoria:'🥕',tomate:'🍅',calabacin:'🥒',pimiento:'🫑',lechuga:'🥬',pepino:'🥒',champi:'🍄',merluza:'🐟',brocoli:'🥦',judias:'🫛',guisantes:'🟢',lentejas:'🫘',arroz:'🍚',macarrones:'🍝',espaguetis:'🍝',garbanzos:'🫘',atun:'🐟',tomatetri:'🥫',pan:'🥖',tortillas:'🫓',queso:'🧀',aceite:'🫒',pimenton:'🌶️',salmon:'🍣',langostinos:'🦐',solomillo:'🥩',jamon:'🍖',manchego:'🧀',fideos:'🍜',pavo:'🦃',salchichas:'🌭',hamburguesas:'🍔',chorizo:'🥓',alubias:'🫘',bacalao:'🐟',espinacas:'🥬',berenjena:'🍆',nata:'🥛',mozzarella:'🧀',panhamb:'🍞',masapizza:'🍕',entrecot:'🥩',ajo:'🧄',calabaza:'🎃',puerro:'🌱',bacon:'🥓',york:'🍖',lasana:'🟨',fideosg:'🍜',caldo:'🥣',pesto:'🌿',aguacate:'🥑',platano:'🍌',manzana:'🍎',naranja:'🍊',naranjazumo:'🍊',mandarina:'🍊',limon:'🍋',pera:'🍐',kiwi:'🥝',fresas:'🍓',uvas:'🍇',arandanos:'🫐',frambuesas:'🫐',melon:'🍈',sandia:'🍉',pina:'🍍',mango:'🥭',melocoton:'🍑',cherry:'🍅',rucula:'🥬',canonigos:'🥬',espinacafresca:'🥬',esparragos:'🥦',coliflor:'🥦',lombarda:'🥬',boniato:'🍠',cebollaroja:'🧅',cebolleta:'🧅',perejil:'🌿',cilantro:'🌿',jengibre:'🫚',setas:'🍄',maiz:'🌽',panmolde:'🍞',panintegral:'🍞',picos:'🥖',croissants:'🥐',magdalenas:'🧁',bizcocho:'🍰',alitas:'🍗',pollo:'🐔',ternera:'🥩',costillas:'🍖',cordero:'🍖',picadavacuno:'🥩',pavofiambre:'🦃',salchichon:'🥓',fuet:'🥓',lomoembuchado:'🥓',sobrasada:'🥓',salchichasfrankfurt:'🌭',dorada:'🐟',lubina:'🐟',sardinas:'🐟',boquerones:'🐟',mejillones:'🦪',salmonahumado:'🍣',surimi:'🦀',lecheentera:'🥛',lechesemi:'🥛',lechesinlactosa:'🥛',avena:'🥛',mantequilla:'🧈',natamontar:'🥛',kefir:'🥛',quesofresco:'🧀',quesolonchas:'🧀',quesocabra:'🧀',parmesano:'🧀',quesountar:'🧀',feta:'🧀',yogurnatural:'🥛',yogurgriego:'🥛',yogurfrutas:'🍓',quesobatido:'🥛',natillas:'🍮',flan:'🍮',arrozconleche:'🍚',gelatina:'🍓',cafe:'☕',capsulas:'☕',cacao:'🍫',cereales:'🥣',muesli:'🥣',copos:'🥣',galletas:'🍪',galletaschoco:'🍪',tortitas:'🍘',mermelada:'🍓',miel:'🍯',cremacacao:'🍫',crecacahuete:'🥜',azucar:'🧂',chocolate:'🍫',te:'🍵',infusion:'🍵',quinoa:'🌾',basmati:'🍚',cuscus:'🌾',harina:'🌾',panrallado:'🍞',tallarines:'🍝',garbanzossecos:'🫘',tomatefrito:'🥫',aceitunas:'🫒',piquillo:'🫑',esparragosblancos:'🥫',sardinaslata:'🐟',mejillonesesc:'🦪',alcachofas:'🥫',gazpacho:'🍅',caldoverduras:'🥣',girasol:'🌻',vinagre:'🍶',sal:'🧂',pimientanegra:'🧂',oregano:'🌿',comino:'🧂',curry:'🧂',mayonesa:'🫙',ketchup:'🍅',mostaza:'🫙',soja:'🫙',patatasbolsa:'🥔',frutossecos:'🥜',almendras:'🥜',nachos:'🌮',hummus:'🫘',guacamole:'🥑',palomitas:'🍿',agua:'💧',aguagas:'💧',cola:'🥤',colazero:'🥤',naranjada:'🥤',zumo:'🧃',cerveza:'🍺',cervezasin:'🍺',vinotinto:'🍷',vinoblanco:'🥂',isotonica:'🧃',wok:'🥦',pizzacong:'🍕',croquetas:'🧆',patatascong:'🍟',varitas:'🐟',empanadillas:'🥟',helado:'🍨',hielo:'🧊',pastillaslav:'🍽️',lavavajillas:'🧽',detergente:'🧺',suavizante:'🧺',lejia:'🧴',friegasuelos:'🧴',multiusos:'🧴',papelhig:'🧻',papelcocina:'🧻',servilletas:'🧻',bolsasbasura:'🗑️',estropajos:'🧽',aluminio:'🧻',film:'🧻',gel:'🧴',champu:'🧴',pastadientes:'🪥',cepillo:'🪥',desodorante:'🧴',jabonmanos:'🧼',cremacorporal:'🧴',compresas:'🩹',maquinillas:'🪒',bastoncillos:'🩹',panales:'👶',toallitas:'👶',potitos:'🍼',piensoperro:'🐶',piensogato:'🐱',arenagato:'🐱'};
+const SEC_EMO={'Fruta y verdura':'🥦','Carne':'🥩','Huevos, leche y mantequilla':'🥚','Queso':'🧀','Panadería y pastelería':'🥖','Arroz, legumbres y pasta':'🍚','Conservas, caldos y cremas':'🥫','Aceite, especias y salsas':'🫒','Congelados':'🧊','Pescado y marisco':'🐟','Charcutería':'🍖','Yogures y postres':'🍮','Desayuno y dulces':'☕','Aperitivos':'🥜','Bebidas':'🧃','Limpieza y hogar':'🧽','Higiene y cuidado personal':'🧴','Bebé':'👶','Mascotas':'🐾'};
 const ALERG_EMO={gluten:'🌾',huevo:'🥚',pescado:'🐟',marisco:'🦐',lacteos:'🥛'};
 const emo=pid=>EMO[pid]||'🛒';
 
-function numPlatos(){ return state.menu.reduce((n,d)=>n+MOMENTOS.filter(m=>REC[d[m]]).length,0); }
+function numPlatos(){ return state.menu.reduce((n,d,i)=>n+(enCompra(i)?MOMENTOS.filter(m=>REC[d[m]]).length:0),0); }
 
 /* ================= Render ================= */
 function pintarEstado(){
-  const c=calcularCesta(), h=state.hogar, pct=Math.min(100,c.total/h.presupuesto*100), over=c.total>h.presupuesto;
+  const c=calcularCesta(), h=state.hogar, L=limite(), pct=Math.min(100,c.total/L*100), over=c.total>L;
   document.getElementById('status').innerHTML=`
-    <div class="status-row"><span>🛒 ${h.personas} ${h.personas===1?'persona':'personas'} · ${numPlatos()} platos</span><span class="num">${over?'⚠️ Te pasas '+eur(c.total-h.presupuesto):'✅ Te sobran '+eur(h.presupuesto-c.total)}</span></div>
+    <div class="status-row"><span>🛒 ${h.personas} ${h.personas===1?'persona':'personas'} · ${numPlatos()} platos${cadaDias()<7?' · '+cadaDias()+' días':''}</span><span class="num">${over?'⚠️ Te pasas '+eur(c.total-L):'✅ Te sobran '+eur(L-c.total)}</span></div>
     ${navigator.onLine===false?'<div class="offline">📴 Sin conexión · la app sigue funcionando</div>':''}
-    <div class="status-row"><strong class="num">${eur(c.total)}</strong><span class="num">de ${eur(h.presupuesto)}</span></div>
+    <div class="status-row"><strong class="num">${eur(c.total)}</strong><span class="num">de ${eur(L)}</span></div>
     <div class="meter ${over?'over':''}" role="progressbar" aria-label="Cesta frente a presupuesto" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>`;
   return c;
 }
@@ -1166,6 +1396,7 @@ function render(){
 const aviso=`<div class="notice"><span>ⓘ</span><span><b>Datos de demostración.</b> Los precios y formatos son orientativos y no están verificados. Mi Compra Inteligente es una app independiente, no afiliada a Mercadona ni respaldada por ella, y no tiene integración oficial con su tienda: comprueba los precios en tu supermercado o en su web antes de comprar.</span></div>`;
 
 const PRESU_MIN=20, PRESU_MAX=400;
+const FRECUENCIAS=[[7,'Una vez a la semana','De lunes a domingo'],[4,'Cada 4 días','4 días de menú'],[3,'Cada 3 días','3 días de menú'],[2,'Cada 2 días','2 días de menú']];
 function vHogar(){
   const h=state.hogar;
   return `<section data-view="hogar">
@@ -1193,10 +1424,17 @@ function vHogar(){
       </div>
     </div>
     <div class="card bigq">
+      <div class="q-title"><span class="q-emo">🗓️</span><span>¿Cada cuánto haces la compra?</span></div>
+      <div class="tiles two">${FRECUENCIAS.map(([n,t,sub])=>`<button class="tile freq" data-act="cada" data-v="${n}" aria-pressed="${cadaDias()===n}"><span class="t-emo">${n===7?'📅':n}</span><span>${t}</span><span class="small muted">${sub}</span></button>`).join('')}</div>
+      ${cadaDias()<7?`<div class="label" style="justify-self:start">¿Qué día empieza esta compra?</div>
+        <div class="quick">${DIAS.map((dn,i)=>`<button class="chip" data-act="inicio" data-v="${i}" aria-pressed="${(h.inicio||0)===i}">${dn.slice(0,3)}</button>`).join('')}</div>
+        <p class="small muted" style="margin:0">Esta compra: <b>${textoCompra()}</b> · ${eur(limite())} de tu presupuesto semanal.</p>`:''}
+    </div>
+    <div class="card bigq">
       <div class="q-title"><span class="q-emo">♻️</span><span>Día de aprovechamiento</span></div>
-      <p class="small muted" style="margin:0;max-width:34ch">Un día a la semana cenáis con lo que sobra, y la comida de ese día se elige para gastar lo que ya está comprado. Así no se tira nada.</p>
-      <div class="tiles two" style="max-width:320px"><button class="tile" data-act="recic" aria-pressed="${h.reciclaje}"><span class="t-emo">${h.reciclaje?'✅':'⭕'}</span><span>${h.reciclaje?'Activado':'Desactivado'}</span></button></div>
-      ${h.reciclaje?`<div class="quick">${DIAS.map((dn,i)=>`<button class="chip" data-act="diarec" data-v="${i}" aria-pressed="${h.diaReciclaje===i}">${dn.slice(0,3)}</button>`).join('')}</div>`:''}
+      <p class="small muted" style="margin:0;max-width:34ch">${cadaDias()===7?'Un día a la semana cenáis con lo que sobra, y la comida de ese día se elige para gastar lo que ya está comprado. Así no se tira nada.':cadaDias()>=3?`Comprando cada ${cadaDias()} días, la cena del último día de cada compra se hace con lo que sobra.`:'Comprando cada 2 días casi no sobra comida, así que no hace falta un día de aprovechamiento.'}</p>
+      ${cadaDias()>=3?`<div class="tiles two" style="max-width:320px"><button class="tile" data-act="recic" aria-pressed="${h.reciclaje}"><span class="t-emo">${h.reciclaje?'✅':'⭕'}</span><span>${h.reciclaje?'Activado':'Desactivado'}</span></button></div>`:''}
+      ${h.reciclaje&&cadaDias()===7?`<div class="quick">${DIAS.map((dn,i)=>`<button class="chip" data-act="diarec" data-v="${i}" aria-pressed="${h.diaReciclaje===i}">${dn.slice(0,3)}</button>`).join('')}</div>`:''}
     </div>
     ${tarjetaInstalar()}
     <button class="btn block xl" data-act="proponer">✨ Hazme el menú de la semana</button>
@@ -1272,6 +1510,7 @@ function pintarFicha(){
 
 function diaHoy(){ return (new Date().getDay()+6)%7; }
 let diaSel=diaHoy();
+function diaInicial(){ const h=diaHoy(); return enCompra(h)?h:diasCompra()[0]; }
 
 function vMenu(){
   const h=state.hogar, d=state.menu[diaSel], hoy=diaHoy();
@@ -1285,12 +1524,14 @@ function vMenu(){
       <ol><li><span><b>🏠 Dinos cuántos sois</b><span class="small">Y cuánto quieres gastar, en Mi hogar.</span></span></li>
       <li><span><b>🍽️ Mira el menú</b><span class="small">Si un plato no te gusta, tócalo y cámbialo.</span></span></li>
       <li><span><b>🛒 Ve a comprar</b><span class="small">La lista ya está hecha y ordenada por pasillos.</span></span></li></ol></div>`}
-    <div class="week" role="group" aria-label="Días de la semana">${state.menu.map((dd,i)=>`<button class="wk" data-act="dia" data-v="${i}" aria-pressed="${i===diaSel}">
+    ${cadaDias()<7?`<div class="card compra-act"><span style="font-size:24px">🛒</span><span class="grow"><b>Compra de ${cadaDias()} días: ${textoCompra()}</b><br><span class="small muted">Los demás días entran en tu próxima compra.</span></span></div>`:''}
+    <div class="week" role="group" aria-label="Días de la semana">${state.menu.map((dd,i)=>`<button class="wk ${enCompra(i)?'':'fuera'}" data-act="dia" data-v="${i}" aria-pressed="${i===diaSel}">
       <span class="wkd">${DIAS[i].slice(0,3)}</span>${i===hoy?'<span class="hoy">hoy</span>':''}${esDiaReciclaje(i)?'<span class="rec" aria-label="Día de aprovechamiento">♻️</span>':''}
       ${MOMENTOS.map(m=>`<span class="wkpic">${REC[dd[m]]?dishSVG(dd[m]):''}</span>`).join('')}</button>`).join('')}</div>
     ${conflictos?`<div class="notice"><span>!</span><span><b>Hay platos que no encajan con tus alergias o preferencias.</b> Están marcados en rojo; tócalos para cambiarlos.</span></div>`:''}
     <div class="row between"><h3 class="dayttl">${DIAS[diaSel]}${diaSel===hoy?' · hoy':''}</h3><span class="pill num">${esDiaReciclaje(diaSel)?'♻️ Con sobras':'≈ '+eur(costeDia)}</span></div>
-    ${esDiaReciclaje(diaSel)?`<div class="notice ok-notice"><span>♻️</span><span><b>Día de aprovechamiento.</b> La cena se hace con lo que ha sobrado de la semana y la comida está elegida para gastar lo que ya has comprado. Se recalcula sola cuando cambias otros días.</span></div>`:''}
+    ${!enCompra(diaSel)?`<div class="notice"><span>🗓️</span><span><b>Este día no entra en esta compra.</b> Sus platos no salen en la lista ni en el gasto; entrarán cuando prepares la siguiente compra.</span></div>`:''}
+    ${esDiaReciclaje(diaSel)?`<div class="notice ok-notice"><span>♻️</span><span><b>Día de aprovechamiento.</b> La cena se hace con lo que ha sobrado${cadaDias()<7?' de esta compra':' de la semana'} y la comida está elegida para gastar lo que ya has comprado. Se recalcula sola cuando cambias otros días.</span></div>`:''}
     <div class="bigcards">${MOMENTOS.map(m=>{
       const r=REC[d[m]], tag=(m==='comida'?'☀️ Comida':'🌙 Cena')+(r?.aprov?' · ♻️ Aprovechamiento':'');
       if(!r) return `<button class="bigcard empty" data-act="abrir" data-d="${diaSel}" data-m="${m}"><span class="bigpic"><span class="plus">+</span><span class="badge">${tag}</span></span><span class="bigtxt"><span class="name">Elegir plato</span></span></button>`;
@@ -1315,7 +1556,8 @@ function vLista(c){
   if(sup) return vSuper(c,comprar,marcados,pct,grupos,segLista);
   return `<section data-view="lista">
     ${segLista}
-    <div class="view-head"><h2>Lista de la compra</h2><p>Solo lo justo, en el formato que menos sobra y ordenado por pasillos. Toca cada producto al meterlo en el carro.</p></div>
+    <div class="view-head"><h2>Lista de la compra</h2><p>${cadaDias()<7?`Para ${cadaDias()} días: <b>${textoCompra()}</b>. `:''}Solo lo justo, en el formato que menos sobra y ordenado por pasillos. Toca cada producto al meterlo en el carro.</p></div>
+    <button class="card add-extras" data-act="extras"><span class="ax-emo">🥑</span><span class="grow"><b>Añadir otras cosas</b><br><span class="small muted">Aguacates, fruta, yogures, café, bebidas, limpieza…</span></span>${nExtras()?`<span class="pill">${nExtras()} añadidas</span>`:'<span class="ax-plus">+</span>'}</button>
     ${eficiencia(c)}
     <div class="card progress">
       <div class="row between"><b>${marcados===comprar.length&&comprar.length?'🎉 ¡Compra completa!':`🛒 ${marcados} de ${comprar.length} en el carro`}</b><span class="num muted">${pct}%</span></div>
@@ -1328,12 +1570,13 @@ function vLista(c){
         <span class="prod">${emo(l.pid)}<span class="tick" aria-hidden="true">✓</span></span>
         <div style="min-width:0"><div class="name">${esc(l.p.nombre)}</div>
           <div class="qtybig">${partesCompra(l.partes,l.p).map(f=>`${f.n?f.n+' ':''}<span>${esc(f.txt)}</span>`).join(' + ')}</div>
+          ${l.extra?`<div class="ext-row"><span class="pill premium">Añadido por ti</span><span class="mini-step"><button data-act="ext" data-v="${l.pid}" data-d="-1" aria-label="Uno menos">−</button><b class="num">${l.extra}</b><button data-act="ext" data-v="${l.pid}" data-d="1" aria-label="Uno más">+</button></span></div>`:''}
           <div class="detail">${l.enCasa>0?`<span>🏠 Tienes ${fmtQty(l.enCasa,l.p)}</span>`:''}${l.aprovechado?`<span class="ok">♻️ ${fmtQty(l.aprovechado,l.p)} para el plato de aprovechamiento</span>`:''}${l.tira>0?`<span class="bad">⚠️ Sobran ${fmtQty(l.sobra,l.p)} que se pueden estropear</span>`:''}${!l.fresco&&l.sobra>0?`<span>📦 Sobran ${fmtQty(l.sobra,l.p)} para la próxima semana</span>`:''}<a class="store-link" href="https://tienda.mercadona.es/search-results?query=${encodeURIComponent(l.p.busqueda||l.p.nombre)}" target="_blank" rel="noopener">Ver en Mercadona ↗</a></div></div>
         <div class="price num">${eur(l.coste)}<small>${precioUnit(l.p)}</small></div>
       </label>`).join('')}</div>`).join('')}
     ${cubiertos.length?`<details class="covered card"><summary>🏠 Ya lo tienes en casa (${cubiertos.length})</summary><ul>${cubiertos.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}</li>`).join('')}</ul></details>`:''}
     <div class="total-bar"><span>Total estimado<br><span class="small">${comprar.reduce((a,l)=>a+l.envases,0)} productos</span></span><strong class="num">${eur(c.total)}</strong></div>
-    <button class="btn ghost block" data-act="semana">✅ He terminado la semana: guardar sobras y hacer menú nuevo</button>
+    <button class="btn ghost block" data-act="semana">${cadaDias()===7?'✅ He terminado la semana: guardar sobras y hacer menú nuevo':`✅ Ya hice esta compra: preparar la siguiente (${nombresDias(diasCompra().map(i=>(i+cadaDias())%7))})`}</button>
     ${aviso}
   </section>`;
 }
@@ -1343,6 +1586,7 @@ function vSuper(c,comprar,marcados,pct,grupos,segLista){
   const fin=marcados===comprar.length&&comprar.length;
   return `<section data-view="lista" class="super">
     ${segLista}
+    <button class="card add-extras" data-act="extras"><span class="ax-emo">🥑</span><span class="grow"><b>Añadir otras cosas</b></span><span class="ax-plus">+</span></button>
     <div class="card progress">
       <div class="row between"><b class="super-count">${fin?'🎉 ¡Compra completa!':`${marcados} de ${comprar.length} en el carro`}</b><span class="num"><b>${eur(c.total)}</b></span></div>
       <div class="gauge"><i style="width:${pct}%"></i></div>
@@ -1375,17 +1619,17 @@ function eficiencia(c){
   const rec=state.hogar.reciclaje;
   return `<div class="card efic ${c.desperdicio>0.5?'warn':''}">
     <div class="row between"><span class="big-emo">${c.desperdicio<=0.5?'🌱':'⚠️'}</span>
-      <div class="grow"><b>${c.desperdicio<=0.5?'No se tira comida esta semana':'Se tirarían '+eur(c.desperdicio)+' en frescos'}</b>
-      <div class="small muted">${rec?`♻️ El ${DIAS[state.hogar.diaReciclaje].toLowerCase()} toca plato de aprovechamiento con lo que sobra.`:'Activa el día de aprovechamiento en Mi hogar para no tirar nada.'}</div></div></div>
+      <div class="grow"><b>${c.desperdicio<=0.5?(cadaDias()===7?'No se tira comida esta semana':'No se tira comida en esta compra'):'Se tirarían '+eur(c.desperdicio)+' en frescos'}</b>
+      <div class="small muted">${diaAprov()>=0?`♻️ El ${DIAS[diaAprov()].toLowerCase()} toca plato de aprovechamiento con lo que sobra.`:(cadaDias()===2?'Comprando cada 2 días apenas sobra comida.':'Activa el día de aprovechamiento en Mi hogar para no tirar nada.')}</div></div></div>
     ${tirar.length?`<ul class="mini">${tirar.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul>
       <button class="btn sm" data-act="proponer">✨ Rehacer el menú para no tirar nada</button>`:''}
-    ${guarda.length?`<details><summary>📦 Te sobra para la semana que viene (${guarda.length}) — no caduca</summary><ul class="mini">${guarda.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul><p class="small muted" style="margin:6px 0 0">Al terminar la semana pulsa «He terminado la semana» y pasa solo a tu despensa: el próximo menú lo usará primero.</p></details>`:''}
+    ${guarda.length?`<details><summary>📦 Te sobra para ${cadaDias()===7?'la semana que viene':'la próxima compra'} (${guarda.length}): no caduca</summary><ul class="mini">${guarda.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul><p class="small muted" style="margin:6px 0 0">Al terminar la semana pulsa «He terminado la semana» y pasa solo a tu despensa: el próximo menú lo usará primero.</p></details>`:''}
   </div>`;
 }
 
 let presuModo='ahorro';
 function vPresupuesto(c){
-  const h=state.hogar, over=c.total>h.presupuesto, pct=Math.min(100,c.total/h.presupuesto*100);
+  const h=state.hogar, L=limite(), over=c.total>L, pct=Math.min(100,c.total/L*100);
   const porSeccion=SECCIONES.map(s=>[s,c.lineas.filter(l=>l.p.seccion===s).reduce((a,l)=>a+l.coste,0)]).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   const maxS=Math.max(...porSeccion.map(x=>x[1]),1);
   const platos=[];
@@ -1397,9 +1641,9 @@ function vPresupuesto(c){
     <div class="card" style="display:grid;gap:12px;text-align:center">
       <div style="font-size:44px;line-height:1">${over?'😬':'😊'}</div>
       <div class="big num">${eur(c.total)}</div>
-      <span class="pill ${over?'bad':''}" style="justify-self:center">${over?'Te pasas '+eur(c.total-h.presupuesto):'Te sobran '+eur(h.presupuesto-c.total)} · límite ${eur(h.presupuesto)}</span>
+      <span class="pill ${over?'bad':''}" style="justify-self:center">${over?'Te pasas '+eur(c.total-L):'Te sobran '+eur(L-c.total)} · límite ${eur(L)}${cadaDias()<7?' para '+cadaDias()+' días':''}</span>
       <div class="gauge ${over?'over':''}"><i style="width:${pct}%"></i></div>
-      <div class="row between small num muted"><span>👤 Por persona y día</span><span>${eur(c.total/h.personas/7)}</span></div>
+      <div class="row between small num muted"><span>👤 Por persona y día</span><span>${eur(c.total/h.personas/cadaDias())}</span></div>
       <div class="row between small num ${c.desperdicio>0.5?'':'muted'}"><span>${c.desperdicio>0.5?'⚠️':'🌱'} Comida que se tiraría</span><span>${eur(c.desperdicio)}</span></div>
       ${c.ahorroDespensa>0?`<div class="row between small num muted"><span>🏠 Ahorro por lo que tienes en casa</span><span>${eur(c.ahorroDespensa)}</span></div>`:''}
     </div>
@@ -1414,11 +1658,11 @@ function vPresupuesto(c){
       :`<p class="small muted" style="margin:0">👌 Tu menú ya es de los más económicos con tus preferencias.</p>`}
     </div>`:''}
     ${presuModo==='premium'?`<div class="card premium-card" style="display:grid;gap:10px">
-      <div><div class="label">✨ Date un capricho</div><div class="small muted">${over?'Ahora te pasas del límite: estos platos suben la cesta.':'Te sobran '+eur(h.presupuesto-c.total)+'. Puedes meter algo especial.'}</div></div>
-      ${prem.length?`<div class="sugg">${prem.map(s=>{const cabe=c.total+s.delta<=h.presupuesto; return `<div class="swapcard">
+      <div><div class="label">✨ Date un capricho</div><div class="small muted">${over?'Ahora te pasas del límite: estos platos suben la cesta.':'Te sobran '+eur(L-c.total)+'. Puedes meter algo especial.'}</div></div>
+      ${prem.length?`<div class="sugg">${prem.map(s=>{const cabe=c.total+s.delta<=L; return `<div class="swapcard">
         <span class="thumb">${dishSVG(s.de)}</span><span class="arrow">→</span><span class="thumb gold">${dishSVG(s.a)}</span>
         <div style="min-width:0"><div class="small muted">${DIAS[s.dia]} · ${s.momento}</div><b>${esc(REC[s.a].nombre)}</b><div class="small muted">en vez de ${esc(REC[s.de].nombre)}</div>
-          <span class="pill ${cabe?'':'warn'}" style="margin-top:4px">${cabe?'✅ Cabe en tu presupuesto':'⚠️ Te pasarías '+eur(c.total+s.delta-h.presupuesto)}</span></div>
+          <span class="pill ${cabe?'':'warn'}" style="margin-top:4px">${cabe?'✅ Cabe en tu presupuesto':'⚠️ Te pasarías '+eur(c.total+s.delta-L)}</span></div>
         <button class="btn sm gold" data-act="aplicar" data-d="${s.dia}" data-m="${s.momento}" data-v="${s.a}">${s.delta>0?'✨ Darme el capricho · +'+eur(s.delta):'✨ Capricho y encima ahorras '+eur(-s.delta)}</button></div>`;}).join('')}</div>`
       :`<p class="small muted" style="margin:0">Ya tienes todos los platos especiales en tu menú.</p>`}
     </div>`:''}
@@ -1443,7 +1687,7 @@ function despensaHTML(){
 function vDespensa(c){
   const ids=Object.keys(state.despensa);
   const usado=Object.fromEntries(c.lineas.map(l=>[l.pid,l.enCasa]));
-  const libres=PRODUCTOS.filter(p=>!(p.id in state.despensa));
+  const libres=PRODUCTOS.filter(p=>!(p.id in state.despensa)&&!SECCIONES_CASA.includes(p.seccion));
   despLibres=libres;
   return `<section data-view="despensa">
     <div class="view-head"><h2>Lo que tienes en casa</h2><p>Lo que ya tienes no te lo ponemos en la lista. Toca un producto para añadirlo.</p></div>
@@ -1480,17 +1724,50 @@ function tarjetaInstalar(compacta=false){
     <p class="small muted" style="margin:0;max-width:34ch">Con su icono en la pantalla de inicio, a pantalla completa y funcionando sin internet dentro del súper.</p>${cuerpo}</div>`;
 }
 
+/* ================= Cosas sueltas para la lista ================= */
+const nExtras = () => Object.values(state.extras||{}).filter(n=>n>0).length;
+let extrasHoja=null;
+function abrirExtras(){ extrasHoja={q:'',sec:null}; pintarExtras(); }
+function extrasLista(){
+  const w=sinAcentos(extrasHoja.q).trim(), sec=extrasHoja.sec;
+  return PRODUCTOS.filter(p=>(!sec||p.seccion===sec)&&(!w||sinAcentos(p.nombre+' '+p.seccion).includes(w)||(w.length>4&&sinAcentos(p.nombre).includes(w.replace(/(es|s)$/,'')))));
+}
+function extrasHTML(){
+  const ps=extrasLista();
+  if(!ps.length) return `<p class="muted" style="margin:0">No hay productos que coincidan con «${esc(extrasHoja.q)}».</p>`;
+  const grupos=SECCIONES.map(s=>[s,ps.filter(p=>p.seccion===s).sort((a,b)=>a.nombre.localeCompare(b.nombre))]).filter(([,x])=>x.length);
+  return grupos.map(([s,x])=>`<div style="display:grid;gap:8px"><div class="small" style="font-weight:700">${SEC_EMO[s]||'🛒'} ${s}</div>
+    <div class="xgrid">${x.map(p=>{ const n=(state.extras||{})[p.id]||0; return `<div class="xtile ${n?'on':''}">
+      <button class="xmain" data-act="ext" data-v="${p.id}" data-d="1" aria-label="Añadir ${esc(p.nombre)}"><span class="t-emo">${emo(p.id)}</span><span class="xn">${esc(p.nombre)}</span><span class="small muted">${esc(p.formato)} · ${eur(p.precio)}</span></button>
+      ${n?`<span class="mini-step"><button data-act="ext" data-v="${p.id}" data-d="-1" aria-label="Uno menos">−</button><b class="num">${n}</b><button data-act="ext" data-v="${p.id}" data-d="1" aria-label="Uno más">+</button></span>`:''}</div>`; }).join('')}</div></div>`).join('');
+}
+function pintarExtras(){
+  if(!extrasHoja) return;
+  const tot=Object.entries(state.extras||{}).reduce((a,[pid,n])=>a+(PROD[pid]?n*PROD[pid].precio:0),0);
+  const top=['Fruta y verdura','Huevos, leche y mantequilla','Yogures y postres','Desayuno y dulces','Bebidas','Aperitivos','Congelados','Limpieza y hogar','Higiene y cuidado personal'];
+  document.getElementById('layer').innerHTML=`<div class="sheet-back" data-act="cerrar"><div class="sheet" role="dialog" aria-modal="true" aria-label="Añadir otras cosas">
+    <div class="row between"><span class="label">Añadir a la lista</span><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">${icon('x',20)}</button></div>
+    <div><h3>¿Qué más necesitas?</h3><p class="small muted" style="margin:4px 0 0">Toca un producto para sumarlo a tu lista. Se compra aunque no salga en ninguna receta.</p></div>
+    <div class="search"><span aria-hidden="true">🔍</span><input id="buscar-ext" type="search" placeholder="Aguacate, yogur, café, detergente…" value="${esc(extrasHoja.q)}" autocomplete="off" aria-label="Buscar productos"></div>
+    <div class="chips-x" role="group" aria-label="Secciones"><button class="chip" data-act="extsec" data-v="" aria-pressed="${!extrasHoja.sec}">Todo</button>${top.map(s=>`<button class="chip" data-act="extsec" data-v="${s}" aria-pressed="${extrasHoja.sec===s}">${SEC_EMO[s]||''} ${s.split(',')[0]}</button>`).join('')}</div>
+    <div id="ext-res" style="display:grid;gap:14px">${extrasHTML()}</div>
+    <button class="btn block xl ext-ok" data-act="cerrar">${nExtras()?`Listo · ${nExtras()} ${nExtras()===1?'cosa añadida':'cosas añadidas'} · ${eur(tot)}`:'Listo'}</button>
+  </div></div>`;
+}
+
 /* ================= Bienvenida (primera vez) ================= */
 function pintarBienvenida(){
   const h=state.hogar;
   document.getElementById('layer').innerHTML=`<div class="welcome-back"><div class="sheet welcome" role="dialog" aria-modal="true" aria-labelledby="wtit">
-    <div class="w-hero"><span class="w-emo">🛒</span><h3 id="wtit">¡Hola! Vamos a hacer tu menú</h3><p class="muted">Tres preguntas y tendrás el menú de la semana y la lista de la compra hechos.</p></div>
+    <div class="w-hero"><span class="w-emo">🛒</span><h3 id="wtit">¡Hola! Vamos a hacer tu menú</h3><p class="muted">Cuatro preguntas y tendrás el menú y la lista de la compra hechos.</p></div>
     <div class="w-q"><div class="label">1 · ¿Cuántos coméis en casa?</div>
       <div class="bigstep"><button data-act="ob-pers" data-v="-1" aria-label="Quitar persona">−</button><output class="num">${h.personas}</output><button data-act="ob-pers" data-v="1" aria-label="Añadir persona">+</button></div></div>
     <div class="w-q"><div class="label">2 · ¿Cuánto queréis gastar a la semana?</div>
       <div class="quick">${[40,60,80,100,150].map(v=>`<button class="chip" data-act="ob-presu" data-v="${v}" aria-pressed="${h.presupuesto===v}">${v} €</button>`).join('')}</div></div>
     <div class="w-q"><div class="label">3 · ¿Alguna alergia o preferencia?</div>
       <div class="tiles">${Object.entries(ALERGENOS).map(([k,l])=>`<button class="tile" data-act="ob-alerg" data-v="${k}" aria-pressed="${h.alergias.includes(k)}"><span class="t-emo">${ALERG_EMO[k]}</span><span>${l}</span></button>`).join('')}<button class="tile" data-act="ob-veg" aria-pressed="${h.vegetariano}"><span class="t-emo">🥗</span><span>Vegetariano</span></button></div></div>
+    <div class="w-q"><div class="label">4 · ¿Cada cuánto vas a hacer la compra?</div>
+      <div class="quick">${FRECUENCIAS.map(([n,t])=>`<button class="chip" data-act="ob-cada" data-v="${n}" aria-pressed="${cadaDias()===n}">${t}</button>`).join('')}</div></div>
     <button class="btn block xl" data-act="ob-crear">✨ Crear mi menú</button>
     <button class="btn ghost block" data-act="ob-ejemplo">Prefiero ver primero el ejemplo</button>
   </div></div>`;
@@ -1499,7 +1776,7 @@ function pintarBienvenida(){
 /* ================= Hoja de receta ================= */
 let hoja=null;
 function abrirHoja(dia,momento){ altsCache=null; hoja={dia,momento,cambiar:false}; pintarHoja(); }
-function cerrarHoja(){ hoja=null; ficha=null; document.getElementById('layer').innerHTML=''; }
+function cerrarHoja(){ const habiaExtras=!!extrasHoja; extrasHoja=null; if(habiaExtras){ save(); render(); } hoja=null; ficha=null; document.getElementById('layer').innerHTML=''; }
 let altsCache=null;
 function altsHTML(alts){
   const lista=alts.filter(a=>a.actual||coincide(a.r,hoja.q||'',hoja.cat));
@@ -1545,8 +1822,10 @@ function nuevaSemana(){
     if(l.p.unidad==='ud') resto=Math.floor(resto+1e-9);
     if(!l.fresco&&resto>=Math.max(1,l.p.envase*0.02)) nueva[l.pid]=resto;
   }
-  state.despensa=nueva; state.marcados={};
-  proponerMenu(); save(); toast('🏠 Sobras guardadas en tu despensa. ¡Menú nuevo listo!'); irA('menu');
+  state.despensa=nueva; state.marcados={}; state.extras={};
+  if(cadaDias()<7) state.hogar.inicio=((state.hogar.inicio||0)+cadaDias())%7;
+  proponerMenu(); save(); diaSel=diaInicial();
+  toast(cadaDias()<7?`🛒 Siguiente compra lista: ${textoCompra()}`:'🏠 Sobras guardadas en tu despensa. ¡Menú nuevo listo!'); irA('menu');
 }
 
 function copiar(){
@@ -1573,6 +1852,15 @@ document.addEventListener('click',e=>{
     case 'cambiar': hoja.cambiar=true; pintarHoja(); return;
     case 'instalar': if(instalarEvt){ instalarEvt.prompt(); instalarEvt.userChoice.finally(()=>{ instalarEvt=null; render(); }); } return;
     case 'noinstalar': state.instalarVisto=true; save(); render(); return;
+    case 'extras': abrirExtras(); return;
+    case 'extsec': extrasHoja.sec=v||null; pintarExtras(); return;
+    case 'ext': { const ex=state.extras||(state.extras={}); ex[v]=Math.max(0,(ex[v]||0)+Number(t.dataset.d)); if(!ex[v]) delete ex[v];
+      save(); pintarEstado();
+      if(extrasHoja){ const sc=document.querySelector('.sheet')?.scrollTop; const y=document.getElementById('ext-res'); const btn=document.querySelector('.ext-ok'); if(y) y.innerHTML=extrasHTML(); if(btn){ const tot=Object.entries(state.extras).reduce((a,[pid,n])=>a+n*PROD[pid].precio,0); btn.textContent=nExtras()?`Listo · ${nExtras()} ${nExtras()===1?'cosa añadida':'cosas añadidas'} · ${eur(tot)}`:'Listo'; } return; }
+      if(Number(t.dataset.d)>0) toast(emo(v)+' '+PROD[v].nombre+' en tu lista'); break; }
+    case 'cada': { const n=Number(v); h.cadaDias=n; h.inicio=n===7?0:diaHoy(); state.fijados={}; aprovechar(); diaSel=diaInicial(); toast(n===7?'📅 Compra semanal, de lunes a domingo':`🛒 Compra cada ${n} días: ${textoCompra()}`); break; }
+    case 'inicio': h.inicio=Number(v); state.fijados={}; aprovechar(); diaSel=diaInicial(); break;
+    case 'ob-cada': h.cadaDias=Number(v); pintarBienvenida(); return;
     case 'altcat': hoja.cat=hoja.cat===v?null:v; pintarHoja(); return;
     case 'msuper': state.modoSuper=v==='1'; save(); render(); scrollTo(0,0); if(state.modoSuper) pedirPantalla(); else soltarPantalla(); return;
     case 'decero': state.nuevo=true; state.hogar=Object.assign(EJEMPLO().hogar,{alergias:[]}); pintarBienvenida(); return;
@@ -1580,11 +1868,11 @@ document.addEventListener('click',e=>{
     case 'ob-presu': h.presupuesto=Number(v); pintarBienvenida(); return;
     case 'ob-alerg': h.alergias=h.alergias.includes(v)?h.alergias.filter(x=>x!==v):[...h.alergias,v]; pintarBienvenida(); return;
     case 'ob-veg': h.vegetariano=!h.vegetariano; pintarBienvenida(); return;
-    case 'ob-crear': delete state.nuevo; state.despensa={}; state.marcados={}; state.guiaVista=false; proponerMenu(); document.getElementById('layer').innerHTML=''; save(); diaSel=diaHoy(); irA('menu'); toast('✨ Tu menú de la semana está listo'); return;
+    case 'ob-crear': delete state.nuevo; state.despensa={}; state.marcados={}; state.extras={}; state.guiaVista=false; h.inicio=cadaDias()===7?0:diaHoy(); proponerMenu(); document.getElementById('layer').innerHTML=''; save(); diaSel=diaInicial(); irA('menu'); toast(cadaDias()===7?'✨ Tu menú de la semana está listo':`✨ Tu menú para ${textoCompra()} está listo`); return;
     case 'ob-ejemplo': delete state.nuevo; state=EJEMPLO(); aprovechar(); document.getElementById('layer').innerHTML=''; save(); irA('menu'); return;
     case 'elegir': if(esDiaReciclaje(hoja.dia)) (state.fijados||(state.fijados={}))[hoja.dia+'-'+hoja.momento]=true; state.menu[hoja.dia][hoja.momento]=v; hoja.cambiar=false; if(!esDiaReciclaje(hoja.dia)) aprovechar(); toast('Receta cambiada'); break;
     case 'aplicar': state.menu[Number(t.dataset.d)][t.dataset.m]=v; aprovechar(); toast('Cambio aplicado'); break;
-    case 'ajustar': { const n=ajustarAlPresupuesto(); toast(calcularCesta().total<=h.presupuesto?`${n} ${n===1?'cambio aplicado':'cambios aplicados'}: dentro del límite`:`${n} cambios aplicados; aún se supera el límite`); break; }
+    case 'ajustar': { const n=ajustarAlPresupuesto(); toast(calcularCesta().total<=limite()?`${n} ${n===1?'cambio aplicado':'cambios aplicados'}: dentro del límite`:`${n} cambios aplicados; aún se supera el límite`); break; }
     case 'dia': diaSel=Number(v); break;
     case 'cat': catSel=catSel===v?null:v; break;
     case 'ficha': abrirFicha(v); return;
@@ -1623,10 +1911,11 @@ document.addEventListener('change',e=>{
 document.addEventListener('input',e=>{
   if(e.target.id==='buscar'){ busq=e.target.value; const r=document.getElementById('res'); if(r) r.innerHTML=resultadosHTML(); return; }
   if(e.target.id==='buscar-alt'&&hoja){ hoja.q=e.target.value; const r=document.getElementById('alt-res'); if(r) r.innerHTML=altsHTML(altsCache); return; }
+  if(e.target.id==='buscar-ext'&&extrasHoja){ extrasHoja.q=e.target.value; const r=document.getElementById('ext-res'); if(r) r.innerHTML=extrasHTML(); return; }
   if(e.target.id==='buscar-desp'){ busqDesp=e.target.value; const r=document.getElementById('desp-res'); if(r) r.innerHTML=despensaHTML(); return; }
   if(e.target.id==='presu'){ state.hogar.presupuesto=Number(e.target.value); save(); pintarEstado(); const n=document.getElementById('presu-n'); if(n) n.value=state.hogar.presupuesto; document.querySelectorAll('[data-act="presu"]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.v)===state.hogar.presupuesto))); }
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(hoja||ficha)) cerrarHoja(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(hoja||ficha||extrasHoja)) cerrarHoja(); });
 
 window.addEventListener('online',()=>pintarEstado());
 window.addEventListener('offline',()=>pintarEstado());
@@ -1640,6 +1929,7 @@ if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostn
   }).catch(()=>{}));
 }
 document.body.insertAdjacentHTML('afterbegin',DEFS_PLATOS);
+diaSel=diaInicial();
 aprovechar();
 render();
 if(state.nuevo) pintarBienvenida();
