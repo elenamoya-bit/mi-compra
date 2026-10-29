@@ -1,0 +1,2253 @@
+{
+ "generado": "2026-10-29T17:08:02.080Z",
+ "fuente": "Open Prices (Open Food Facts) · ODbL",
+ "peticiones": 52,
+ "tiendas_mercadona": {
+  "total": 63,
+  "espana": 56,
+  "con_precios": 51
+ },
+ "precios": {
+  "total": 151,
+  "productos_distintos_ean": 141,
+  "por_antiguedad": {
+   "≤ 7 días": 1,
+   "8-30 días": 4,
+   "1-3 meses": 15,
+   "3-12 meses": 53,
+   "> 1 año": 77
+  },
+  "tiendas_truncadas": 0
+ },
+ "nuestro_catalogo": {
+  "total": 237,
+  "con_algun_precio": 35,
+  "con_precio_7_dias": 1,
+  "con_precio_30_dias": 3,
+  "con_precio_90_dias": 6,
+  "de_recetas": 68,
+  "de_recetas_con_precio": 9
+ },
+ "ciudades": [
+  "Alacant / Alicante",
+  "Alcalá de Guadaíra",
+  "Alcoi / Alcoy",
+  "Badalona",
+  "Barcelona",
+  "Cartagena",
+  "Chilches",
+  "Collado Villalba",
+  "Dos Hermanas",
+  "Fuenlabrada",
+  "Getafe",
+  "Granada",
+  "Guardamar del Segura",
+  "La Mancha",
+  "La Pola Siero",
+  "Langreo",
+  "Las Palmas de Gran Canaria",
+  "Leioa",
+  "León",
+  "Madrid",
+  "Mazarrón",
+  "Molins de Rei",
+  "Málaga",
+  "Olot",
+  "Oviedo",
+  "Palma",
+  "Pamplona / Iruña",
+  "Picassent",
+  "Ponteareas",
+  "Reus",
+  "Riba-roja de Túria",
+  "San Cristóbal de La Laguna",
+  "San Fernando",
+  "Sant Vicent del Raspeig / San Vicente del Raspeig",
+  "Sitges",
+  "Torre del Mar",
+  "Torre-Pacheco",
+  "Torrequebrada",
+  "Tres Cantos",
+  "València",
+  "Vilallonga / Villalonga",
+  "Villaviciosa"
+ ],
+ "cruce": [
+  {
+   "id": "pechuga",
+   "nombre": "Pechuga de pollo fileteada",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "muslos",
+   "nombre": "Muslos de pollo",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "picada",
+   "nombre": "Carne picada mixta",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lomo",
+   "nombre": "Lomo de cerdo en filetes",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "huevos",
+   "nombre": "Huevos L",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": true,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-02-01",
+    "dias": 635,
+    "precio": 2.28,
+    "nombre_open_prices": "Huevos gallinas sueltas en gallinero",
+    "cantidad": "73 g",
+    "ean": "8436559590341",
+    "ciudad": "Tres Cantos"
+   }
+  },
+  {
+   "id": "patata",
+   "nombre": "Patatas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2025-10-20",
+    "dias": 374,
+    "precio": 2,
+    "nombre_open_prices": "Puré de patatas en copos instantáneo preparado",
+    "cantidad": "500 g",
+    "ean": "8480000232649",
+    "ciudad": "Guardamar del Segura"
+   }
+  },
+  {
+   "id": "cebolla",
+   "nombre": "Cebollas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-09-18",
+    "dias": 41,
+    "precio": 1.7,
+    "nombre_open_prices": "Cebollas",
+    "cantidad": "1000 g",
+    "ean": "8425208001406",
+    "ciudad": "Sant Vicent del Raspeig / San Vicente del Raspeig"
+   }
+  },
+  {
+   "id": "zanahoria",
+   "nombre": "Zanahorias",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "tomate",
+   "nombre": "Tomates",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "calabacin",
+   "nombre": "Calabacín",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pimiento",
+   "nombre": "Pimientos tricolor",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lechuga",
+   "nombre": "Lechuga romana",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pepino",
+   "nombre": "Pepino",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "champi",
+   "nombre": "Champiñón laminado",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "merluza",
+   "nombre": "Filetes de merluza",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "brocoli",
+   "nombre": "Brócoli",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "judias",
+   "nombre": "Judías verdes",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "guisantes",
+   "nombre": "Guisantes",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lentejas",
+   "nombre": "Lentejas pardinas",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-09-18",
+    "dias": 41,
+    "precio": 1.85,
+    "nombre_open_prices": "Lenteja Pardina categoría extra",
+    "cantidad": "1000 g",
+    "ean": "8480000053305",
+    "ciudad": "Sant Vicent del Raspeig / San Vicente del Raspeig"
+   }
+  },
+  {
+   "id": "arroz",
+   "nombre": "Arroz redondo",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "macarrones",
+   "nombre": "Macarrones",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "espaguetis",
+   "nombre": "Espaguetis",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "garbanzos",
+   "nombre": "Garbanzos cocidos",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "atun",
+   "nombre": "Atún claro en aceite",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "tomatetri",
+   "nombre": "Tomate triturado",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pan",
+   "nombre": "Barra de pan",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "tortillas",
+   "nombre": "Tortillas de trigo",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "queso",
+   "nombre": "Queso rallado",
+   "seccion": "Queso",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "aceite",
+   "nombre": "Aceite de oliva",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": true,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-04-04",
+    "dias": 208,
+    "precio": 2.7,
+    "nombre_open_prices": "Aceite de oliva virgen extra",
+    "cantidad": "200 ml",
+    "ean": "8480000047182",
+    "ciudad": "La Mancha"
+   }
+  },
+  {
+   "id": "fideos",
+   "nombre": "Fideos finos",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pavo",
+   "nombre": "Filetes de pechuga de pavo",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "salchichas",
+   "nombre": "Salchichas frescas de cerdo",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "hamburguesas",
+   "nombre": "Hamburguesas de vacuno",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "chorizo",
+   "nombre": "Chorizo dulce",
+   "seccion": "Charcutería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "alubias",
+   "nombre": "Alubias blancas cocidas",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "bacalao",
+   "nombre": "Lomos de bacalao desalado",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "espinacas",
+   "nombre": "Espinacas",
+   "seccion": "Congelados",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "berenjena",
+   "nombre": "Berenjena",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "nata",
+   "nombre": "Nata para cocinar",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mozzarella",
+   "nombre": "Mozzarella fresca",
+   "seccion": "Queso",
+   "en_recetas": true,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2026-04-04",
+    "dias": 208,
+    "precio": 1.8,
+    "nombre_open_prices": "Mozzarella",
+    "cantidad": "200 g",
+    "ean": "8480000511263",
+    "ciudad": "La Mancha"
+   }
+  },
+  {
+   "id": "panhamb",
+   "nombre": "Panecillos de hamburguesa",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "masapizza",
+   "nombre": "Masa de pizza fresca",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "entrecot",
+   "nombre": "Entrecot de vacuno",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "ajo",
+   "nombre": "Ajos",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "calabaza",
+   "nombre": "Calabaza troceada",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "puerro",
+   "nombre": "Puerros",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "bacon",
+   "nombre": "Bacon en tiras",
+   "seccion": "Charcutería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "york",
+   "nombre": "Jamón cocido extra",
+   "seccion": "Charcutería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lasana",
+   "nombre": "Placas de lasaña",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "fideosg",
+   "nombre": "Fideos gruesos",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "caldo",
+   "nombre": "Caldo de pollo",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pesto",
+   "nombre": "Salsa pesto",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "salmon",
+   "nombre": "Lomos de salmón",
+   "seccion": "Pescado y marisco",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "langostinos",
+   "nombre": "Langostinos cocidos",
+   "seccion": "Pescado y marisco",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "solomillo",
+   "nombre": "Solomillo de cerdo",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "jamon",
+   "nombre": "Jamón ibérico de cebo loncheado",
+   "seccion": "Charcutería",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "manchego",
+   "nombre": "Queso manchego curado",
+   "seccion": "Queso",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "aguacate",
+   "nombre": "Aguacate",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "platano",
+   "nombre": "Plátano de Canarias",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "manzana",
+   "nombre": "Manzana golden",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "naranja",
+   "nombre": "Naranja de mesa",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "naranjazumo",
+   "nombre": "Naranja para zumo",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-10-02",
+    "dias": 27,
+    "precio": 5.95,
+    "nombre_open_prices": "Zumo de naranja",
+    "cantidad": "1000 ml",
+    "ean": "8480000033628",
+    "ciudad": "Madrid"
+   }
+  },
+  {
+   "id": "mandarina",
+   "nombre": "Mandarina",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "limon",
+   "nombre": "Limón",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2024-06-04",
+    "dias": 877,
+    "precio": 2.1,
+    "nombre_open_prices": "Fresh Gas limón zero azúcar",
+    "cantidad": "1980 ml",
+    "ean": "8480000290458",
+    "ciudad": "León"
+   }
+  },
+  {
+   "id": "pera",
+   "nombre": "Pera conferencia",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-11-06",
+    "dias": 357,
+    "precio": 2.54,
+    "nombre_open_prices": "Pera conferencia",
+    "cantidad": "1105 g",
+    "ean": "2314470002548",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "kiwi",
+   "nombre": "Kiwi",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "fresas",
+   "nombre": "Fresas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "uvas",
+   "nombre": "Uva blanca sin pepitas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "arandanos",
+   "nombre": "Arándanos",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "frambuesas",
+   "nombre": "Frambuesas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "melon",
+   "nombre": "Melón",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "sandia",
+   "nombre": "Sandía",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-11-06",
+    "dias": 357,
+    "precio": 1,
+    "nombre_open_prices": "Chicles sandía",
+    "cantidad": "31 g",
+    "ean": "8480000651402",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "pina",
+   "nombre": "Piña",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2026-09-01",
+    "dias": 58,
+    "precio": 1.6,
+    "nombre_open_prices": "Piña deshidratada",
+    "cantidad": "50 g",
+    "ean": "8480000334404",
+    "ciudad": "Fuenlabrada"
+   }
+  },
+  {
+   "id": "mango",
+   "nombre": "Mango",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-04-04",
+    "dias": 208,
+    "precio": 1.65,
+    "nombre_open_prices": "Barritas de cereales mango",
+    "cantidad": "120 g",
+    "ean": "8402001021404",
+    "ciudad": "La Mancha"
+   }
+  },
+  {
+   "id": "melocoton",
+   "nombre": "Melocotón",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cherry",
+   "nombre": "Tomate cherry",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "rucula",
+   "nombre": "Rúcula",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "canonigos",
+   "nombre": "Canónigos",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "espinacafresca",
+   "nombre": "Espinaca fresca",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "esparragos",
+   "nombre": "Espárragos verdes",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "coliflor",
+   "nombre": "Coliflor",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lombarda",
+   "nombre": "Lombarda",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "boniato",
+   "nombre": "Boniato",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cebollaroja",
+   "nombre": "Cebolla morada",
+   "seccion": "Fruta y verdura",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cebolleta",
+   "nombre": "Cebolleta",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "perejil",
+   "nombre": "Perejil fresco",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cilantro",
+   "nombre": "Cilantro fresco",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "jengibre",
+   "nombre": "Jengibre",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "setas",
+   "nombre": "Setas variadas",
+   "seccion": "Fruta y verdura",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "maiz",
+   "nombre": "Maíz dulce",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "panmolde",
+   "nombre": "Pan de molde",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": true,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2026-01-23",
+    "dias": 279,
+    "precio": 1.18,
+    "nombre_open_prices": "Pan de molde blanco familiar",
+    "cantidad": "820 g",
+    "ean": "8480000823243",
+    "ciudad": "Picassent"
+   }
+  },
+  {
+   "id": "panintegral",
+   "nombre": "Pan de molde integral",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "picos",
+   "nombre": "Picos de pan",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "croissants",
+   "nombre": "Croissants",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "magdalenas",
+   "nombre": "Magdalenas",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "bizcocho",
+   "nombre": "Bizcocho de yogur",
+   "seccion": "Panadería y pastelería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "alitas",
+   "nombre": "Alitas de pollo",
+   "seccion": "Carne",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pollo",
+   "nombre": "Pollo entero",
+   "seccion": "Carne",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "ternera",
+   "nombre": "Filetes de ternera",
+   "seccion": "Carne",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "costillas",
+   "nombre": "Costillas de cerdo",
+   "seccion": "Carne",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cordero",
+   "nombre": "Chuletas de cordero",
+   "seccion": "Carne",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "picadavacuno",
+   "nombre": "Carne picada de vacuno",
+   "seccion": "Carne",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pavofiambre",
+   "nombre": "Pechuga de pavo en lonchas",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2025-06-23",
+    "dias": 493,
+    "precio": 3.9,
+    "nombre_open_prices": "Pechuga de pavo finas lonchas",
+    "cantidad": "200 g",
+    "ean": "8480000679727",
+    "ciudad": "Oviedo"
+   }
+  },
+  {
+   "id": "salchichon",
+   "nombre": "Salchichón",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "fuet",
+   "nombre": "Fuet",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2024-06-04",
+    "dias": 877,
+    "precio": 2.57,
+    "nombre_open_prices": "Fuet Espetec",
+    "cantidad": "300 g",
+    "ean": "8480000551085",
+    "ciudad": "León"
+   }
+  },
+  {
+   "id": "lomoembuchado",
+   "nombre": "Lomo embuchado",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "sobrasada",
+   "nombre": "Sobrasada",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "salchichasfrankfurt",
+   "nombre": "Salchichas Frankfurt",
+   "seccion": "Charcutería",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "dorada",
+   "nombre": "Dorada",
+   "seccion": "Pescado y marisco",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lubina",
+   "nombre": "Lubina",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "sardinas",
+   "nombre": "Sardinas",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "boquerones",
+   "nombre": "Boquerones",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mejillones",
+   "nombre": "Mejillones",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2024-06-04",
+    "dias": 877,
+    "precio": 1.45,
+    "nombre_open_prices": "Mejillones picantes en escabeche",
+    "cantidad": "111 g",
+    "ean": "8402001009792",
+    "ciudad": "León"
+   }
+  },
+  {
+   "id": "salmonahumado",
+   "nombre": "Salmón ahumado",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "surimi",
+   "nombre": "Palitos de surimi",
+   "seccion": "Pescado y marisco",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lecheentera",
+   "nombre": "Leche entera",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-06-09",
+    "dias": 142,
+    "precio": 1.71,
+    "nombre_open_prices": "Leche entera",
+    "cantidad": "1200 ml",
+    "ean": "8402001001970",
+    "ciudad": "Olot"
+   }
+  },
+  {
+   "id": "lechesemi",
+   "nombre": "Leche semidesnatada",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2026-10-26",
+    "dias": 3,
+    "precio": 1.64,
+    "nombre_open_prices": "Leche semidesnatada",
+    "cantidad": "",
+    "ean": "8480000107947",
+    "ciudad": "Torre-Pacheco"
+   }
+  },
+  {
+   "id": "lechesinlactosa",
+   "nombre": "Leche sin lactosa",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "avena",
+   "nombre": "Bebida de avena",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 3,
+   "mas_reciente": {
+    "fecha": "2026-02-14",
+    "dias": 257,
+    "precio": 0.75,
+    "nombre_open_prices": "Bebida de avena 0% azúcar",
+    "cantidad": "1000 ml",
+    "ean": "8402001014581",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "mantequilla",
+   "nombre": "Mantequilla",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-08-16",
+    "dias": 439,
+    "precio": 1.65,
+    "nombre_open_prices": "Belgas 18% mantequilla",
+    "cantidad": "180 g",
+    "ean": "8480000145819",
+    "ciudad": "Torre del Mar"
+   }
+  },
+  {
+   "id": "natamontar",
+   "nombre": "Nata para montar",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "kefir",
+   "nombre": "Kéfir",
+   "seccion": "Huevos, leche y mantequilla",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-01-17",
+    "dias": 285,
+    "precio": 1.2,
+    "nombre_open_prices": "Kéfir natural sabor suave",
+    "cantidad": "500 g",
+    "ean": "8436547770137",
+    "ciudad": "Picassent"
+   }
+  },
+  {
+   "id": "quesofresco",
+   "nombre": "Queso fresco de Burgos",
+   "seccion": "Queso",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "quesolonchas",
+   "nombre": "Queso en lonchas",
+   "seccion": "Queso",
+   "en_recetas": false,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-04-04",
+    "dias": 208,
+    "precio": 2.6,
+    "nombre_open_prices": "Queso Sin Lactosa Lonchas",
+    "cantidad": "",
+    "ean": "8402001031670",
+    "ciudad": "La Mancha"
+   }
+  },
+  {
+   "id": "quesocabra",
+   "nombre": "Rulo de queso de cabra",
+   "seccion": "Queso",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "parmesano",
+   "nombre": "Queso parmesano",
+   "seccion": "Queso",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "quesountar",
+   "nombre": "Queso para untar",
+   "seccion": "Queso",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "feta",
+   "nombre": "Queso feta",
+   "seccion": "Queso",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "yogurnatural",
+   "nombre": "Yogur natural",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "yogurgriego",
+   "nombre": "Yogur griego",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "yogurfrutas",
+   "nombre": "Yogur de frutas",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "quesobatido",
+   "nombre": "Queso fresco batido",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-06-23",
+    "dias": 493,
+    "precio": 1.01,
+    "nombre_open_prices": "Queso fresco batido desnatado",
+    "cantidad": "500 g",
+    "ean": "8480000510716",
+    "ciudad": "Oviedo"
+   }
+  },
+  {
+   "id": "natillas",
+   "nombre": "Natillas",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "flan",
+   "nombre": "Flan de huevo",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "arrozconleche",
+   "nombre": "Arroz con leche",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "gelatina",
+   "nombre": "Gelatina de fresa",
+   "seccion": "Yogures y postres",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cafe",
+   "nombre": "Café molido natural",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-02-14",
+    "dias": 622,
+    "precio": 2.35,
+    "nombre_open_prices": "Café molido mezcla",
+    "cantidad": "500 g",
+    "ean": "8480000159229",
+    "ciudad": "Mazarrón"
+   }
+  },
+  {
+   "id": "capsulas",
+   "nombre": "Café en cápsulas",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cacao",
+   "nombre": "Cacao soluble",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cereales",
+   "nombre": "Cereales copos de maíz",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "muesli",
+   "nombre": "Muesli con frutas",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "copos",
+   "nombre": "Copos de avena",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-02-14",
+    "dias": 257,
+    "precio": 1.35,
+    "nombre_open_prices": "Copos de avena extra suaves",
+    "cantidad": "800 g",
+    "ean": "4008713713411",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "galletas",
+   "nombre": "Galletas María",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "galletaschoco",
+   "nombre": "Galletas con chocolate",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "tortitas",
+   "nombre": "Tortitas de arroz",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mermelada",
+   "nombre": "Mermelada de fresa",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "miel",
+   "nombre": "Miel de flores",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cremacacao",
+   "nombre": "Crema de cacao y avellanas",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "crecacahuete",
+   "nombre": "Crema de cacahuete",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "azucar",
+   "nombre": "Azúcar blanco",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "chocolate",
+   "nombre": "Chocolate negro 70 %",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-06-09",
+    "dias": 142,
+    "precio": 1.75,
+    "nombre_open_prices": "Chocolate Negro 55%",
+    "cantidad": "150 g",
+    "ean": "8480000706522",
+    "ciudad": "Olot"
+   }
+  },
+  {
+   "id": "te",
+   "nombre": "Té verde",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "infusion",
+   "nombre": "Manzanilla",
+   "seccion": "Desayuno y dulces",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "quinoa",
+   "nombre": "Quinoa",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": true,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-09-27",
+    "dias": 397,
+    "precio": 1.4,
+    "nombre_open_prices": "QUINOA REAL BLANCA Y ROJA",
+    "cantidad": "125 g",
+    "ean": "8410184040754",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "basmati",
+   "nombre": "Arroz basmati",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cuscus",
+   "nombre": "Cuscús",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "harina",
+   "nombre": "Harina de trigo",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "panrallado",
+   "nombre": "Pan rallado",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2024-12-10",
+    "dias": 688,
+    "precio": 1.05,
+    "nombre_open_prices": "Pan rallado casero",
+    "cantidad": "500 g",
+    "ean": "8480000823526",
+    "ciudad": "Alcoi / Alcoy"
+   }
+  },
+  {
+   "id": "tallarines",
+   "nombre": "Tallarines al huevo",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "garbanzossecos",
+   "nombre": "Garbanzos secos",
+   "seccion": "Arroz, legumbres y pasta",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "tomatefrito",
+   "nombre": "Tomate frito",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "aceitunas",
+   "nombre": "Aceitunas rellenas de anchoa",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "piquillo",
+   "nombre": "Pimientos del piquillo",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "esparragosblancos",
+   "nombre": "Espárragos blancos",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "sardinaslata",
+   "nombre": "Sardinas en aceite",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mejillonesesc",
+   "nombre": "Mejillones en escabeche",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2024-06-04",
+    "dias": 877,
+    "precio": 1.45,
+    "nombre_open_prices": "Mejillones picantes en escabeche",
+    "cantidad": "111 g",
+    "ean": "8402001009792",
+    "ciudad": "León"
+   }
+  },
+  {
+   "id": "alcachofas",
+   "nombre": "Corazones de alcachofa",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "gazpacho",
+   "nombre": "Gazpacho",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-05-26",
+    "dias": 156,
+    "precio": 1.6,
+    "nombre_open_prices": "Gazpacho Tradicional",
+    "cantidad": "1000 ml",
+    "ean": "8402001019395",
+    "ciudad": "Olot"
+   }
+  },
+  {
+   "id": "caldoverduras",
+   "nombre": "Caldo de verduras",
+   "seccion": "Conservas, caldos y cremas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "girasol",
+   "nombre": "Aceite de girasol",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "vinagre",
+   "nombre": "Vinagre de vino",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "sal",
+   "nombre": "Sal fina",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pimientanegra",
+   "nombre": "Pimienta negra molida",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "oregano",
+   "nombre": "Orégano",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "comino",
+   "nombre": "Comino molido",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "curry",
+   "nombre": "Curry",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mayonesa",
+   "nombre": "Mayonesa",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2025-11-06",
+    "dias": 357,
+    "precio": 1,
+    "nombre_open_prices": "Mayonesa",
+    "cantidad": "",
+    "ean": "8402001043628",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "ketchup",
+   "nombre": "Ketchup",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "mostaza",
+   "nombre": "Mostaza",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "soja",
+   "nombre": "Salsa de soja",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "patatasbolsa",
+   "nombre": "Patatas fritas",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "frutossecos",
+   "nombre": "Cóctel de frutos secos",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "almendras",
+   "nombre": "Almendras tostadas",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "nachos",
+   "nombre": "Nachos",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2024-12-10",
+    "dias": 688,
+    "precio": 0.9,
+    "nombre_open_prices": "Nachos",
+    "cantidad": "150 g",
+    "ean": "8480000336408",
+    "ciudad": "Alcoi / Alcoy"
+   }
+  },
+  {
+   "id": "hummus",
+   "nombre": "Hummus",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-02-14",
+    "dias": 257,
+    "precio": 1.14,
+    "nombre_open_prices": "Hummus Classic",
+    "cantidad": "240 g",
+    "ean": "8480000808585",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "guacamole",
+   "nombre": "Guacamole",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 2,
+   "mas_reciente": {
+    "fecha": "2026-02-14",
+    "dias": 257,
+    "precio": 3.95,
+    "nombre_open_prices": "Guacamole",
+    "cantidad": "500 g",
+    "ean": "8480000038401",
+    "ciudad": "Barcelona"
+   }
+  },
+  {
+   "id": "palomitas",
+   "nombre": "Palomitas para microondas",
+   "seccion": "Aperitivos",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "agua",
+   "nombre": "Agua mineral",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "aguagas",
+   "nombre": "Agua con gas",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cola",
+   "nombre": "Refresco de cola",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "colazero",
+   "nombre": "Refresco de cola zero",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "naranjada",
+   "nombre": "Refresco de naranja",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "zumo",
+   "nombre": "Zumo de naranja",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 1,
+   "mas_reciente": {
+    "fecha": "2026-10-02",
+    "dias": 27,
+    "precio": 5.95,
+    "nombre_open_prices": "Zumo de naranja",
+    "cantidad": "1000 ml",
+    "ean": "8480000033628",
+    "ciudad": "Madrid"
+   }
+  },
+  {
+   "id": "cerveza",
+   "nombre": "Cerveza",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cervezasin",
+   "nombre": "Cerveza sin alcohol",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "vinotinto",
+   "nombre": "Vino tinto",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "vinoblanco",
+   "nombre": "Vino blanco",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "isotonica",
+   "nombre": "Bebida isotónica",
+   "seccion": "Bebidas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "wok",
+   "nombre": "Verduras para wok",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pizzacong",
+   "nombre": "Pizza congelada",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "croquetas",
+   "nombre": "Croquetas de jamón",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "patatascong",
+   "nombre": "Patatas fritas congeladas",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "varitas",
+   "nombre": "Varitas de merluza",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "empanadillas",
+   "nombre": "Empanadillas de atún",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "helado",
+   "nombre": "Helado de vainilla",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "hielo",
+   "nombre": "Cubitos de hielo",
+   "seccion": "Congelados",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pastillaslav",
+   "nombre": "Pastillas lavavajillas",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lavavajillas",
+   "nombre": "Lavavajillas a mano",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "detergente",
+   "nombre": "Detergente para ropa",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "suavizante",
+   "nombre": "Suavizante",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "lejia",
+   "nombre": "Lejía",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "friegasuelos",
+   "nombre": "Friegasuelos",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "multiusos",
+   "nombre": "Limpiador multiusos",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "papelhig",
+   "nombre": "Papel higiénico",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "papelcocina",
+   "nombre": "Papel de cocina",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "servilletas",
+   "nombre": "Servilletas",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "bolsasbasura",
+   "nombre": "Bolsas de basura",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "estropajos",
+   "nombre": "Estropajos",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "aluminio",
+   "nombre": "Papel de aluminio",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "film",
+   "nombre": "Film transparente",
+   "seccion": "Limpieza y hogar",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "gel",
+   "nombre": "Gel de ducha",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "champu",
+   "nombre": "Champú",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pastadientes",
+   "nombre": "Pasta de dientes",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cepillo",
+   "nombre": "Cepillo de dientes",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "desodorante",
+   "nombre": "Desodorante",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "jabonmanos",
+   "nombre": "Jabón de manos",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "cremacorporal",
+   "nombre": "Crema corporal",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "compresas",
+   "nombre": "Compresas",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "maquinillas",
+   "nombre": "Maquinillas de afeitar",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "bastoncillos",
+   "nombre": "Bastoncillos",
+   "seccion": "Higiene y cuidado personal",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "panales",
+   "nombre": "Pañales talla 4",
+   "seccion": "Bebé",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "toallitas",
+   "nombre": "Toallitas de bebé",
+   "seccion": "Bebé",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "potitos",
+   "nombre": "Potito de frutas",
+   "seccion": "Bebé",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "piensoperro",
+   "nombre": "Pienso para perro",
+   "seccion": "Mascotas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "piensogato",
+   "nombre": "Pienso para gato",
+   "seccion": "Mascotas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "arenagato",
+   "nombre": "Arena para gatos",
+   "seccion": "Mascotas",
+   "en_recetas": false,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  },
+  {
+   "id": "pimenton",
+   "nombre": "Pimentón dulce",
+   "seccion": "Aceite, especias y salsas",
+   "en_recetas": true,
+   "precios_encontrados": 0,
+   "mas_reciente": null
+  }
+ ]
+}
