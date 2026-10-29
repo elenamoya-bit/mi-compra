@@ -27,6 +27,7 @@ Una vez instalada funciona **sin internet** (por ejemplo, dentro del súper). Ca
 - `index.html` — la app completa.
 - `manifest.webmanifest` e `icons/` — nombre, colores e iconos de la app instalada.
 - `sw.js` — funcionamiento sin conexión.
+- `platos/` — ilustraciones de los 70 platos (WebP). Si alguna no carga, la app pinta un dibujo sencillo.
 
 ## Aviso
 

@@ -168,9 +168,9 @@ input[type=number],select{border:1px solid var(--line);border-radius:10px;paddin
 
 
 .thumb{width:48px;height:48px;flex:none;border-radius:12px;background:var(--plate-bg);display:grid;place-items:center}
-.thumb svg{width:44px;height:44px}
-.thumb.lg{width:64px;height:64px;border-radius:14px}.thumb.lg svg{width:58px;height:58px}
-.thumb.xl{width:100%;height:190px;border-radius:16px;background:repeating-linear-gradient(90deg,var(--table-line) 0 2px,transparent 2px 6px),repeating-linear-gradient(0deg,var(--table-line) 0 2px,transparent 2px 6px),var(--table)}.thumb.xl svg{width:170px;height:170px}
+.thumb svg,.thumb img.dish{width:44px;height:44px}
+.thumb.lg{width:64px;height:64px;border-radius:14px}.thumb.lg svg,.thumb.lg img.dish{width:58px;height:58px}
+.thumb.xl{width:100%;height:190px;border-radius:16px;background:repeating-linear-gradient(90deg,var(--table-line) 0 2px,transparent 2px 6px),repeating-linear-gradient(0deg,var(--table-line) 0 2px,transparent 2px 6px),var(--table)}.thumb.xl svg,.thumb.xl img.dish{width:170px;height:170px}
 .slot{grid-template-columns:auto 1fr;align-items:center;column-gap:10px}
 .slot .txt{display:grid;gap:3px;min-width:0}
 .today{display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
@@ -236,7 +236,7 @@ nav.bottom button[aria-current="page"] svg{stroke-width:2.3}
 .wk[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft)}
 .wkd{font-weight:700;font-size:12px}
 .wkpic{width:34px;height:34px;border-radius:50%;background:var(--plate-bg);display:grid;place-items:center;overflow:hidden}
-.wkpic svg{width:34px;height:34px}
+.wkpic svg,.wkpic img.dish{width:34px;height:34px}
 .hoy{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--leaf);color:#3A2600;font-size:9px;font-weight:800;text-transform:uppercase;padding:1px 6px;border-radius:99px}
 .dayttl{font-family:var(--f-display);font-size:22px;margin:0}
 .bigcards{display:grid;gap:14px}
@@ -244,7 +244,7 @@ nav.bottom button[aria-current="page"] svg{stroke-width:2.3}
 .bigcard:hover{border-color:var(--green)}
 .bigcard.flag{border:2px solid var(--bad)}
 .bigpic{position:relative;height:200px;background:repeating-linear-gradient(90deg,var(--table-line) 0 2px,transparent 2px 6px),repeating-linear-gradient(0deg,var(--table-line) 0 2px,transparent 2px 6px),var(--table);display:grid;place-items:center}
-.bigpic svg{width:180px;height:180px}
+.bigpic svg,.bigpic img.dish{width:180px;height:180px}
 .bigpic .plus{font-size:56px;color:var(--green)}
 .badge{position:absolute;top:12px;left:12px;background:var(--surface);color:var(--ink);font-weight:700;font-size:13px;padding:4px 10px;border-radius:99px;box-shadow:var(--shadow)}
 .bigtxt{display:grid;gap:6px;padding:14px 16px 16px}
@@ -301,7 +301,7 @@ nav.bottom button[aria-current="page"] svg{stroke-width:2.3}
 .rcard:hover{border-color:var(--green)}
 .rcard.off{opacity:.55}
 .rpic{position:relative;height:120px;display:grid;place-items:center;background:var(--table)}
-.rpic svg{width:112px;height:112px}
+.rpic svg,.rpic img.dish{width:112px;height:112px}
 .rpic .badge{top:8px;left:8px;font-size:11px;padding:2px 8px}
 .rpic .badge.enm{left:auto;right:8px;background:var(--green);color:var(--on-green)}
 .rtxt{display:grid;gap:4px;padding:10px 12px 12px;align-content:start}
@@ -350,7 +350,7 @@ nav.bottom button span{white-space:nowrap}
 .btn.gold:hover{background:color-mix(in srgb,var(--leaf) 85%,#000)}
 .pill.premium{background:color-mix(in srgb,var(--leaf) 25%,transparent);color:var(--ink)}
 </style>
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}img.dish{display:block;object-fit:contain;-webkit-user-drag:none;user-select:none}</style>
 </head>
 <body>
 
@@ -1049,7 +1049,14 @@ const DEFS_PLATOS=`<svg width="0" height="0" style="position:absolute" aria-hidd
 <filter id="fGrain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 -.55" result="a"/><feComposite in="a" in2="SourceGraphic" operator="in"/></filter>
 </defs></svg>`;
 const RADIO_COMIDA={paella:37,bowl:35,crema:35,pisto:35,salad:35,rice:28,pasta:27,balls:28,tortilla:29.5,sausage:26,bigpizza:31};
+// Imagen de cada plato (ilustraciones en platos/*.webp). Si una imagen no carga, se pinta el dibujo sencillo.
+function idImagen(id){ if(id==='aprovechar') return (DISH.aprovechar&&DISH.aprovechar.k==='tortilla')?'aprovechar-tortilla':'aprovechar-salteado'; return id; }
 function dishSVG(id,rico=false){
+  if(!REC[id]&&id!=='aprovechar') return svgPlato(id,rico);
+  return `<img class="dish" src="platos/${idImagen(id)}.webp" alt="${esc(REC[id]?.nombre||'Plato')}" loading="lazy" decoding="async" data-id="${id}" data-rico="${rico?1:0}">`;
+}
+document.addEventListener('error',e=>{ const t=e.target; if(t&&t.classList&&t.classList.contains('dish')) t.outerHTML=svgPlato(t.dataset.id,t.dataset.rico==='1'); },true);
+function svgPlato(id,rico=false){
   const d=DISH[id]||{k:'bowl',base:'#C9A27E',tops:['#7CB342']}, R=rng(id), out=[];
   let baseFin=0;
   const inCircle=(r)=>{ const a=R()*Math.PI*2, rr=Math.sqrt(R())*r; return [50+Math.cos(a)*rr, 52+Math.sin(a)*rr]; };
@@ -1625,7 +1632,12 @@ window.addEventListener('online',()=>pintarEstado());
 window.addEventListener('offline',()=>pintarEstado());
 // Funcionamiento sin conexión (solo cuando la app se sirve desde su web, no dentro de otro marco)
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost') && !enMarco()){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{
+    if(navigator.connection&&navigator.connection.saveData) return;
+    const ids=[...RECETAS.filter(r=>!r.aprov).map(r=>r.id),'aprovechar-salteado','aprovechar-tortilla'];
+    let i=0; const sig=()=>{ if(i>=ids.length||!navigator.onLine) return; fetch('platos/'+ids[i++]+'.webp').catch(()=>{}).finally(sig); };
+    setTimeout(()=>{ for(let k=0;k<4;k++) sig(); },1500);
+  }).catch(()=>{}));
 }
 document.body.insertAdjacentHTML('afterbegin',DEFS_PLATOS);
 aprovechar();
