@@ -53,6 +53,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .store-link:hover{text-decoration:underline}
 .store-card{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 a.btn{text-decoration:none}
+.gear{width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center;flex:none}
+.gear:hover,.gear[aria-current="page"]{background:rgba(255,255,255,.3)}
+.volver{justify-self:start;border:0;background:none;color:var(--green-strong);font-weight:700;font-size:15px;padding:4px 0;display:flex;align-items:center;gap:4px}
+.acciones{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.accion{display:flex;align-items:center;gap:10px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;min-height:58px;cursor:pointer}
+.accion:hover{border-color:var(--green);background:var(--green-soft)}
+.accion .ae{font-size:24px;line-height:1}
+.accion b{font-size:14px;line-height:1.15;display:block}
+.accion small{color:var(--muted);font-size:12px}
 .demo-tag{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.9;white-space:nowrap}
 .status{display:grid;gap:5px}
 .st-main{display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -185,7 +194,7 @@ input[type=number],select{border:1px solid var(--line);border-radius:10px;paddin
 
 /* Navegación inferior */
 nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-nav.bottom .inner{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
+nav.bottom .inner{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
 nav.bottom button{border:0;background:transparent;padding:9px 2px 10px;display:grid;justify-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted)}
 nav.bottom button svg{width:22px;height:22px}
 nav.bottom button[aria-current="page"]{color:var(--green)}
@@ -390,7 +399,7 @@ nav.bottom button span{white-space:nowrap}
         </svg>
         <h1>Mi Compra Inteligente</h1>
       </div>
-      <span class="demo-tag" title="Precios orientativos sin verificar">Precios demo</span>
+      <button class="gear" data-tab="hogar" aria-label="Ajustes: personas, presupuesto y días"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
   </div>
 </header>
@@ -1376,7 +1385,7 @@ const I = {
   recetas:'<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h5M9 11h5"/>',
 };
 const icon=(k,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
-const TABS=[['hogar','Hogar'],['menu','Menú'],['recetas','Recetas'],['lista','Lista'],['presupuesto','Gasto'],['despensa','Despensa']];
+const TABS=[['menu','Menú'],['recetas','Recetas'],['lista','Lista'],['presupuesto','Gasto']];  // Ajustes (⚙️ arriba) y despensa (dentro de la lista) no van en la barra
 
 /* ================= Iconos visuales de productos y secciones ================= */
 const EMO={pechuga:'🍗',muslos:'🍗',picada:'🥩',lomo:'🥩',huevos:'🥚',patata:'🥔',cebolla:'🧅',zanahoria:'🥕',tomate:'🍅',calabacin:'🥒',pimiento:'🫑',lechuga:'🥬',pepino:'🥒',champi:'🍄',merluza:'🐟',brocoli:'🥦',judias:'🫛',guisantes:'🟢',lentejas:'🫘',arroz:'🍚',macarrones:'🍝',espaguetis:'🍝',garbanzos:'🫘',atun:'🐟',tomatetri:'🥫',pan:'🥖',tortillas:'🫓',queso:'🧀',aceite:'🫒',pimenton:'🌶️',salmon:'🍣',langostinos:'🦐',solomillo:'🥩',jamon:'🍖',manchego:'🧀',fideos:'🍜',pavo:'🦃',salchichas:'🌭',hamburguesas:'🍔',chorizo:'🥓',alubias:'🫘',bacalao:'🐟',espinacas:'🥬',berenjena:'🍆',nata:'🥛',mozzarella:'🧀',panhamb:'🍞',masapizza:'🍕',entrecot:'🥩',ajo:'🧄',calabaza:'🎃',puerro:'🌱',bacon:'🥓',york:'🍖',lasana:'🟨',fideosg:'🍜',caldo:'🥣',pesto:'🌿',aguacate:'🥑',platano:'🍌',manzana:'🍎',naranja:'🍊',naranjazumo:'🍊',mandarina:'🍊',limon:'🍋',pera:'🍐',kiwi:'🥝',fresas:'🍓',uvas:'🍇',arandanos:'🫐',frambuesas:'🫐',melon:'🍈',sandia:'🍉',pina:'🍍',mango:'🥭',melocoton:'🍑',cherry:'🍅',rucula:'🥬',canonigos:'🥬',espinacafresca:'🥬',esparragos:'🥦',coliflor:'🥦',lombarda:'🥬',boniato:'🍠',cebollaroja:'🧅',cebolleta:'🧅',perejil:'🌿',cilantro:'🌿',jengibre:'🫚',setas:'🍄',maiz:'🌽',panmolde:'🍞',panintegral:'🍞',picos:'🥖',croissants:'🥐',magdalenas:'🧁',bizcocho:'🍰',alitas:'🍗',pollo:'🐔',ternera:'🥩',costillas:'🍖',cordero:'🍖',picadavacuno:'🥩',pavofiambre:'🦃',salchichon:'🥓',fuet:'🥓',lomoembuchado:'🥓',sobrasada:'🥓',salchichasfrankfurt:'🌭',dorada:'🐟',lubina:'🐟',sardinas:'🐟',boquerones:'🐟',mejillones:'🦪',salmonahumado:'🍣',surimi:'🦀',lecheentera:'🥛',lechesemi:'🥛',lechesinlactosa:'🥛',avena:'🥛',mantequilla:'🧈',natamontar:'🥛',kefir:'🥛',quesofresco:'🧀',quesolonchas:'🧀',quesocabra:'🧀',parmesano:'🧀',quesountar:'🧀',feta:'🧀',yogurnatural:'🥛',yogurgriego:'🥛',yogurfrutas:'🍓',quesobatido:'🥛',natillas:'🍮',flan:'🍮',arrozconleche:'🍚',gelatina:'🍓',cafe:'☕',capsulas:'☕',cacao:'🍫',cereales:'🥣',muesli:'🥣',copos:'🥣',galletas:'🍪',galletaschoco:'🍪',tortitas:'🍘',mermelada:'🍓',miel:'🍯',cremacacao:'🍫',crecacahuete:'🥜',azucar:'🧂',chocolate:'🍫',te:'🍵',infusion:'🍵',quinoa:'🌾',basmati:'🍚',cuscus:'🌾',harina:'🌾',panrallado:'🍞',tallarines:'🍝',garbanzossecos:'🫘',tomatefrito:'🥫',aceitunas:'🫒',piquillo:'🫑',esparragosblancos:'🥫',sardinaslata:'🐟',mejillonesesc:'🦪',alcachofas:'🥫',gazpacho:'🍅',caldoverduras:'🥣',girasol:'🌻',vinagre:'🍶',sal:'🧂',pimientanegra:'🧂',oregano:'🌿',comino:'🧂',curry:'🧂',mayonesa:'🫙',ketchup:'🍅',mostaza:'🫙',soja:'🫙',patatasbolsa:'🥔',frutossecos:'🥜',almendras:'🥜',nachos:'🌮',hummus:'🫘',guacamole:'🥑',palomitas:'🍿',agua:'💧',aguagas:'💧',cola:'🥤',colazero:'🥤',naranjada:'🥤',zumo:'🧃',cerveza:'🍺',cervezasin:'🍺',vinotinto:'🍷',vinoblanco:'🥂',isotonica:'🧃',wok:'🥦',pizzacong:'🍕',croquetas:'🧆',patatascong:'🍟',varitas:'🐟',empanadillas:'🥟',helado:'🍨',hielo:'🧊',pastillaslav:'🍽️',lavavajillas:'🧽',detergente:'🧺',suavizante:'🧺',lejia:'🧴',friegasuelos:'🧴',multiusos:'🧴',papelhig:'🧻',papelcocina:'🧻',servilletas:'🧻',bolsasbasura:'🗑️',estropajos:'🧽',aluminio:'🧻',film:'🧻',gel:'🧴',champu:'🧴',pastadientes:'🪥',cepillo:'🪥',desodorante:'🧴',jabonmanos:'🧼',cremacorporal:'🧴',compresas:'🩹',maquinillas:'🪒',bastoncillos:'🩹',panales:'👶',toallitas:'👶',potitos:'🍼',piensoperro:'🐶',piensogato:'🐱',arenagato:'🐱'};
@@ -1398,6 +1407,7 @@ function pintarEstado(){
 }
 function render(){
   const c=pintarEstado();
+  document.querySelector('.gear')?.toggleAttribute('aria-current',tab==='hogar');
   document.getElementById('nav').innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${tab===k?'aria-current="page"':''}>${icon(k)}<span>${l}</span></button>`).join('');
   document.getElementById('app').innerHTML=({hogar:vHogar,menu:vMenu,recetas:vRecetas,lista:vLista,presupuesto:vPresupuesto,despensa:vDespensa})[tab](c);
 }
@@ -1409,7 +1419,8 @@ const FRECUENCIAS=[[7,'Toda la semana','De lunes a domingo'],[4,'4 días','Desde
 function vHogar(){
   const h=state.hogar;
   return `<section data-view="hogar">
-    <div class="view-head"><h2>Mi hogar</h2><p>Tres toques y listo: cuántos sois, cuánto queréis gastar y qué no podéis comer.</p></div>
+    <button class="volver" data-tab="menu">‹ Volver al menú</button>
+    <div class="view-head"><h2>Ajustes</h2><p>Cuántos sois, cuánto queréis gastar, qué días compras y qué no podéis comer.</p></div>
     <div class="card bigq">
       <div class="q-title"><span class="q-emo">👨‍👩‍👧</span><span>¿Cuántos coméis en casa?</span></div>
       <div class="people" aria-hidden="true">${'<span>🧑</span>'.repeat(h.personas)}</div>
@@ -1530,7 +1541,7 @@ function vMenu(){
     <div class="view-head"><h2>¿Qué comemos?</h2><p>Elige un día. Toca un plato para ver la receta o cambiarlo.</p></div>
     ${state.instalarVisto?'':tarjetaInstalar(true)}
     ${state.guiaVista?'':`<div class="guide"><div class="row between"><span class="label">Así de fácil</span><button class="btn ghost sm" data-act="guia">Entendido</button></div>
-      <ol><li><span><b>🏠 Dinos cuántos sois</b><span class="small">Y cuánto quieres gastar, en Mi hogar.</span></span></li>
+      <ol><li><span><b>🏠 Dinos cuántos sois</b><span class="small">Y cuánto quieres gastar, en Ajustes ⚙️ (arriba).</span></span></li>
       <li><span><b>🍽️ Mira el menú</b><span class="small">Si un plato no te gusta, tócalo y cámbialo.</span></span></li>
       <li><span><b>🛒 Ve a comprar</b><span class="small">La lista ya está hecha y ordenada por pasillos.</span></span></li></ol></div>`}
     ${cadaDias()<7?`<div class="card compra-act"><span style="font-size:24px">🛒</span><span class="grow"><b>Compra de ${cadaDias()} días: ${textoCompra()}</b><br><span class="small muted">Los demás días entran en tu próxima compra.</span></span></div>`:''}
@@ -1566,7 +1577,8 @@ function vLista(c){
   return `<section data-view="lista">
     ${segLista}
     <div class="view-head"><h2>Lista de la compra</h2><p>${cadaDias()<7?`Para ${cadaDias()} días: <b>${textoCompra()}</b>. `:''}Solo lo justo, en el formato que menos sobra y ordenado por pasillos. Toca cada producto al meterlo en el carro.</p></div>
-    <button class="card add-extras" data-act="extras"><span class="ax-emo">🥑</span><span class="grow"><b>Añadir otras cosas</b><br><span class="small muted">Aguacates, fruta, yogures, café, bebidas, limpieza…</span></span>${nExtras()?`<span class="pill">${nExtras()} añadidas</span>`:'<span class="ax-plus">+</span>'}</button>
+    <div class="acciones"><button class="accion" data-act="extras"><span class="ae">🥑</span><span><b>Añadir otras cosas</b><small>${nExtras()?nExtras()+' añadidas':'Fruta, café, limpieza…'}</small></span></button>
+      <button class="accion" data-tab="despensa"><span class="ae">🏠</span><span><b>Ya tengo en casa</b><small>${Object.keys(state.despensa).length?Object.keys(state.despensa).length+' productos':'No lo compres dos veces'}</small></span></button></div>
     ${eficiencia(c)}
     <div class="card progress">
       <div class="row between"><b>${marcados===comprar.length&&comprar.length?'🎉 ¡Compra completa!':`🛒 ${marcados} de ${comprar.length} en el carro`}</b><span class="num muted">${pct}%</span></div>
@@ -1629,7 +1641,7 @@ function eficiencia(c){
   return `<div class="card efic ${c.desperdicio>0.5?'warn':''}">
     <div class="row between"><span class="big-emo">${c.desperdicio<=0.5?'🌱':'⚠️'}</span>
       <div class="grow"><b>${c.desperdicio<=0.5?(cadaDias()===7?'No se tira comida esta semana':'No se tira comida en esta compra'):'Se tirarían '+eur(c.desperdicio)+' en frescos'}</b>
-      <div class="small muted">${diaAprov()>=0?`♻️ El ${DIAS[diaAprov()].toLowerCase()} toca plato de aprovechamiento con lo que sobra.`:(cadaDias()===2?'Comprando cada 2 días apenas sobra comida.':'Activa el día de aprovechamiento en Mi hogar para no tirar nada.')}</div></div></div>
+      <div class="small muted">${diaAprov()>=0?`♻️ El ${DIAS[diaAprov()].toLowerCase()} toca plato de aprovechamiento con lo que sobra.`:(cadaDias()===2?'Con compras tan cortas apenas sobra comida.':'Activa el día de aprovechamiento en Ajustes ⚙️ para no tirar nada.')}</div></div></div>
     ${tirar.length?`<ul class="mini">${tirar.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul>
       <button class="btn sm" data-act="proponer">✨ Rehacer el menú para no tirar nada</button>`:''}
     ${guarda.length?`<details><summary>📦 Te sobra para ${cadaDias()===7?'la semana que viene':'la próxima compra'} (${guarda.length}): no caduca</summary><ul class="mini">${guarda.map(l=>`<li>${emo(l.pid)} ${esc(l.p.nombre)}: ${fmtQty(l.sobra,l.p)}</li>`).join('')}</ul><p class="small muted" style="margin:6px 0 0">Al terminar la semana pulsa «He terminado la semana» y pasa solo a tu despensa: el próximo menú lo usará primero.</p></details>`:''}
@@ -1699,6 +1711,7 @@ function vDespensa(c){
   const libres=PRODUCTOS.filter(p=>!(p.id in state.despensa)&&!SECCIONES_CASA.includes(p.seccion));
   despLibres=libres;
   return `<section data-view="despensa">
+    <button class="volver" data-tab="lista">‹ Volver a la lista</button>
     <div class="view-head"><h2>Lo que tienes en casa</h2><p>Lo que ya tienes no te lo ponemos en la lista. Toca un producto para añadirlo.</p></div>
     ${c.ahorroDespensa>0?`<div class="card row between"><span>🏠 Esta semana te ahorras</span><b class="num">${eur(c.ahorroDespensa)}</b></div>`:''}
     <div class="card">
