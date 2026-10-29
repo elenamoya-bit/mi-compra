@@ -7,7 +7,7 @@ App para organizar el menú de la semana y la lista de la compra en Mercadona, d
 ## Qué hace
 
 - **Bienvenida:** la primera vez pregunta cuántos sois, cuánto queréis gastar y las alergias, y crea vuestro menú.
-- **Menú semanal** de comidas y cenas con más de 60 recetas.
+- **Menú semanal** de comidas y cenas con 74 recetas. Nunca se repite un plato, y un menú nuevo evita los platos del anterior.
 - **Recetas:** buscador y categorías (pasta, sopas y cremas, arroces, legumbres…). Eliges un plato y el día, y se pone en el menú.
 - **Lista de la compra** sumada, en el formato que menos sobra y ordenada por pasillos.
 - **Modo súper:** lista grande y sencilla para usar con el carro; lo que coges se tacha y baja al final. La pantalla no se apaga.

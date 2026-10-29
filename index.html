@@ -1051,12 +1051,13 @@ function describirAprov(a){
 const puntuacion = c => c.total + 2*c.desperdicio;
 
 function menuCon(dia,momento,rid){ return state.menu.map((d,i)=>i===dia?{...d,[momento]:rid}:d); }
+function dondeEsta(rid){ for(let i=0;i<7;i++) for(const m of MOMENTOS) if(state.menu[i][m]===rid) return {dia:i,momento:m}; return null; }
 function vecesEnMenu(rid,menu=state.menu){ return menu.reduce((n,d)=>n+(d.comida===rid)+(d.cena===rid),0); }
 
 // Alternativas para un hueco, con la diferencia REAL en la cesta (incluye efecto de envases y despensa)
 function alternativas(dia,momento){
   const base=calcularCesta().total, actual=state.menu[dia][momento];
-  return RECETAS.filter(r=>r.momentos.includes(momento) && compatible(r) && (!r.aprov||esDiaReciclaje(dia)))
+  return RECETAS.filter(r=>r.momentos.includes(momento) && compatible(r) && (!r.aprov||esDiaReciclaje(dia)) && (r.id===actual||!vecesEnMenu(r.id)))
     .map(r=>({r,delta: r.id===actual?0:r2(calcularCesta(menuCon(dia,momento,r.id)).total-base), actual:r.id===actual}))
     .sort((a,b)=>a.delta-b.delta);
 }
@@ -1074,7 +1075,7 @@ function sugerenciasCalc(){
     if(esDiaReciclaje(i)||!enCompra(i)) return;
     const ops=[];
     for(const r of RECETAS){
-      if(r.aprov||r.premium||r.id===d[m]||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
+      if(r.aprov||r.premium||r.id===d[m]||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=1) continue;
       const delta=r2(calcularCesta(menuCon(i,m,r.id)).total-base);
       if(delta<-0.01) ops.push({dia:i,momento:m,de:d[m],a:r.id,delta});
     }
@@ -1135,9 +1136,10 @@ function aprovechar(){
   state.menu[d].cena='aprovechar';
   const m='comida', fuera=rid=>vecesEnMenu(rid)-(state.menu[d][m]===rid?1:0);
   let best=null;
-  for(const tope of [0,1]){
+  const antes=new Set(state.anteriores||[]);
+  for(const evitar of [true,false]){
     for(const r of RECETAS){
-      if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||fuera(r.id)>tope) continue;
+      if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||fuera(r.id)>0||(evitar&&antes.has(r.id))) continue;
       const sc=puntuacion(calcularCesta(menuCon(d,m,r.id)));
       if(!best||sc<best.sc-1e-6) best={r,sc};
     }
@@ -1150,11 +1152,14 @@ function aprovechar(){
 function rellenarHuecos(){
   state.menu.forEach((d,i)=>MOMENTOS.forEach(m=>{
     if(d[m]||!enCompra(i)) return;
-    let best=null;
-    for(const r of RECETAS){
-      if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=2) continue;
-      const sc=puntuacion(calcularCesta(menuCon(i,m,r.id)));
-      if(!best||sc<best.sc) best={r,sc};
+    let best=null; const antes=new Set(state.anteriores||[]);
+    for(const evitar of [true,false]){
+      for(const r of RECETAS){
+        if(r.premium||r.aprov||!r.momentos.includes(m)||!compatible(r)||vecesEnMenu(r.id)>=1||(evitar&&antes.has(r.id))) continue;
+        const sc=puntuacion(calcularCesta(menuCon(i,m,r.id)));
+        if(!best||sc<best.sc) best={r,sc};
+      }
+      if(best) break;
     }
     if(best) d[m]=best.r.id;
   }));
@@ -1181,15 +1186,18 @@ function proponerMenu(){
   const h=state.hogar;
   const pool=m=>{
     let c=RECETAS.filter(r=>!r.premium&&!r.aprov&&r.momentos.includes(m)&&compatible(r));
-    if(h.rapido){ const q=c.filter(r=>r.min<=30); if(q.length>=4) c=q; }
+    if(h.rapido){ const q=c.filter(r=>r.min<=30); if(q.length>=cadaDias()*2+2) c=q; }
     return c;
   };
   const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-  const usados={};
+  // Nunca se repite un plato en el menú. Además se evitan los de la compra anterior mientras haya recetas de sobra.
+  state.anteriores=state.menu.flatMap((d,i)=>enCompra(i)?[d.comida,d.cena]:[]).filter(x=>x&&x!=='aprovechar');
+  const antes=new Set(state.anteriores);
+  const usados=new Set(state.menu.flatMap((d,i)=>enCompra(i)?[]:[d.comida,d.cena]).filter(Boolean));
   const elegir=m=>{
-    const c=shuffle(pool(m)); if(!c.length) return null;
-    const r=c.find(r=>!usados[r.id])||c.find(r=>(usados[r.id]||0)<2)||c[0];
-    usados[r.id]=(usados[r.id]||0)+1; return r.id;
+    const c=shuffle(pool(m));
+    const r=c.find(r=>!usados.has(r.id)&&!antes.has(r.id))||c.find(r=>!usados.has(r.id));
+    if(!r) return null; usados.add(r.id); return r.id;
   };
   state.fijados={};
   state.menu=DIAS.map((_,i)=>enCompra(i)?{comida:elegir('comida'),cena:elegir('cena')}:(state.menu[i]||{comida:null,cena:null}));
@@ -1200,7 +1208,7 @@ function proponerMenu(){
     const base=puntuacion(calcularCesta()), otro=MOMENTOS.find(x=>x!==m);
     let best=null;
     for(const r of shuffle(pool(m)).slice(0,8)){
-      if(r.id===state.menu[i][m]||state.menu[i][otro]===r.id||vecesEnMenu(r.id)>=1) continue;
+      if(r.id===state.menu[i][m]||state.menu[i][otro]===r.id||vecesEnMenu(r.id)>=1||antes.has(r.id)) continue;
       const sc=puntuacion(calcularCesta(menuCon(i,m,r.id)));
       if(sc<base-0.3&&(!best||sc<best.sc)) best={r,sc};
     }
@@ -1415,7 +1423,7 @@ function render(){
 
 const aviso=`<div class="notice"><span>ⓘ</span><span><b>Datos de demostración.</b> Los precios y formatos son orientativos y no están verificados. Mi Compra Inteligente es una app independiente, no afiliada a Mercadona ni respaldada por ella, y no tiene integración oficial con su tienda: comprueba los precios en tu supermercado o en su web antes de comprar.</span></div>`;
 
-const VERSION_APP='8 · 29 oct, 12:10';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
+const VERSION_APP='9 · 29 oct, 12:30';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
 const PRESU_MIN=20, PRESU_MAX=400;
 const FRECUENCIAS=[[7,'Toda la semana','De lunes a domingo'],[4,'4 días','Desde hoy'],[3,'3 días','Desde hoy'],[2,'2 días','Desde hoy']];
 function vHogar(){
@@ -1523,8 +1531,9 @@ function pintarFicha(){
     <div style="display:grid;gap:8px"><div class="label">¿Comida o cena?</div>
       <div class="seg">${MOMENTOS.map(m=>`<button data-act="fmom" data-v="${m}" aria-pressed="${m===momento}" ${r.momentos.includes(m)?'':'disabled'}>${m==='comida'?'☀️ Comida':'🌙 Cena'}</button>`).join('')}</div></div>
     ${bloq?`<div class="notice ok-notice"><span>♻️</span><span>La cena del ${DIAS[dia].toLowerCase()} es el plato de aprovechamiento. Elige la comida u otro día.</span></div>`
-      :`<div class="small muted">${actual?`Sustituye a <b>${esc(actual.nombre)}</b>. `:''}${Math.abs(delta)<0.01?'La cesta no cambia.':(delta>0?`La cesta sube ${eur(delta)}.`:`La cesta baja ${eur(-delta)}.`)}</div>`}
-    <button class="btn block xl" data-act="fponer" ${bloq||!compatible(r)?'disabled':''}>${compatible(r)?'📅 Poner en el menú':'No encaja con tus alergias'}</button>
+      :(()=>{ const dd=dondeEsta(r.id); if(dd&&!(dd.dia===dia&&dd.momento===momento)) return `<div class="notice"><span>🔁</span><span><b>Ya lo tienes el ${DIAS[dd.dia].toLowerCase()} (${dd.momento}).</b> Para no repetir, se cambian de sitio${actual&&actual.id!==r.id?`: ${esc(actual.nombre)} pasa a ese hueco`:''}.</span></div>`;
+        return `<div class="small muted">${actual?`Sustituye a <b>${esc(actual.nombre)}</b>. `:''}${Math.abs(delta)<0.01?'La cesta no cambia.':(delta>0?`La cesta sube ${eur(delta)}.`:`La cesta baja ${eur(-delta)}.`)}</div>`; })()}
+    <button class="btn block xl" data-act="fponer" ${bloq||!compatible(r)?'disabled':''}>${!compatible(r)?'No encaja con tus alergias':(dondeEsta(r.id)?'🔁 Cambiar de día':'📅 Poner en el menú')}</button>
     <details class="covered"><summary>Ver ingredientes y preparación</summary>
       <ul class="ing-list">${r.ing.map(([pid,q])=>`<li><span><span class="ie">${emo(pid)}</span>${esc(PROD[pid].nombre)}</span><span class="num muted">${fmtQty(q*h.personas,PROD[pid])}</span></li>`).join('')}</ul>
       <ol class="steps" style="margin-top:8px">${r.pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></details>
@@ -1551,6 +1560,7 @@ function vMenu(){
     <div class="week" role="group" aria-label="Días de la semana">${state.menu.map((dd,i)=>`<button class="wk ${enCompra(i)?'':'fuera'}" data-act="dia" data-v="${i}" aria-pressed="${i===diaSel}">
       <span class="wkd">${DIAS[i].slice(0,3)}</span>${i===hoy?'<span class="hoy">hoy</span>':''}${esDiaReciclaje(i)?'<span class="rec" aria-label="Día de aprovechamiento">♻️</span>':''}
       ${MOMENTOS.map(m=>`<span class="wkpic">${REC[dd[m]]?dishSVG(dd[m]):''}</span>`).join('')}</button>`).join('')}</div>
+    ${state.menu.some((d,i)=>enCompra(i)&&MOMENTOS.some(m=>!d[m]))?`<div class="notice"><span>🍽️</span><span><b>Hay huecos sin plato.</b> Con tus alergias y preferencias no hay suficientes recetas distintas y la app nunca repite plato. Toca un hueco para elegir uno, o quita alguna restricción en Ajustes ⚙️.</span></div>`:''}
     ${conflictos?`<div class="notice"><span>!</span><span><b>Hay platos que no encajan con tus alergias o preferencias.</b> Están marcados en rojo; tócalos para cambiarlos.</span></div>`:''}
     <div class="row between"><h3 class="dayttl">${DIAS[diaSel]}${diaSel===hoy?' · hoy':''}</h3><span class="pill num">${esDiaReciclaje(diaSel)?'♻️ Con sobras':'≈ '+eur(costeDia)}</span></div>
     ${!enCompra(diaSel)?`<div class="notice"><span>🗓️</span><span><b>Este día no entra en esta compra.</b> Sus platos no salen en la lista ni en el gasto; entrarán cuando prepares la siguiente compra.</span></div>`:''}
@@ -1908,7 +1918,8 @@ document.addEventListener('click',e=>{
     case 'fmom': ficha.momento=v; pintarFicha(); return;
     case 'fponer': { const {rid,dia,momento}=ficha, r=REC[rid];
       if(esDiaReciclaje(dia)) (state.fijados||(state.fijados={}))[dia+'-'+momento]=true;
-      state.menu[dia][momento]=rid; aprovechar(); diaSel=dia; ficha=null; document.getElementById('layer').innerHTML='';
+      const donde=dondeEsta(rid); if(donde&&!(donde.dia===dia&&donde.momento===momento)){ const otro=state.menu[dia][momento]; state.menu[donde.dia][donde.momento]=(otro&&REC[otro]&&REC[otro].momentos.includes(donde.momento)&&otro!=='aprovechar')?otro:null; }
+      state.menu[dia][momento]=rid; rellenarHuecos(); aprovechar(); diaSel=dia; ficha=null; document.getElementById('layer').innerHTML='';
       toast(`📅 ${r.nombre} · ${DIAS[dia].toLowerCase()} ${momento}`); break; }
     case 'pmodo': presuModo=v; break;
     case 'presu': h.presupuesto=Number(v); break;
