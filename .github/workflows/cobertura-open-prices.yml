@@ -1,0 +1,35 @@
+# Mide la cobertura de Open Prices para Mercadona y guarda el informe en esta misma rama.
+# Solo se ejecuta en la rama de pruebas; no toca la web publicada.
+name: Cobertura de Open Prices
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [precios-reales]
+    paths: [scripts/cobertura-open-prices.mjs, .github/workflows/cobertura-open-prices.yml]
+
+permissions:
+  contents: write   # para guardar el informe en la rama
+
+concurrency:
+  group: cobertura-open-prices
+  cancel-in-progress: false
+
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Medir cobertura
+        run: node scripts/cobertura-open-prices.mjs
+      - name: Guardar el informe en la rama
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add informes/
+          git diff --cached --quiet || git commit -m "Informe de cobertura de Open Prices [skip ci]"
+          git push
