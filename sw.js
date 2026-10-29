@@ -3,7 +3,7 @@
      cobertura o tarda más de 3 segundos, se usa la copia guardada. Así funciona dentro del súper.
    - Iconos y archivos propios: se sirven de la copia guardada.
    - Tipografías de Google: se usan de la copia y se actualizan en segundo plano. */
-const VERSION = 'mci-v7-2026-10-29';
+const VERSION = 'mci-v8-2026-10-29';
 const CORE = [
   './',
   './index.html',
@@ -44,7 +44,7 @@ self.addEventListener('fetch', event => {
     event.respondWith((async () => {
       const cache = await caches.open(VERSION);
       try {
-        const red = await conTiempo(fetch(req), 3000);
+        const red = await conTiempo(fetch(req, { cache: 'no-store' }), 4000);  // nunca la copia del navegador: siempre la última versión
         if (red.ok) cache.put('./index.html', red.clone());
         return red;
       } catch (e) {
