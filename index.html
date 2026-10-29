@@ -1088,8 +1088,10 @@ function tarjetaAhorro(c,donde='lista'){
   const tirar=c.lineas.filter(l=>l.tira>0), guarda=c.lineas.filter(l=>!l.fresco&&l.sobra>0);
   const partes=[['📦','Envases justos',a.formatos],['🏠','Ya lo tenías',a.despensa],['♻️','Cena con sobras',a.sobras]].filter(x=>x[2]>=0.05);
   return `<div class="card ahorro">
-    <div class="ah-top"><span class="ah-emo" aria-hidden="true">💰</span><div><div class="ah-big num">Ahorras ${eur(a.total)}</div>
-      <div class="ah-sub">frente a una compra habitual${a.total>=0.5?` · unos <b class="num">${eur(a.mes)}</b> al mes`:''}</div></div></div>
+    ${a.total>=0.5?`<div class="ah-top"><span class="ah-emo" aria-hidden="true">💰</span><div><div class="ah-big num">Ahorras ${eur(a.total)}</div>
+      <div class="ah-sub">frente a una compra habitual · unos <b class="num">${eur(a.mes)}</b> al mes</div></div></div>`
+    :`<div class="ah-top"><span class="ah-emo" aria-hidden="true">👌</span><div><div class="ah-big" style="font-size:21px">Compra ya ajustada</div>
+      <div class="ah-sub">Este menú cuesta lo mismo que una compra habitual, sin envases de más.</div></div></div>`}
     ${partes.length?`<div class="ah-chips">${partes.map(([e,t,v])=>`<span>${e} ${t} <b class="num">${eur(v)}</b></span>`).join('')}</div>`:''}
     <div class="ah-foot">${c.desperdicio<=0.5?'🌱 No se tira comida':`⚠️ Se tirarían ${eur(c.desperdicio)} en frescos`}${guarda.length?` · 📦 ${guarda.length} cosas se guardan para la próxima compra`:''}</div>
     ${tirar.length&&donde==='lista'?`<button class="btn sm" data-act="proponer">✨ Rehacer el menú para no tirar nada</button>`:''}
