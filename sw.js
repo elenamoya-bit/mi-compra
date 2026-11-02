@@ -3,7 +3,7 @@
      cobertura o tarda más de 3 segundos, se usa la copia guardada. Así funciona dentro del súper.
    - Iconos y archivos propios: se sirven de la copia guardada.
    - Tipografías de Google: se usan de la copia y se actualizan en segundo plano. */
-const VERSION = 'mci-v11-2026-11-02';
+const VERSION = 'mci-v12-2026-11-02';
 const CORE = [
   './',
   './index.html',
