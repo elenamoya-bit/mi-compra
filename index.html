@@ -331,6 +331,9 @@ nav.bottom button span{white-space:nowrap}
 .q-emo .ic,.ah-emo .ic{vertical-align:middle}
 .demo-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#FFF4D6;color:#6B4A00;border-radius:14px;padding:10px 12px;font-size:14px;font-weight:600}
 .demo-bar .btn{flex:none}
+.fam-code{font-size:20px;letter-spacing:2px;font-weight:800;text-align:center;color:var(--green)}
+.fam-input{width:100%;box-sizing:border-box;font-size:22px;text-align:center;letter-spacing:2px;padding:12px;border-radius:14px;border:2px solid #CFE3D6;background:#fff;text-transform:uppercase}
+.fam-pill{justify-self:start;margin-top:4px}
 .welcome{gap:18px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .w-hero{display:grid;gap:4px;justify-items:center;text-align:center}
 .w-hero h3{font-family:var(--f-display);font-size:24px;margin:0;text-wrap:balance}
@@ -1196,7 +1199,8 @@ const EJEMPLO = () => ({
 const KEY='mci-v2';
 let state = EJEMPLO();
 try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&s.menu&&s.hogar){ state=Object.assign(EJEMPLO(),s); state.hogar=Object.assign(EJEMPLO().hogar,s.hogar); } else state.nuevo=true; }catch(e){ state.nuevo=true; }
-function save(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+function guardarLocal(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+function save(){ guardarLocal(); if(typeof fam!=='undefined'&&fam&&!state.ejemplo) programarEnvio(); }
 let tab = ['hogar','menu','recetas','lista','presupuesto','despensa'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'menu';
 
 /* ================= Formato ================= */
@@ -1980,7 +1984,7 @@ function render(){
 
 const aviso=`<p class="aviso">Precios orientativos de demostración. App independiente, sin relación con Mercadona.</p>`;
 
-const VERSION_APP='14 · 2 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
+const VERSION_APP='15 · 2 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
 const PRESU_MIN=20, PRESU_MAX=400;
 const FRECUENCIAS=[[7,'Toda la semana','De lunes a domingo'],[4,'4 días','Desde hoy'],[3,'3 días','Desde hoy'],[2,'2 días','Desde hoy']];
 function vHogar(){
@@ -1988,6 +1992,7 @@ function vHogar(){
   return `<section data-view="hogar">
     <button class="volver" data-tab="menu">‹ Volver al menú</button>
     <div class="view-head"><h2>Ajustes</h2></div>
+    ${tarjetaFamilia()}
     <div class="card bigq">
       <div class="q-title"><span class="q-emo">${icon('personas',26)}</span><span>¿Cuántos coméis en casa?</span></div>
             <div class="bigstep"><button data-act="pers" data-v="-1" aria-label="Quitar persona">−</button><output class="num" id="personas">${h.personas}</output><button data-act="pers" data-v="1" aria-label="Añadir persona">+</button></div>
@@ -2023,7 +2028,7 @@ function vHogar(){
     </div>
     ${tarjetaInstalar()}
     <button class="btn block xl" data-act="proponer">Hazme el menú nuevo</button>
-    <div class="row" style="gap:8px"><button class="btn ghost grow" data-act="decero">Empezar de cero</button><button class="btn ghost grow" data-act="reset">Ver el ejemplo</button></div>
+    ${fam?'':`<div class="row" style="gap:8px"><button class="btn ghost grow" data-act="decero">Empezar de cero</button><button class="btn ghost grow" data-act="reset">Ver el ejemplo</button></div>`}
     ${aviso}
     <p class="version">Versión ${VERSION_APP}</p>
   </section>`;
@@ -2137,7 +2142,7 @@ function vLista(c){
   if(sup) return vSuper(c,comprar,marcados,pct,grupos,segLista);
   return `<section data-view="lista">
     ${segLista}
-    <div class="view-head"><h2>Lista de la compra</h2>${cadaDias()<7?`<p>Para ${cadaDias()} días: <b>${textoCompra()}</b></p>`:''}</div>
+    <div class="view-head"><h2>Lista de la compra</h2>${fam?`<span class="pill fam-pill">${ic('personas',14)}Compartida con tu familia</span>`:''}${cadaDias()<7?`<p>Para ${cadaDias()} días: <b>${textoCompra()}</b></p>`:''}</div>
     <div class="acciones"><button class="accion" data-act="extras"><span class="ae">🥑</span><span><b>Añadir otras cosas</b><small>${nExtras()?nExtras()+' añadidas':'Fruta, café, limpieza…'}</small></span></button>
       <button class="accion" data-tab="despensa"><span class="ae">${icon('hogar',24)}</span><span><b>Ya tengo en casa</b><small>${Object.keys(state.despensa).length?Object.keys(state.despensa).length+' productos':'No lo compres dos veces'}</small></span></button></div>
     ${tarjetaAhorro(c)}
@@ -2420,6 +2425,7 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('[data-tab],[data-act]'); if(!t) return;
   if(t.dataset.tab){ irA(t.dataset.tab); if(t.dataset.act==='verinstalar') setTimeout(()=>document.getElementById('instalar')?.scrollIntoView({block:'center'}),50); return; }
   const a=t.dataset.act, v=t.dataset.v, h=state.hogar;
+  if(a&&a.startsWith('fam-')){ accionFamilia(a,t); return; }
   if(a==='cerrar'){ if(e.target===t||t.tagName==='BUTTON') cerrarHoja(); return; }
   if(a==='marcar'||a==='desp') return;
   switch(a){
@@ -2513,11 +2519,177 @@ if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostn
     setTimeout(()=>{ for(let k=0;k<4;k++) sig(); },1500);
   }).catch(()=>{}));
 }
+/* ================= Compra familiar compartida =================
+   Todos los de casa ven y cambian el mismo menú, lista, despensa y lo marcado en el carro.
+   Se entra con un enlace o un código de 12 letras, sin contraseñas.
+   Los datos viven en Supabase; la app solo usa la clave PÚBLICA (anon), que con las
+   funciones de supabase/familia.sql solo deja leer o guardar la familia cuyo código conoces.
+   La clave privada (service_role) nunca va en este archivo. */
+const FAMILIA_API={url:'', clave:''};   // se rellena al conectar Supabase
+try{ if(location.hostname==='localhost'){ const d=JSON.parse(localStorage.getItem('mci-api-pruebas')||'null'); if(d) Object.assign(FAMILIA_API,d); } }catch(e){}
+const FKEY='mci-familia', COMPARTIDO=['hogar','menu','extras','despensa','marcados','fijados','anteriores'];
+let fam=null; try{ fam=JSON.parse(localStorage.getItem(FKEY)||'null'); }catch(e){}
+const famEstado={sinc:null, error:false, enviando:false, pendiente:false, diferido:false};
+const familiaDisponible=()=>!!FAMILIA_API.url;
+const fmtCodigo=c=>String(c||'').replace(/(.{4})(?=.)/g,'$1-');
+const limpiaCodigo=c=>String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+const enlaceFamilia=()=>URL_APP+'?familia='+fam.codigo;
+function guardarFam(){ try{ fam?localStorage.setItem(FKEY,JSON.stringify(fam)):localStorage.removeItem(FKEY); }catch(e){} }
+function compartido(s=state){ const o={}; for(const k of COMPARTIDO) if(s[k]!==undefined) o[k]=s[k]; return JSON.parse(JSON.stringify(o)); }
+const igual=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+// Junta los cambios de dos personas a partir de lo último que ambos tenían (base): gana lo que cada uno cambió.
+function fusion(b,l,r){
+  if(igual(l,b)) return r; if(igual(r,b)) return l;
+  const obj=x=>x&&typeof x==='object'&&!Array.isArray(x);
+  if(obj(l)&&obj(r)){ const o={}; for(const k of new Set([...Object.keys(l),...Object.keys(r)])){ const v=fusion(obj(b)?b[k]:undefined,l[k],r[k]); if(v!==undefined) o[k]=v; } return o; }
+  if(Array.isArray(l)&&Array.isArray(r)&&l.length===r.length) return l.map((x,i)=>fusion(Array.isArray(b)?b[i]:undefined,x,r[i]));
+  return l;
+}
+async function rpc(fn,args){
+  const r=await fetch(FAMILIA_API.url.replace(/\/$/,'')+'/rest/v1/rpc/'+fn,{method:'POST',cache:'no-store',
+    headers:Object.assign({'Content-Type':'application/json',apikey:FAMILIA_API.clave},/^sb_publishable_/.test(FAMILIA_API.clave)?{}:{Authorization:'Bearer '+FAMILIA_API.clave}),body:JSON.stringify(args)});
+  if(!r.ok) throw new Error(fn+' '+r.status); const t=await r.text(); return t?JSON.parse(t):null;
+}
+const fila=x=>Array.isArray(x)?x[0]:x;
+function aplicarRemoto(est){ const antes=compartido(); Object.assign(state,JSON.parse(JSON.stringify(est))); state.hogar=Object.assign(EJEMPLO().hogar,state.hogar); guardarLocal(); return !igual(antes,compartido()); }
+function refrescarVista(aviso){
+  const el=document.activeElement; if(el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)&&el.type!=='checkbox'){ famEstado.diferido=aviso||true; return; }
+  famEstado.diferido=false; render(); if(hoja) pintarHoja(); if(ficha) pintarFicha(); if(extrasHoja) pintarExtras(); if(aviso) toast(aviso);
+}
+document.addEventListener('focusout',()=>setTimeout(()=>{ if(famEstado.diferido) refrescarVista(famEstado.diferido===true?null:famEstado.diferido); },50));
+let envioT=null;
+function programarEnvio(){ clearTimeout(envioT); envioT=setTimeout(enviar,600); }
+async function enviar(){
+  if(!fam||!familiaDisponible()) return;
+  if(famEstado.enviando){ famEstado.pendiente=true; return; }
+  famEstado.enviando=true;
+  try{
+    for(let i=0;i<5;i++){
+      const est=compartido();
+      const res=fila(await rpc('guardar_hogar',{p_codigo:fam.codigo,p_estado:est,p_version:fam.version}));
+      if(!res){ famEstado.error='perdida'; break; }
+      if(res.ok){ fam.version=res.version; fam.base=est; guardarFam(); famEstado.sinc=Date.now(); famEstado.error=false; break; }
+      // Otro miembro guardó antes: juntamos sus cambios con los nuestros y reintentamos
+      const junto=fusion(fam.base,est,res.estado); fam.base=res.estado; fam.version=res.version; guardarFam();
+      if(aplicarRemoto(junto)) refrescarVista();
+    }
+  }catch(e){ famEstado.error=true; }
+  finally{ famEstado.enviando=false; pintarFamiliaEstado(); if(famEstado.pendiente){ famEstado.pendiente=false; enviar(); } }
+}
+async function consultar(){
+  if(!fam||!familiaDisponible()||famEstado.enviando||document.visibilityState==='hidden') return;
+  try{
+    const v=await rpc('version_hogar',{p_codigo:fam.codigo});
+    if(v===null){ famEstado.error='perdida'; pintarFamiliaEstado(); return; }
+    if(Number(v)!==fam.version){
+      const r=fila(await rpc('leer_hogar',{p_codigo:fam.codigo})); if(!r) return;
+      const local=compartido(), junto=fusion(fam.base,local,r.estado);
+      fam.base=r.estado; fam.version=Number(r.version); guardarFam();
+      const cambio=aplicarRemoto(junto);
+      if(!igual(junto,r.estado)) programarEnvio();
+      if(cambio) refrescarVista('Tu familia ha actualizado la compra');
+    }
+    famEstado.sinc=Date.now(); famEstado.error=false;
+  }catch(e){ famEstado.error=true; }
+  pintarFamiliaEstado();
+}
+setInterval(consultar,6000);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') consultar(); });
+window.addEventListener('online',()=>{ if(fam){ enviar(); consultar(); } });
+
+function textoSinc(){
+  if(!fam) return '';
+  if(famEstado.error==='perdida') return 'No se encuentra esta compra familiar';
+  if(famEstado.error||navigator.onLine===false) return 'Sin conexión · tus cambios se enviarán al volver';
+  if(!famEstado.sinc) return 'Conectando…';
+  const s=Math.round((Date.now()-famEstado.sinc)/1000);
+  return s<10?'Al día con tu familia':s<60?`Actualizado hace ${s} s`:`Actualizado hace ${Math.round(s/60)} min`;
+}
+function pintarFamiliaEstado(){ const el=document.getElementById('fam-sinc'); if(el) el.textContent=textoSinc(); }
+setInterval(pintarFamiliaEstado,5000);
+
+function tarjetaFamilia(){
+  if(!familiaDisponible()) return '';
+  if(!fam) return `<div class="card bigq" id="familia"><div class="q-title"><span class="q-emo">${icon('personas',26)}</span><span>Compra familiar</span></div>
+    <p class="small muted" style="margin:0;max-width:34ch">Comparte el menú y la lista con los de casa. Todos pueden añadir y marcar.</p>
+    <button class="btn block" data-act="fam-crear">Crear compra familiar</button>
+    <button class="linkbtn" data-act="fam-codigo">Tengo un código</button></div>`;
+  return `<div class="card bigq" id="familia"><div class="q-title"><span class="q-emo">${icon('personas',26)}</span><span>Compra familiar</span></div>
+    <p class="small" style="margin:0"><b>Compartida con tu familia</b><br><span class="muted" id="fam-sinc">${textoSinc()}</span></p>
+    <div class="fam-code num">${fmtCodigo(fam.codigo)}</div>
+    <button class="btn block" data-act="fam-invitar">Invitar a alguien</button>
+    <button class="linkbtn" data-act="fam-salir">Salir de la compra familiar</button></div>`;
+}
+function hojaFamilia(html){ document.getElementById('layer').innerHTML=`<div class="sheet-back" data-act="cerrar"><div class="sheet" role="dialog" aria-modal="true" aria-label="Compra familiar">
+  <div class="row between"><span class="label">Compra familiar</span><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">${icon('x',20)}</button></div>${html}</div></div>`; }
+function hojaInvitar(){
+  const url=enlaceFamilia(), txt='Únete a nuestra compra familiar en Mi Compra Inteligente:';
+  hojaFamilia(`<h3>Invita a los de casa</h3>
+    <p class="small muted" style="margin:0">Quien abra este enlace verá el mismo menú y la misma lista que tú, y podrá añadir y marcar cosas.</p>
+    ${navigator.share?`<button class="btn block xl" data-act="fam-compartir">Enviar invitación</button>`:''}
+    <a class="btn ${navigator.share?'ghost':'xl'} block" href="https://wa.me/?text=${encodeURIComponent(txt+' '+url)}" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    <button class="btn ghost block" data-act="fam-copiar">Copiar enlace</button>
+    <p class="small muted" style="margin:0;text-align:center">O que pongan este código en Ajustes:<br><b class="fam-code num sel">${fmtCodigo(fam.codigo)}</b></p>
+    <p class="small muted" style="margin:0">Comparte el código solo con tu familia: quien lo tenga puede ver y cambiar vuestra compra.</p>`);
+}
+function hojaCodigo(){
+  hojaFamilia(`<h3>Unirme a una compra familiar</h3>
+    <input id="fam-input" class="fam-input num" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX" aria-label="Código de la compra familiar">
+    <p class="small muted" style="margin:0">Tu menú y tu lista actuales se sustituyen por los de la familia.</p>
+    <button class="btn block xl" data-act="fam-unir">Unirme</button>`);
+  setTimeout(()=>document.getElementById('fam-input')?.focus(),50);
+}
+function hojaInvitacion(codigo){
+  hojaFamilia(`<h3>Te han invitado a una compra familiar</h3>
+    <p class="small muted" style="margin:0">Verás el mismo menú y la misma lista que el resto de la casa, y podréis añadir y marcar cosas entre todos.${state.nuevo?'':' Tu menú y tu lista actuales se sustituirán.'}</p>
+    <button class="btn block xl" data-act="fam-aceptar" data-v="${codigo}">Unirme</button>
+    <button class="btn ghost block" data-act="fam-rechazar">Ahora no</button>`);
+}
+async function unirse(codigo){
+  const c=limpiaCodigo(codigo);
+  if(!/^[A-Z0-9]{12}$/.test(c)){ toast('El código tiene 12 letras y números'); return; }
+  try{
+    const r=fila(await rpc('leer_hogar',{p_codigo:c}));
+    if(!r){ toast('No hay ninguna compra familiar con ese código'); return; }
+    fam={codigo:c,version:Number(r.version),base:r.estado}; guardarFam();
+    delete state.nuevo; delete state.ejemplo; aplicarRemoto(r.estado); famEstado.sinc=Date.now(); famEstado.error=false;
+    document.getElementById('layer').innerHTML=''; diaSel=diaInicial(); irA('menu'); toast('Ya estás en la compra familiar');
+  }catch(e){ toast('No se ha podido conectar. Prueba otra vez con internet.'); }
+}
+async function accionFamilia(a,t){
+  if(a==='fam-crear'){
+    try{ const est=compartido(); const r=fila(await rpc('crear_hogar',{p_estado:est}));
+      fam={codigo:r.codigo,version:Number(r.version),base:est}; guardarFam(); delete state.ejemplo; guardarLocal(); famEstado.sinc=Date.now(); famEstado.error=false; render(); hojaInvitar();
+    }catch(e){ toast('No se ha podido crear. Prueba otra vez con internet.'); }
+    return;
+  }
+  if(a==='fam-codigo') return hojaCodigo();
+  if(a==='fam-rechazar'){ document.getElementById('layer').innerHTML=''; if(state.nuevo) pintarBienvenida(); return; }
+  if(a==='fam-unir') return unirse(document.getElementById('fam-input')?.value);
+  if(a==='fam-aceptar') return unirse(t.dataset.v);
+  if(a==='fam-invitar') return hojaInvitar();
+  if(a==='fam-compartir'){ try{ await navigator.share({title:'Mi Compra Inteligente',text:'Únete a nuestra compra familiar',url:enlaceFamilia()}); }catch(e){} return; }
+  if(a==='fam-copiar'){ try{ await navigator.clipboard.writeText(enlaceFamilia()); toast('Enlace copiado'); }catch(e){ toast(enlaceFamilia()); } return; }
+  if(a==='fam-salir'){ hojaFamilia(`<h3>¿Salir de la compra familiar?</h3><p class="small muted" style="margin:0">Te quedas con una copia del menú y la lista, pero dejarás de ver los cambios de tu familia.</p>
+      <button class="btn block xl" data-act="fam-salir-ok">Salir</button><button class="btn ghost block" data-act="cerrar">Cancelar</button>`); return; }
+  if(a==='fam-salir-ok'){ fam=null; guardarFam(); document.getElementById('layer').innerHTML=''; render(); toast('Has salido de la compra familiar'); return; }
+}
+// Invitación abierta desde un enlace (…?familia=CODIGO)
+(function(){ try{
+  const q=new URLSearchParams(location.search), c=limpiaCodigo(q.get('familia'));
+  if(!c) return;
+  history.replaceState(null,'',location.pathname+location.hash);
+  if(!familiaDisponible()){ setTimeout(()=>toast('La compra familiar aún no está activada'),400); return; }
+  if(fam&&fam.codigo===c){ setTimeout(()=>toast('Ya estás en esta compra familiar'),400); return; }
+  window.__invitacion=c;
+}catch(e){} })();
+
 document.body.insertAdjacentHTML('afterbegin',DEFS_PLATOS);
 diaSel=diaInicial();
 aprovechar();
 render();
-if(state.nuevo) pintarBienvenida();
+if(window.__invitacion) hojaInvitacion(window.__invitacion); else if(state.nuevo) pintarBienvenida();
+if(fam) consultar();
 if(state.modoSuper&&tab==='lista') pedirPantalla();
 </script>
 
