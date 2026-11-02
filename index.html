@@ -840,7 +840,7 @@ const RECETAS = [
    pasos:["Pon a cocer el arroz.", "Dora el pollo en dados con la cebolla picada.", "Añade el curry, la nata y un poco de agua y deja 8 minutos a fuego suave. Sirve con el arroz."]},
   {id:'pollo-limon', nombre:"Pollo al limón", momentos:['comida', 'cena'], min:25, ing:[['pechuga', 160], ['limon', 0.5], ['ajo', 0.05], ['harina', 0.01], ['aceite', 12], ['arroz', 60]],
    pasos:["Enharina los filetes y dóralos en el aceite.", "Añade el ajo picado, el zumo de limón y medio vaso de agua.", "Deja que espese 5 minutos. Acompaña con arroz blanco."]},
-  {id:'pollo-horno-verduras', nombre:"Pollo al horno con verduras", momentos:['comida'], min:60, ing:[['muslos', 250], ['patata', 150], ['cebolla', 60], ['pimiento', 0.3], ['aceite', 15]],
+  {id:'pollo-horno-verduras', nombre:"Pollo al horno con verduras", momentos:['comida'], min:60, ing:[['muslos', 250], ['patata', 150], ['cebolla', 60], ['pimiento', 0.3], ['pimenton', 2], ['aceite', 15]],
    pasos:["Pon en una fuente la patata y la cebolla en gajos y el pimiento en tiras.", "Coloca encima el pollo con sal, pimentón y aceite.", "Hornea 50 minutos a 200 °C, dándole la vuelta a mitad."]},
   {id:'pollo-agridulce', nombre:"Pollo agridulce con arroz", momentos:['comida', 'cena'], min:25, ing:[['pechuga', 150], ['pimiento', 0.3], ['cebolla', 40], ['ketchup', 0.036], ['soja', 0.067], ['vinagre', 0.008], ['arroz', 70], ['aceite', 10]],
    pasos:["Cuece el arroz.", "Saltea el pollo en dados con el pimiento y la cebolla.", "Añade el ketchup, la soja, el vinagre y un poco de agua y deja que reduzca 3 minutos."]},
@@ -854,7 +854,7 @@ const RECETAS = [
    pasos:["Mezcla el pollo en dados con el yogur y la mitad del curry; deja 10 minutos.", "Dóralo con la cebolla y el ajo, añade el tomate y el resto del curry y cuece 10 minutos.", "Añade la nata al final y sirve con arroz basmati."]},
   {id:'pechuga-empanada', nombre:"Pechuga empanada con ensalada", momentos:['cena', 'comida'], min:20, ing:[['pechuga', 140], ['huevos', 0.5], ['panrallado', 0.06], ['girasol', 0.02], ['lechuga', 0.25], ['tomate', 80]],
    pasos:["Pasa los filetes por huevo batido y pan rallado.", "Fríelos en el aceite caliente 2 minutos por cada lado.", "Sirve con la lechuga y el tomate aliñados."]},
-  {id:'tacos-pollo', nombre:"Tacos de pollo", momentos:['cena'], min:20, ing:[['tortillas', 2], ['pechuga', 120], ['cebollaroja', 30], ['tomate', 60], ['aguacate', 0.25], ['cilantro', 0.1], ['aceite', 8]],
+  {id:'tacos-pollo', nombre:"Tacos de pollo", momentos:['cena'], min:20, ing:[['tortillas', 2], ['pechuga', 120], ['cebollaroja', 30], ['tomate', 60], ['aguacate', 0.25], ['cilantro', 0.1], ['comino', 0.025], ['aceite', 8]],
    pasos:["Saltea el pollo en tiras con sal y comino.", "Pica el tomate, la cebolla y el cilantro.", "Rellena las tortillas calientes con el pollo, el picadillo y el aguacate."]},
   {id:'lomo-pimientos', nombre:"Lomo con pimientos", momentos:['comida', 'cena'], min:25, ing:[['lomo', 150], ['pimiento', 0.5], ['ajo', 0.05], ['aceite', 12], ['pan', 0.2]],
    pasos:["Asa los pimientos en tiras a fuego medio con el ajo, 15 minutos.", "Haz el lomo a la plancha con sal.", "Sirve el lomo con los pimientos por encima y pan."]},
@@ -896,7 +896,7 @@ const RECETAS = [
    pasos:["Pocha la cebolla, añade el curry y el tomate y cocina 5 minutos.", "Añade los garbanzos, las espinacas y la nata y cuece 8 minutos.", "Sirve con arroz basmati."]},
   {id:'lentejas-verduras', nombre:"Lentejas con verduras", momentos:['comida'], min:45, ing:[['lentejas', 75], ['zanahoria', 50], ['calabacin', 60], ['pimiento', 0.2], ['cebolla', 40], ['pimenton', 2], ['aceite', 10]],
    pasos:["Sofríe la cebolla y el pimiento picados.", "Añade la zanahoria, el calabacín, el pimentón y las lentejas, y cubre con agua.", "Cuece 35 minutos a fuego medio."]},
-  {id:'ensalada-lentejas', nombre:"Ensalada de lentejas", momentos:['comida', 'cena'], min:15, ing:[['lentejas', 60], ['tomate', 80], ['pimiento', 0.2], ['cebolleta', 0.25], ['atun', 0.4], ['aceite', 12], ['vinagre', 0.005]],
+  {id:'ensalada-lentejas', nombre:"Ensalada de lentejas", momentos:['comida', 'cena'], min:35, ing:[['lentejas', 60], ['tomate', 80], ['pimiento', 0.2], ['cebolleta', 0.25], ['atun', 0.4], ['aceite', 12], ['vinagre', 0.005]],
    pasos:["Cuece las lentejas 25 minutos (o usa cocidas) y enfríalas.", "Pica el tomate, el pimiento y la cebolleta.", "Mezcla todo con el atún y aliña."]},
   {id:'hummus-crudites', nombre:"Hummus casero con verduras", momentos:['cena'], min:10, ing:[['garbanzos', 120], ['limon', 0.25], ['ajo', 0.03], ['aceite', 15], ['comino', 0.025], ['zanahoria', 80], ['pepino', 0.3], ['picos', 0.1]],
    pasos:["Tritura los garbanzos con el limón, el ajo, el comino, el aceite y un poco de agua.", "Corta la zanahoria y el pepino en bastones.", "Sirve el hummus con las verduras y los picos."]},
@@ -1077,7 +1077,7 @@ const RECETAS = [
    pasos:["Sofríe la cebolla y el pimiento, añade el tomate y el pimentón.", "Añade la patata chascada y cubre con agua; cuece 20 minutos.", "Apaga el fuego, añade el atún y deja reposar 5 minutos."]},
   {id:'pescado-horno', nombre:"Merluza al horno con verduras", momentos:['comida', 'cena'], min:35, ing:[['merluza', 160], ['calabacin', 80], ['pimiento', 0.25], ['cebolla', 40], ['tomate', 60], ['aceite', 15]],
    pasos:["Hornea las verduras en tiras con aceite 15 minutos a 200 °C.", "Pon la merluza encima con sal.", "Hornea 12 minutos más."]},
-  {id:'calamares-plancha', premium:true, nombre:"Calamares a la plancha con ensalada", momentos:['cena'], min:15, ing:[['langostinos', 60], ['merluza', 80], ['ajo', 0.05], ['lechuga', 0.25], ['tomate', 60], ['aceite', 12]],
+  {id:'calamares-plancha', premium:true, nombre:"Merluza y langostinos a la plancha con ensalada", momentos:['cena'], min:15, ing:[['langostinos', 60], ['merluza', 80], ['ajo', 0.05], ['lechuga', 0.25], ['tomate', 60], ['aceite', 12]],
    pasos:["Haz la merluza y los langostinos a la plancha con ajo y perejil.", "Prepara la ensalada.", "Sirve todo junto."]},
   {id:'varitas-pure', nombre:"Varitas de merluza con puré", momentos:['cena'], min:20, ing:[['varitas', 0.3], ['patata', 180], ['lecheentera', 0.05], ['mantequilla', 0.032]],
    pasos:["Cuece la patata y aplástala con la leche y la mantequilla.", "Hornea o fríe las varitas.", "Sirve con el puré."]},
@@ -1113,7 +1113,7 @@ const RECETAS = [
    pasos:["Lava las espinacas y las fresas.", "Corta las fresas y el queso.", "Mezcla con las almendras y aliña."]},
   {id:'ensalada-salmon', premium:true, nombre:"Ensalada de salmón ahumado", momentos:['cena'], min:10, ing:[['rucula', 40.0], ['salmonahumado', 0.5], ['aguacate', 0.3], ['cherry', 50], ['aceite', 10], ['limon', 0.15]],
    pasos:["Pon la rúcula en un plato.", "Añade el salmón, el aguacate en láminas y los tomates.", "Aliña con aceite y limón."]},
-  {id:'escalivada', nombre:"Escalivada con anchoas y pan", momentos:['cena'], min:50, ing:[['berenjena', 0.5], ['pimiento', 0.5], ['cebolla', 60], ['aceite', 15], ['pan', 0.2]],
+  {id:'escalivada', nombre:"Escalivada con pan tostado", momentos:['cena'], min:50, ing:[['berenjena', 0.5], ['pimiento', 0.5], ['cebolla', 60], ['aceite', 15], ['pan', 0.2]],
    pasos:["Asa la berenjena, el pimiento y la cebolla enteros 45 minutos a 200 °C.", "Pélalos y córtalos en tiras.", "Aliña con aceite y sal y sirve sobre pan tostado."]},
   {id:'pasta-puttanesca', nombre:"Espaguetis a la puttanesca", momentos:['comida', 'cena'], min:20, ing:[['espaguetis', 90], ['tomatetri', 100], ['aceitunas', 0.067], ['ajo', 0.05], ['oregano', 0.025], ['aceite', 10]],
    pasos:["Cuece la pasta.", "Sofríe el ajo, añade el tomate, las aceitunas picadas y el orégano y cuece 10 minutos.", "Mezcla con la pasta."]},
@@ -1130,7 +1130,7 @@ const RECETAS = [
   {id:'judias-jamon', nombre:"Judías verdes con jamón y patata", momentos:['comida', 'cena'], min:25, ing:[['judias', 180], ['patata', 100], ['jamon', 15.0], ['ajo', 0.05], ['aceite', 12]],
    pasos:["Cuece las judías con la patata 15 minutos.", "Saltea el ajo y el jamón.", "Mezcla todo."]},
   {id:'espinacas-garbanzos', nombre:"Espinacas con garbanzos", momentos:['comida', 'cena'], min:20, ing:[['espinacas', 150], ['garbanzos', 120], ['ajo', 0.05], ['pan', 0.1], ['comino', 0.025], ['pimenton', 2], ['aceite', 12]],
-   pasos:["Fríe el ajo y el pan y macháquelos con el comino y el pimentón.", "Rehoga las espinacas.", "Añade los garbanzos y el majado y cuece 5 minutos."]},
+   pasos:["Fríe el ajo y el pan y machácalos con el comino y el pimentón.", "Rehoga las espinacas.", "Añade los garbanzos y el majado y cuece 5 minutos."]},
   {id:'alcachofas-jamon', nombre:"Alcachofas con jamón", momentos:['cena'], min:15, ing:[['alcachofas', 0.375], ['jamon', 15.0], ['ajo', 0.05], ['aceite', 12], ['pan', 0.15]],
    pasos:["Escurre las alcachofas.", "Saltea el ajo y el jamón.", "Añade las alcachofas y dóralas 5 minutos."]},
   {id:'esparragos-plancha', nombre:"Espárragos a la plancha con huevo", momentos:['cena'], min:15, ing:[['esparragos', 0.6], ['huevos', 1], ['jamon', 10.0], ['aceite', 10]],
@@ -1143,8 +1143,8 @@ const RECETAS = [
    pasos:["Extiende la masa y cubre con el tomate.", "Reparte las verduras en láminas y el queso.", "Hornea 12-15 minutos a 220 °C."]},
   {id:'bocadillo-lomo', nombre:"Bocadillo de lomo con pimientos", momentos:['cena'], min:15, ing:[['pan', 0.5], ['lomo', 100], ['pimiento', 0.3], ['aceite', 10]],
    pasos:["Asa los pimientos en tiras.", "Haz el lomo a la plancha.", "Monta el bocadillo."]},
-  {id:'kebab-casero', nombre:"Pan de pita casero con pollo", momentos:['cena'], min:20, ing:[['tortillas', 2], ['pechuga', 120], ['yogurnatural', 0.062], ['lechuga', 0.2], ['tomate', 60], ['cebolla', 20], ['comino', 0.025], ['aceite', 8]],
-   pasos:["Saltea el pollo en tiras con comino y sal.", "Mezcla el yogur con sal y un poco de ajo para la salsa.", "Rellena las tortillas calientes con el pollo, la verdura y la salsa."]},
+  {id:'kebab-casero', nombre:"Wrap de pollo con salsa de yogur", momentos:['cena'], min:20, ing:[['tortillas', 2], ['pechuga', 120], ['yogurnatural', 0.062], ['lechuga', 0.2], ['tomate', 60], ['cebolla', 20], ['comino', 0.025], ['aceite', 8]],
+   pasos:["Saltea el pollo en tiras con comino y sal.", "Mezcla el yogur con una pizca de sal y comino para la salsa.", "Rellena las tortillas calientes con el pollo, la verdura y la salsa."]},
   {id:'crepes-salados', nombre:"Crepes de jamón y queso", momentos:['cena'], min:25, ing:[['harina', 0.04], ['lecheentera', 0.1], ['huevos', 0.5], ['york', 30.0], ['quesolonchas', 0.1], ['mantequilla', 0.02]],
    pasos:["Bate la harina, la leche y el huevo y deja reposar 10 minutos.", "Haz las crepes en una sartén con un poco de mantequilla.", "Rellénalas con jamón y queso y dóblalas."]},
   {id:'bowl-pollo', nombre:"Bowl de pollo, arroz y verduras", momentos:['comida', 'cena'], min:25, ing:[['arroz', 70], ['pechuga', 120], ['brocoli', 80], ['zanahoria', 50], ['aguacate', 0.25], ['soja', 0.067]],
@@ -1980,7 +1980,7 @@ function render(){
 
 const aviso=`<p class="aviso">Precios orientativos de demostración. App independiente, sin relación con Mercadona.</p>`;
 
-const VERSION_APP='13 · 2 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
+const VERSION_APP='14 · 2 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
 const PRESU_MIN=20, PRESU_MAX=400;
 const FRECUENCIAS=[[7,'Toda la semana','De lunes a domingo'],[4,'4 días','Desde hoy'],[3,'3 días','Desde hoy'],[2,'2 días','Desde hoy']];
 function vHogar(){
