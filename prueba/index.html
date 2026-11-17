@@ -2410,9 +2410,9 @@ function abrirTienda(){
 /* ================= Preferencias y cocina: etiquetas de cada receta ================= */
 const PREFS = [
   ['proteina','Alto en proteína','🍗'], ['saludable','Saludable','🥗'], ['verdura','Más verdura','🥦'],
-  ['rapido','Rápido (30 min)','⏱️'], ['ninos','Favoritos de niños','🧒'], ['cuchara','Platos de cuchara','🍲'],
+  ['rapido','Rápido (30 min)','⏱️'], ['ninos','Favoritos de niños','🧒'], ['cuchara','Platos de cuchara','🍲'], ['pocohc','Bajo en hidratos','🥩'],
 ];
-const PREF_IMG={proteina:'pollo-ajillo',saludable:'ensalada-quinoa',verdura:'verduras-horno',ninos:'nuggets-caseros',cuchara:'lentejas'};
+const PREF_IMG={pocohc:'salmon-plancha',proteina:'pollo-ajillo',saludable:'ensalada-quinoa',verdura:'verduras-horno',ninos:'nuggets-caseros',cuchara:'lentejas'};
 const prefIcono=k=>PREF_IMG[k]?`<img class="ob-mini" src="../platos/${PREF_IMG[k]}.webp" alt="">`:`<span class="ob-mini ic-mini">${icon('reloj',18)}</span>`;
 const COCINA = [['horno','Horno'],['freidora','Freidora de aire'],['micro','Microondas']];
 const RX_NINOS=/pasta|macarr|espagueti|tallar|pizza|nugget|alb[oó]ndig|hamburgues|tortilla|croquet|lasa|canel|empanada|jacobo|fajita|taco|quesadilla|s[aá]ndwich|pur[eé]|varitas|salchich|wrap|burrito|crepe|arroz con pollo|arroz a la cubana/i;
@@ -2429,12 +2429,13 @@ function gramosDe(pid,q){
 }
 function etiquetas(r){
   if(r._t) return r._t;
-  let prot=0, verd=0, graso=false;
+  let prot=0, verd=0, graso=false, hc=0;
   for(const [pid,q] of r.ing){
     const p=PROD[pid], g=gramosDe(pid,q);
     if(p.tipo||pid==='huevos') prot+=g;
     if(['garbanzos','lentejas','alubias'].includes(pid)) prot+=g*0.6;
-    if(p.seccion==='Fruta y verdura') verd+=g;
+    if(p.seccion==='Fruta y verdura'&&!/^patata/.test(pid)) verd+=g;
+    if(/^(arroz|cuscus|espaguetis|fideos|harina|lasana|macarrones|masapizza|pan|panhamb|panintegral|panmolde|pasta|patata|patatasbolsa|patatascong|pizzacong|quinoa|tallarines|tortitas|garbanzos|lentejas|alubias)$/.test(pid)) hc+=g;
     if(['bacon','chorizo','salchichas','salchichasfrankfurt','nata','girasol','mayonesa'].includes(pid)&&g>=20) graso=true;
   }
   const txt=r.nombre+' '+r.pasos.join(' ');
@@ -2443,6 +2444,7 @@ function etiquetas(r){
   if(verd>=150) t.add('verdura');
   if(verd>=100&&!graso&&!RX_GRASO.test(txt)&&!/pizza|hamburgues|nachos|croquet/i.test(r.nombre)) t.add('saludable');
   if(r.min<=30) t.add('rapido');
+  if(hc<40&&!/pizza|lasa|croquet|empanad|bocadill|s[aá]ndwich|wrap|burrito|tortilla de patata/i.test(r.nombre)) t.add('pocohc');
   if(RX_NINOS.test(r.nombre)) t.add('ninos');
   if(RX_CUCHARA.test(r.nombre)) t.add('cuchara');
   if(RX_HORNO.test(txt)) t.add('horno');
