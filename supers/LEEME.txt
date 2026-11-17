@@ -1,0 +1,4 @@
+Logos de los supermercados (los pone el equipo; la app no los incluye por defecto).
+Un PNG por cadena, fondo transparente o blanco, unos 200 px de ancho, con estos nombres exactos:
+mercadona.png lidl.png carrefour.png dia.png alcampo.png aldi.png consum.png eroski.png masymas.png hipercor.png bm.png bonpreu.png
+Si falta alguno, la app muestra el color de la cadena con su inicial.
