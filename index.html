@@ -360,7 +360,8 @@ nav.bottom button span{white-space:nowrap}
 
 .ob-sup i{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center}
 .ob-mono{position:relative;overflow:hidden}.ob-mono img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:3px}.ob-mono.logo{width:64px;background:#fff!important}
-.ob-sup.pronto{filter:saturate(.55);opacity:.8}
+.ob-sup:not(.on) .ob-mono{filter:saturate(.75)}
+.ob-supers.sm{grid-template-columns:repeat(4,1fr);gap:6px}.ob-supers.sm .ob-sup{padding:8px 2px 6px;font-size:11.5px;border-radius:12px}.ob-supers.sm .ob-mono{width:32px;height:32px;font-size:16px;border-radius:10px}
 .ob-sup small{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 .ob-presu{display:flex;justify-content:center;align-items:flex-start;gap:4px;margin:8px 0 -4px;position:relative}
 .ob-presu::before{content:"";position:absolute;width:190px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--lime) 0%,transparent 70%);opacity:.75;top:-18px;z-index:0}
@@ -2060,9 +2061,9 @@ function render(){
   document.getElementById('app').innerHTML=(state.ejemplo?`<div class="demo-bar"><span>Estás viendo un ejemplo</span><button class="btn sm" data-act="decero">Crear el mío</button></div>`:'')+({hogar:vHogar,menu:vMenu,recetas:vRecetas,lista:vLista,presupuesto:vPresupuesto,despensa:vDespensa})[tab](c);
 }
 
-const aviso=`<p class="aviso">Precios orientativos de demostración. App independiente, sin relación con Mercadona.</p>`;
+const aviso=`<p class="aviso">Precios orientativos de demostración. App independiente, sin relación con ningún supermercado.</p>`;
 
-const VERSION_APP='15 · 17 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
+const VERSION_APP='16 · 17 nov';  // súbela en cada cambio: sirve para saber qué versión tiene cada móvil
 const PRESU_MIN=20, PRESU_MAX=400;
 const FRECUENCIAS=[[7,'Toda la semana','De lunes a domingo'],[4,'4 días','Desde hoy'],[3,'3 días','Desde hoy'],[2,'2 días','Desde hoy']];
 function vHogar(){
@@ -2089,6 +2090,8 @@ function vHogar(){
       <div class="tiles two">
         <button class="tile" data-act="veg" aria-pressed="${h.vegetariano}"><span class="t-emo">🥗</span><span>Vegetariano</span></button>
       </div>
+      <div class="label">Tu súper</div>
+      <div class="ob-supers sm">${SUPERS.map(n=>supTile(n,'super')).join('')}</div>
       <div class="label">Lo que te importa</div>
       <div class="ob-chips">${PREFS.map(([k,t])=>`<button class="ob-chip sm" data-act="pref" data-v="${k}" aria-pressed="${(h.prefs||[]).includes(k)}">${prefIcono(k)}${t}</button>`).join('')}</div>
       <div class="label">Tu cocina</div>
@@ -2410,11 +2413,11 @@ function pintarExtras(){
 function abrirTienda(){
   document.getElementById('layer').innerHTML=`<div class="sheet-back" data-act="cerrar"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ttit">
     <div class="row between"><span class="label">Comprar online</span><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">${icon('x',20)}</button></div>
-    <h3 id="ttit">Se abre la web de Mercadona</h3>
-    <ol class="steps"><li>Copiamos tu lista.</li><li>Se abre <b>tienda.mercadona.es</b>.</li><li>Allí añades cada producto a tu carro.</li></ol>
-    <p class="small muted" style="margin:0">La app no está conectada con Mercadona: no puede llenar el carro por ti.</p>
-    <a class="btn block xl" data-act="tiendacopia" href="https://tienda.mercadona.es/" target="_blank" rel="noopener">${ic('copiar',20)}Copiar la lista y abrir Mercadona</a>
-    <a class="btn ghost block" data-act="tiendasolo" href="https://tienda.mercadona.es/" target="_blank" rel="noopener">Solo abrir la web</a>
+    <h3 id="ttit">Se abre la web de ${miSuper()}</h3>
+    <ol class="steps"><li>Copiamos tu lista.</li><li>Se abre <b>${SUPER_WEB[miSuper()].replace(/^https:\/\/|\/$/g,'')}</b>.</li><li>Allí añades cada producto a tu carro.</li></ol>
+    <p class="small muted" style="margin:0">La app no está conectada con ${miSuper()}: no puede llenar el carro por ti.</p>
+    <a class="btn block xl" data-act="tiendacopia" href="${SUPER_WEB[miSuper()]}" target="_blank" rel="noopener">${ic('copiar',20)}Copiar la lista y abrir ${miSuper()}</a>
+    <a class="btn ghost block" data-act="tiendasolo" href="${SUPER_WEB[miSuper()]}" target="_blank" rel="noopener">Solo abrir la web</a>
   </div></div>`;
 }
 
@@ -2487,7 +2490,10 @@ function ordenarPorGusto(lista,h=state.hogar){
 /* ================= Inicio paso a paso ================= */
 let obPaso=0;
 const OB_PASOS=6;
-const SUPERS_PRONTO=['Lidl','Carrefour','Dia','Alcampo','Aldi','Consum','Eroski','Masymas','Hipercor','BM','Bonpreu'];
+const SUPERS=['Mercadona','Lidl','Carrefour','Dia','Alcampo','Aldi','Consum','Eroski','Masymas','Hipercor','BM','Bonpreu'];
+const SUPER_WEB={Mercadona:'https://tienda.mercadona.es/',Lidl:'https://www.lidl.es/',Carrefour:'https://www.carrefour.es/',Dia:'https://www.dia.es/',Alcampo:'https://www.alcampo.es/',Aldi:'https://www.aldi.es/',Consum:'https://www.consum.es/',Eroski:'https://www.eroski.es/',Masymas:'https://www.supermercadosmasymas.com/',Hipercor:'https://www.hipercor.es/',BM:'https://www.bmsupermercados.es/',Bonpreu:'https://www.bonpreuesclat.cat/'};
+const miSuper=()=>SUPERS.includes(state.hogar.super)?state.hogar.super:'Mercadona';
+const supTile=(n,act)=>`<button class="ob-sup${miSuper()===n?' on':''}" data-act="${act}" data-v="${n}" aria-pressed="${miSuper()===n}">${superLogo(n,n==='BM'?'BM':n[0])}<b>${n}</b>${miSuper()===n?`<i>${icon('ok',14)}</i>`:''}</button>`;
 const superLogo=(n,txt)=>`<span class="ob-mono" style="background:${SUPER_COLOR[n]}"><img src="supers/${n.toLowerCase()}.png" alt="" onload="this.parentNode.classList.add('logo')" onerror="this.remove()">${txt}</span>`;
 const SUPER_COLOR={Mercadona:'#00843D',Lidl:'#0050AA',Carrefour:'#1E5BC6',Dia:'#E1251B',Alcampo:'#D6001C',Aldi:'#00205B',Consum:'#F28C00',Eroski:'#E2001A',Masymas:'#E30613',Hipercor:'#2E8B57',BM:'#C8102E',Bonpreu:'#E4572E'};
 function obCab(titulo,acento,sub){
@@ -2502,9 +2508,8 @@ function pintarBienvenida(){
   if(obPaso===0){
     cuerpo=obCab('¿Dónde haces','la compra?','La lista sale ordenada por los pasillos de tu súper.')+`
       <div class="ob-supers">
-        <button class="ob-sup on" aria-pressed="true">${superLogo('Mercadona','M')}<b>Mercadona</b><i>${icon('ok',14)}</i></button>
-        ${SUPERS_PRONTO.map(n=>`<div class="ob-sup pronto" aria-disabled="true">${superLogo(n,n==='BM'?'BM':n[0])}<b>${n}</b><small>Pronto</small></div>`).join('')}
-      </div>`;
+        ${SUPERS.map(n=>supTile(n,'ob-super')).join('')}
+      </div>${miSuper()!=='Mercadona'?`<p class="small muted" style="margin:0;text-align:center">Los precios y envases son orientativos: tomamos como referencia los de Mercadona.</p>`:''}`;
     boton+=`<button class="linkbtn" data-act="ob-ejemplo">Ver una demostración</button>`;
   } else if(obPaso===1){
     cuerpo=obCab('Fija tu','presupuesto','Lo máximo que queréis gastar a la semana.')+`
@@ -2542,7 +2547,7 @@ function pintarPreparando(){
     <div class="ob-platos">${platos.map((p,i)=>`<img src="platos/${p}.webp" alt="" style="animation-delay:${i*0.55}s">`).join('')}</div>
     <div class="ob-barra"><span></span></div>
     <p class="ob-paso-txt" id="ob-paso-txt">Eligiendo recetas que os encajan…</p></div></div>`;
-  const txts=['Eligiendo recetas que os encajan…','Recorriendo los pasillos de Mercadona…','Calculando las cantidades justas…','Buscando el envase que menos sobra…','Ajustando a tu presupuesto…'];
+  const txts=['Eligiendo recetas que os encajan…',`Recorriendo los pasillos de ${miSuper()}…`,'Calculando las cantidades justas…','Buscando el envase que menos sobra…','Ajustando a tu presupuesto…'];
   txts.slice(1).forEach((t,i)=>setTimeout(()=>{ const el=document.getElementById('ob-paso-txt'); if(el) el.textContent=t; },540*(i+1)));
 }
 function crearMenuInicial(){
@@ -2609,7 +2614,7 @@ function nuevaSemana(){
 }
 
 function copiar(){
-  const c=calcularCesta(); let txt=`Mi compra en Mercadona · ${state.hogar.personas} personas · ${eur(c.total)} (precios demo, sin verificar)\n`;
+  const c=calcularCesta(); let txt=`Mi compra en ${miSuper()} · ${state.hogar.personas} personas · ${eur(c.total)} (precios demo, sin verificar)\n`;
   SECCIONES.forEach(s=>{const ls=c.lineas.filter(l=>l.envases>0&&l.p.seccion===s); if(!ls.length) return;
     txt+=`\n${s.toUpperCase()}\n`+ls.map(l=>`☐ ${l.p.nombre}: ${fmtPartes(l.partes,l.p)} · ${eur(l.coste)}`).join('\n')+'\n';});
   const fallback=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){} ta.remove(); toast(ok?'Lista copiada':'No se pudo copiar');};
@@ -2656,6 +2661,7 @@ document.addEventListener('click',e=>{
     case 'ob-sig': obPaso=Math.min(OB_PASOS-1,obPaso+1); pintarBienvenida(); document.querySelector('.welcome-back')?.scrollTo(0,0); return;
     case 'ob-atras': obPaso=Math.max(0,obPaso-1); pintarBienvenida(); return;
     case 'ob-pref': { h.prefs=h.prefs||[]; if(v==='ninos'){ const on=h.prefs.includes('ninos')||!!h.ninos; h.ninos=!on; h.prefs=h.prefs.filter(x=>x!=='ninos'); if(!on) h.prefs.push('ninos'); } else h.prefs=h.prefs.includes(v)?h.prefs.filter(x=>x!==v):[...h.prefs,v]; pintarBienvenida(); return; }
+    case 'ob-super': h.super=v; pintarBienvenida(); return;
     case 'ob-coc': h.cocina=Object.assign({},COCINA_DEF,h.cocina||{}); h.cocina[v]=!h.cocina[v]; pintarBienvenida(); return;
     case 'ob-crear': pintarPreparando(); setTimeout(crearMenuInicial,2700); return;
     case 'ob-ejemplo': delete state.nuevo; state=EJEMPLO(); state.ejemplo=true; aprovechar(); document.getElementById('layer').innerHTML=''; save(); irA('menu'); return;
@@ -2680,6 +2686,7 @@ document.addEventListener('click',e=>{
     case 'semana': nuevaSemana(); return;
     case 'rap': h.rapido=!h.rapido; break;
     case 'pref': { h.prefs=h.prefs||[]; h.prefs=h.prefs.includes(v)?h.prefs.filter(x=>x!==v):[...h.prefs,v]; if(v==='rapido') h.rapido=h.prefs.includes('rapido'); if(v==='ninos') h.ninos=h.prefs.includes('ninos'); toast('Se aplicará al hacer el menú nuevo'); break; }
+    case 'super': h.super=v; toast(`Tu súper: ${v}`); break;
     case 'coc': h.cocina=Object.assign({},COCINA_DEF,h.cocina||{}); h.cocina[v]=!h.cocina[v]; if(v==='horno'&&!h.cocina.horno){ rellenarHuecos(); aprovechar(); } toast(v==='horno'?(h.cocina.horno?'Vuelven los platos de horno':'Sin platos de horno'):(h.cocina[v]?'Verás consejos para usarlo en las recetas':'Guardado')); break;
     case 'add1': { const p=PROD[v]; state.despensa[v]=p.envase; aprovechar(); toast(emo(v)+' '+p.nombre+' añadido'); break; }
     case 'desmarcar': state.marcados={}; break;
