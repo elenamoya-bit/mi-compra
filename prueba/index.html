@@ -393,6 +393,8 @@ nav.bottom button span{white-space:nowrap}
 .ob-chip.sm .ob-mini{width:24px;height:24px}
 .ic-mini{display:grid;place-items:center;color:var(--green)}
 .ob-cocina{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ob-aparato{font-size:13px!important}.ob-aparato img{max-width:92px!important}
+.trucos{display:grid;gap:8px;margin-bottom:6px}.truco{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;background:var(--green-soft);border-radius:14px;padding:8px 12px 8px 8px;font-size:14px;line-height:1.35}.truco img{width:40px;height:40px}
 .ob-aparato{border:2px solid var(--line);background:var(--surface);border-radius:18px;padding:10px 6px 12px;display:grid;justify-items:center;gap:4px;font-weight:700;font-size:14px;position:relative}
 .ob-aparato img{width:100%;max-width:110px;height:auto;filter:grayscale(1);opacity:.55;transition:.2s}
 .ob-aparato i{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--bg);color:var(--muted)}
@@ -2090,7 +2092,7 @@ function vHogar(){
       <div class="label">Lo que te importa</div>
       <div class="ob-chips">${PREFS.map(([k,t])=>`<button class="ob-chip sm" data-act="pref" data-v="${k}" aria-pressed="${(h.prefs||[]).includes(k)}">${prefIcono(k)}${t}</button>`).join('')}</div>
       <div class="label">Tu cocina</div>
-      <div class="ob-chips">${COCINA.map(([k,t])=>`<button class="ob-chip sm" data-act="coc" data-v="${k}" aria-pressed="${!!(h.cocina||{horno:true,micro:true})[k]}">${t}</button>`).join('')}</div>
+      <div class="ob-chips">${COCINA.map(([k,t])=>`<button class="ob-chip sm" data-act="coc" data-v="${k}" aria-pressed="${!!Object.assign({},COCINA_DEF,h.cocina||{})[k]}">${t}</button>`).join('')}</div>
     </div>
     <div class="card bigq">
       <div class="q-title"><span class="q-emo">${icon('menu',26)}</span><span>¿Para qué días haces la compra?</span></div>
@@ -2424,7 +2426,22 @@ const PREFS = [
 ];
 const PREF_IMG={pocohc:'salmon-plancha',proteina:'pollo-ajillo',saludable:'ensalada-quinoa',verdura:'verduras-horno',ninos:'nuggets-caseros',cuchara:'lentejas'};
 const prefIcono=k=>PREF_IMG[k]?`<img class="ob-mini" src="../platos/${PREF_IMG[k]}.webp" alt="">`:`<span class="ob-mini ic-mini">${icon('reloj',18)}</span>`;
-const COCINA = [['horno','Horno'],['freidora','Freidora de aire'],['micro','Microondas']];
+const COCINA = [['fuegos','Fuegos o vitro'],['horno','Horno'],['freidora','Freidora de aire'],['micro','Microondas'],['olla','Olla exprés'],['robot','Robot de cocina']];
+const COCINA_DEF={fuegos:true,horno:true,freidora:false,micro:true,olla:false,robot:false};
+// Consejos para hacer cada receta con los aparatos que tiene la casa
+function trucosCocina(r,h=state.hogar){
+  const c=h.cocina||COCINA_DEF, txt=r.nombre+' '+r.pasos.join(' '), t=[];
+  if(c.freidora&&!/arroz|flamenca|pisto|empanada|solomillo/i.test(r.nombre)&&((etiquetas(r).has('horno')&&!etiquetas(r).has('cuchara')&&!/arroz|lasa|canel|gratin|pasta|macarr|bizcoch|tarta|pizza|pastel|empanada gallega|bechamel|musaka|moussaka|quiche/i.test(r.nombre))||/fritas?|fritos?|rebozad|nugget|empanad|croquet|alita|bravas|tempura|a la romana|varitas|crujiente/i.test(r.nombre)))
+    t.push(['freidora',`<b>En freidora de aire:</b> 180 °C unos ${Math.max(10,Math.round(Math.min(r.min,45)*0.6))} min, dándole la vuelta a mitad. Casi sin aceite.`]);
+  if(c.olla&&r.min>=35&&!/ensalada/i.test(r.nombre)&&/lentej|garbanz|alubi|fabada|cocido|potaje|guis|estofad|caldo|marmitako|carrillera|en salsa|rabo|ragout|callos/i.test(r.nombre))
+    t.push(['olla',`<b>En olla exprés:</b> pon todo junto y cuenta un tercio del tiempo desde que sube la válvula. Ahorras unos ${Math.round(r.min*0.6)} min.`]);
+  if(c.robot&&!/espagueti|macarr|tallar/i.test(r.nombre)&&/crema|pur[eé]|gazpacho|salmorejo|vichy|hummus|bechamel|tritur/i.test(txt))
+    t.push(['robot','<b>En robot de cocina:</b> cocina y tritura en el mismo vaso; menos cacharros que fregar.']);
+  if(c.micro&&/patata|br[oó]coli|jud[ií]a|verdura|calabac/i.test(txt)&&!c.olla)
+    t.push(['micro','<b>Truco de microondas:</b> cuece la patata o la verdura 4-6 min tapada con un chorrito de agua y te ahorras el hervor.']);
+  return t;
+}
+const trucosHTML=r=>{ const t=trucosCocina(r); return t.length?`<div class="trucos">${t.map(([k,x])=>`<div class="truco"><img src="aparatos/${k}.webp" alt="" width="40" height="40"><span>${x}</span></div>`).join('')}</div>`:''; };
 const RX_NINOS=/pasta|macarr|espagueti|tallar|pizza|nugget|alb[oó]ndig|hamburgues|tortilla|croquet|lasa|canel|empanada|jacobo|fajita|taco|quesadilla|s[aá]ndwich|pur[eé]|varitas|salchich|wrap|burrito|crepe|arroz con pollo|arroz a la cubana/i;
 const RX_CUCHARA=/lentej|garbanz|alubia|fabada|cocido|potaje|sopa|crema |crema$|guiso|estofado|caldo|marmitako|porrusalda|vichyssoise|minestrone|gazpacho|salmorejo/i;
 const RX_GRASO=/fr[ií]e|fritas?|rebozad|empanad|nugget|bravas|romana/i;
@@ -2480,7 +2497,7 @@ function obCab(titulo,acento,sub){
     <div class="ob-head"><h2 id="wtit">${titulo} <em>${acento}</em></h2>${sub?`<p>${sub}</p>`:''}</div>`;
 }
 function pintarBienvenida(){
-  const h=state.hogar; h.prefs=h.prefs||[]; h.cocina=h.cocina||{horno:true,freidora:false,micro:true};
+  const h=state.hogar; h.prefs=h.prefs||[]; h.cocina=Object.assign({},COCINA_DEF,h.cocina||{});
   let cuerpo='', boton=`<button class="btn block xl ob-go" data-act="ob-sig">Continuar ${icon('flecha-der',20)}</button>`;
   if(obPaso===0){
     cuerpo=obCab('¿Dónde haces','la compra?','La lista sale ordenada por los pasillos de tu súper.')+`
@@ -2512,7 +2529,7 @@ function pintarBienvenida(){
         <button class="ob-chip" data-act="ob-veg" aria-pressed="${h.vegetariano}"><span aria-hidden="true">🥕</span>Vegetariano<i>${icon(h.vegetariano?'ok':'mas',16)}</i></button></div>
       <p class="small muted" style="text-align:center;margin:0">Si no hay nada, continúa.</p>`;
   } else {
-    cuerpo=obCab('¿Qué hay en','tu cocina?','Si no tienes horno, no te proponemos platos de horno.')+`
+    cuerpo=obCab('¿Con qué','cocinas?','Adaptamos cada receta a lo que tengas.')+`
       <div class="ob-cocina">${COCINA.map(([k,t])=>`<button class="ob-aparato" data-act="ob-coc" data-v="${k}" aria-pressed="${!!h.cocina[k]}"><img src="aparatos/${k}.webp" alt="" width="120" height="120"><span>${t}</span><i>${icon(h.cocina[k]?'ok':'mas',16)}</i></button>`).join('')}</div>`;
     boton=`<button class="btn block xl ob-go" data-act="ob-crear">Crear mi menú ${icon('flecha-der',20)}</button>`;
   }
@@ -2565,7 +2582,7 @@ function pintarHoja(){
       <div class="chips-x" role="group" aria-label="Categorías">${CATEGORIAS.filter(c=>alts.some(a=>c.f(a.r))).map(c=>`<button class="chip" data-act="altcat" data-v="${c.k}" aria-pressed="${hoja.cat===c.k}">${c.e} ${c.n}</button>`).join('')}</div>
       <div id="alt-res">${altsHTML(alts)}</div></div>`
     :`<div style="display:grid;gap:6px"><div class="label">Ingredientes para ${h.personas}</div><ul class="ing-list">${r.ing.map(([pid,q])=>`<li><span><span class="ie">${emo(pid)}</span>${esc(PROD[pid].nombre)}</span><span class="num muted">${fmtQty(q*h.personas,PROD[pid])} <span class="small">(${fmtQty(q,PROD[pid])}/ración)</span></span></li>`).join('')}<li><span>Sal</span><span class="muted">al gusto</span></li></ul></div>
-      <div style="display:grid;gap:6px"><div class="label">Preparación</div><ol class="steps">${r.pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></div>
+      <div style="display:grid;gap:6px"><div class="label">Preparación</div>${trucosHTML(r)}<ol class="steps">${r.pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></div>
       <button class="btn block" data-act="cambiar">Cambiar por otra receta</button>`}
   </div></div>`;
 }
@@ -2639,7 +2656,7 @@ document.addEventListener('click',e=>{
     case 'ob-sig': obPaso=Math.min(OB_PASOS-1,obPaso+1); pintarBienvenida(); document.querySelector('.welcome-back')?.scrollTo(0,0); return;
     case 'ob-atras': obPaso=Math.max(0,obPaso-1); pintarBienvenida(); return;
     case 'ob-pref': { h.prefs=h.prefs||[]; if(v==='ninos'){ const on=h.prefs.includes('ninos')||!!h.ninos; h.ninos=!on; h.prefs=h.prefs.filter(x=>x!=='ninos'); if(!on) h.prefs.push('ninos'); } else h.prefs=h.prefs.includes(v)?h.prefs.filter(x=>x!==v):[...h.prefs,v]; pintarBienvenida(); return; }
-    case 'ob-coc': h.cocina=h.cocina||{horno:true,freidora:false,micro:true}; h.cocina[v]=!h.cocina[v]; pintarBienvenida(); return;
+    case 'ob-coc': h.cocina=Object.assign({},COCINA_DEF,h.cocina||{}); h.cocina[v]=!h.cocina[v]; pintarBienvenida(); return;
     case 'ob-crear': pintarPreparando(); setTimeout(crearMenuInicial,2700); return;
     case 'ob-ejemplo': delete state.nuevo; state=EJEMPLO(); state.ejemplo=true; aprovechar(); document.getElementById('layer').innerHTML=''; save(); irA('menu'); return;
     case 'elegir': if(esDiaReciclaje(hoja.dia)) (state.fijados||(state.fijados={}))[hoja.dia+'-'+hoja.momento]=true; state.menu[hoja.dia][hoja.momento]=v; hoja.cambiar=false; if(!esDiaReciclaje(hoja.dia)) aprovechar(); toast('Receta cambiada'); break;
@@ -2663,7 +2680,7 @@ document.addEventListener('click',e=>{
     case 'semana': nuevaSemana(); return;
     case 'rap': h.rapido=!h.rapido; break;
     case 'pref': { h.prefs=h.prefs||[]; h.prefs=h.prefs.includes(v)?h.prefs.filter(x=>x!==v):[...h.prefs,v]; if(v==='rapido') h.rapido=h.prefs.includes('rapido'); if(v==='ninos') h.ninos=h.prefs.includes('ninos'); toast('Se aplicará al hacer el menú nuevo'); break; }
-    case 'coc': h.cocina=h.cocina||{horno:true,freidora:false,micro:true}; h.cocina[v]=!h.cocina[v]; if(v==='horno'&&!h.cocina.horno){ rellenarHuecos(); aprovechar(); } toast(v==='horno'?(h.cocina.horno?'Vuelven los platos de horno':'Sin platos de horno'):'Guardado'); break;
+    case 'coc': h.cocina=Object.assign({},COCINA_DEF,h.cocina||{}); h.cocina[v]=!h.cocina[v]; if(v==='horno'&&!h.cocina.horno){ rellenarHuecos(); aprovechar(); } toast(v==='horno'?(h.cocina.horno?'Vuelven los platos de horno':'Sin platos de horno'):(h.cocina[v]?'Verás consejos para usarlo en las recetas':'Guardado')); break;
     case 'add1': { const p=PROD[v]; state.despensa[v]=p.envase; aprovechar(); toast(emo(v)+' '+p.nombre+' añadido'); break; }
     case 'desmarcar': state.marcados={}; break;
     case 'guia': state.guiaVista=true; break;
