@@ -359,6 +359,7 @@ nav.bottom button span{white-space:nowrap}
 .ob-sup.on{border-color:var(--green);background:var(--green-soft)}
 
 .ob-sup i{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center}
+.ob-mono{position:relative;overflow:hidden}.ob-mono img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:3px}.ob-mono.logo{width:64px;background:#fff!important}
 .ob-sup.pronto{filter:saturate(.55);opacity:.8}
 .ob-sup small{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 .ob-presu{display:flex;justify-content:center;align-items:flex-start;gap:4px;margin:8px 0 -4px;position:relative}
@@ -2470,6 +2471,7 @@ function ordenarPorGusto(lista,h=state.hogar){
 let obPaso=0;
 const OB_PASOS=6;
 const SUPERS_PRONTO=['Lidl','Carrefour','Dia','Alcampo','Aldi','Consum','Eroski','Masymas','Hipercor','BM','Bonpreu'];
+const superLogo=(n,txt)=>`<span class="ob-mono" style="background:${SUPER_COLOR[n]}"><img src="../supers/${n.toLowerCase()}.png" alt="" onload="this.parentNode.classList.add('logo')" onerror="this.remove()">${txt}</span>`;
 const SUPER_COLOR={Mercadona:'#00843D',Lidl:'#0050AA',Carrefour:'#1E5BC6',Dia:'#E1251B',Alcampo:'#D6001C',Aldi:'#00205B',Consum:'#F28C00',Eroski:'#E2001A',Masymas:'#E30613',Hipercor:'#2E8B57',BM:'#C8102E',Bonpreu:'#E4572E'};
 function obCab(titulo,acento,sub){
   return `<div class="ob-top"><button class="icon-btn" data-act="ob-atras" aria-label="Atrás" ${obPaso===0?'style="visibility:hidden"':''}>${icon('flecha-izq',22)}</button>
@@ -2483,8 +2485,8 @@ function pintarBienvenida(){
   if(obPaso===0){
     cuerpo=obCab('¿Dónde haces','la compra?','La lista sale ordenada por los pasillos de tu súper.')+`
       <div class="ob-supers">
-        <button class="ob-sup on" aria-pressed="true"><span class="ob-mono" style="background:${SUPER_COLOR.Mercadona}">M</span><b>Mercadona</b><i>${icon('ok',14)}</i></button>
-        ${SUPERS_PRONTO.map(n=>`<div class="ob-sup pronto" aria-disabled="true"><span class="ob-mono" style="background:${SUPER_COLOR[n]}">${n==='BM'?'BM':n[0]}</span><b>${n}</b><small>Pronto</small></div>`).join('')}
+        <button class="ob-sup on" aria-pressed="true">${superLogo('Mercadona','M')}<b>Mercadona</b><i>${icon('ok',14)}</i></button>
+        ${SUPERS_PRONTO.map(n=>`<div class="ob-sup pronto" aria-disabled="true">${superLogo(n,n==='BM'?'BM':n[0])}<b>${n}</b><small>Pronto</small></div>`).join('')}
       </div>`;
     boton+=`<button class="linkbtn" data-act="ob-ejemplo">Ver una demostración</button>`;
   } else if(obPaso===1){
